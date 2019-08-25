@@ -1,0 +1,106 @@
+﻿@{
+
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script type="text/javascript">
+        $(document).ready(function () {
+            //$("#sampleTable tfoot tr th").each(function () {
+            //    var title = $(this).text();
+            //    $(this).html('<input  type = "text" placeholder="' + title + '" />')
+            //});
+            var tables = $("#sampleTable");
+            if (tables != null) {
+                var table = $('#sampleTable').DataTable({
+                    "oLanguage": {
+                        "sEmptyTable": "Không tìm thấy dữ liệu",
+                        "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                        "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                        "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                    }
+                });
+                //table.columns().every(function () {
+                //    var that = this;
+                //    $("input", this.footer()).on('keyup change clear', function () {
+                //        if (that.search() !== this.value) {
+                //            that
+                //                .search(this.value)
+                //                .draw();
+                //        }
+                //    })
+                //})
+            }
+        })
+
+
+</script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Danh sách tài khoản khách hàng</h1>
+        <p>Bảng thông tin danh sách khách hàng</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Điện thoại</th>
+                            <th>Địa chỉ</th>
+                            <th>Tổng tiền đã giao dịch</th>
+                            @*<td>Số lần giao dịch</td>
+                            <td>Tổng tiền giao dịch</td>*@
+                            <th>Loại thành viên</th>
+                            <th>Chi tiết</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                        <tr>
+                            <td>@x.ID</td>
+                            <td>@x.USERNAME</td>
+                            <td>@x.USERNAME</td>
+                            <td>@x.EMAIL</td>
+                            <td>@x.PHONE</td>
+                            <td>@x.ADDRESS</td>
+                            @if (x.TOTAL_TRANSACTION == null)
+                            {
+                                <td>00 $</td>
+                            }
+                            else
+                            {
+                                <td>@String.Format("{0:0,0}", x.TOTAL_TRANSACTION) $</td>
+                            }
+                            @if (x.MEMBERSHIP_TYPE_ID != null)
+                            {
+                                <td>@x.MEMBERSHIP_TYPE.MEMBERSHIP_TYPE1</td>
+                            }
+                            else
+                            {
+                                <td>Chưa có</td>
+                            }
+                            <td>
+                                <a href="@Url.Action("detail","User",new { id = @x.ID})">
+                                    <i class=" fa fa-info-circle fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

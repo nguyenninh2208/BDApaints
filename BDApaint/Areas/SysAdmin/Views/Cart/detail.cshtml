@@ -1,0 +1,341 @@
+﻿@model BDApaint.Model.CART
+
+@{
+    ViewBag.Title = "detail";
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+
+}
+
+<style>
+    .div-above-detail {
+        width: 100%;
+        max-height: 1200px;
+        margin: 5% 0;
+        background-color: #fff;
+        -webkit-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        border-radius: 5px;
+        position: relative;
+    }
+
+    #info-transactionUser {
+        width: 100%;
+        max-height: 1200px;
+        margin: 5% 0;
+        background-color: #fff;
+        -webkit-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        border-radius: 5px;
+        position: relative;
+    }
+
+    dt {
+        width: 40%;
+        padding-left: 5%;
+        float: left;
+    }
+
+    dd {
+        width: 50%;
+        padding-left: 5%;
+        float: left
+    }
+
+    .button-detail {
+        width: 100%;
+        margin: 10px auto;
+        height: 5%;
+    }
+
+    .btn-under-detail {
+        margin: 2% 1%;
+    }
+
+    .title-above-detail {
+        width: 100%;
+        height: 50px;
+        font-size: 30px;
+        text-align: center;
+        line-height: 50px;
+    }
+    .row_invoice{
+        width:100%;
+        height:25px;
+    }
+    .b_invoice{
+        width:50%;
+        height:100%;
+        float:left
+    }
+    .p_invoice{
+        width:50%;
+        float:left;
+        height:100%;
+        margin:0;
+    }
+</style>
+
+<div class="div-for-detail">
+    <h2 class="title-above-detail"> CHI TIẾT ĐƠN HÀNG</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt class="odd">
+            Mã đơn hàng:
+        </dt>
+
+        <dd class="odd">
+            @Html.DisplayFor(x => x.CART_ID)
+        </dd>
+
+        <dt class="even">
+            Tên khách hàng :
+        </dt>
+
+        <dd class="even">
+            @Html.DisplayFor(model => model.USER.FULLNAME)
+        </dd>
+
+        <dt class="odd">
+            Tên người nhận :
+        </dt>
+
+        <dd class="odd">
+            @Html.DisplayFor(model => model.SHIP_NAME)
+        </dd>
+        <dt class="even">
+            Số điện thoại:
+        </dt>
+
+        <dd class="even">
+            @Html.DisplayFor(model => model.SHIP_MOBILE)
+        </dd>
+
+        <dt class="odd">
+            Địa chỉ nhận:
+        </dt>
+
+        <dd class="odd">
+            @Html.DisplayFor(model => model.SHIP_ADDRESS)
+        </dd>
+        <dt class="even">
+            Email:
+        </dt>
+
+        <dd class="even">
+            @Html.DisplayFor(model => model.SHIP_EMAIL)
+        </dd>
+
+        <dt class="odd">
+            tổng tiền VND:
+        </dt>
+
+        <dd class="odd">
+            @String.Format("{0:0,0}", Model.TOTAL_MONEY) VND
+        </dd>
+        <dt class="even">
+            Ngày đặt hàng:
+        </dt>
+
+        <dd class="even">
+            @Html.DisplayFor(model => model.DATE_ORDER)
+        </dd>
+
+        <dt class="even">
+            Trạng thái:
+        </dt>
+
+        @{
+
+            if (Html.DisplayFor(x => x.STATUS).ToString() == "1")
+            {
+                <dd class="even">Giao dịch thành công</dd>
+            }
+            else if (Html.DisplayFor(x => x.STATUS).ToString() == "-1")
+            {
+                <dd class="even">Giao dịch bị huỷ</dd>
+            }
+            else
+            {
+                <dd class="even">Đang giao dịch</dd>
+            }
+
+        }
+        <dt class="odd">
+            Lưu ý từ khách hàng:
+        </dt>
+
+        <dd class="odd">
+            @Html.DisplayFor(model => model.SHIP_MESSAGES)
+        </dd>
+    </dl>
+    <div class="button-detail">
+        <a style="margin-left:5%;" href="@Url.Action("Index", "Cart")" class="btn btn-outline-info btn-under-detail">Trang chủ</a>
+        <a href="@Url.Action("detailCart", "Cart_Item", new { id = @Model.CART_ID })" class="btn btn-under-detail btn-outline-primary">Chi tiết</a>
+        <button id="show-order" class="btn btn-outline-success btn-under-detail" onclick="showOrder()">Xem hoá đơn</button>
+    </div>
+    <hr />
+
+</div>
+
+
+<div class="app-title" style="width:90%;margin: 5% auto">
+    <div>
+        <h1><i class="fa fa-file-text-o"></i> Hoá đơn</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Invoice</a></li>
+    </ul>
+</div>
+<div class="row" id="export-order" style="max-height:700px">
+    <div class="col-md-12">
+        <div class="tile">
+            <section class="invoice">
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <h2 class="page-header"><img src="~/Content/Images/Logo-BDA-new.png" width="50" height="50"> BDApaint</h2>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="text-right">@Model.DATE_ORDER</h5>
+                    </div>
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-4">
+                        Người bán
+                        <address><strong>BDApaint </strong><br>180 Cao lỗ<br>Phường 4<br>Quận 8<br>Email: NVteam@gmail.com</address>
+                    </div>
+                    <div class="col-4">
+                        Người mua
+                        <address>
+                            <strong>@Model.SHIP_NAME</strong><br>
+                            Địa chỉ:
+                            @Model.SHIP_ADDRESS<br>
+                            
+                            Phone: @Model.SHIP_MOBILE<br>
+                            @Model.SHIP_EMAIL
+                        </address>
+                    </div>
+                    <div class="col-4">
+                        <div class="row_invoice"><b class="b_invoice">Hoá đơn</b><p class="p_invoice"> #007612</p></div>
+                        <div class="row_invoice"><b class="b_invoice">Order ID:</b><p class="p_invoice"> @Model.CART_ID</p></div>
+                        <div class="row_invoice">
+                            <b class="b_invoice">Thanh toán:</b>@if (Model.STATUS == 1)
+                            {
+                                <p class="p_invoice">Đã hoàn thành</p>
+                            }
+                            else
+                            {
+                                <p class="p_invoice">Chưa hoàn thành</p>
+                            }
+                        </div>
+                        <div class="row_invoice"><b class="b_invoice">Tài khoản:</b><p class="p_invoice">@Model.USER.FULLNAME</p></div>
+                        <div class="row_invoice"><b class="b_invoice">Tổng tiền(chưa VAT):</b><p class="p_invoice">@String.Format("{0:0,0}", Model.TOTAL_MONEY) VND</p> </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td>
+                                        STT
+                                    </td>
+                                    <td>
+                                        Tên sản phẩm
+                                    </td>
+                                    <td>
+                                        Đơn vị tính
+                                    </td>
+                                    <td>
+                                        Số lượng
+                                    </td>
+                                    <td>
+                                        Đơn giá
+                                    </td>
+                                    <td>
+                                        Thành tiền
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int a = 0;
+                                    foreach (var i in ViewBag.lst)
+                                    {
+                                        a++;
+                                        <tr>
+                                            <td>
+                                                @a
+
+                                            </td>
+                                            <td>
+                                                @i.PRODUCT_NAME
+                                            </td>
+                                            <td>
+                                                Thùng
+                                            </td>
+                                            <td>
+                                                @i.QUANTITY
+                                            </td>
+                                            <td>
+                                                @String.Format("{0:0,0}", i.UNIT_PRICE) VND
+                                            </td>
+
+                                            <td>
+                                                @String.Format("{0:0,0}", i.TOTAL_MONEY) VND
+                                            </td>
+                                        </tr>
+                                    } }
+                                <tr>
+                                    <td colspan="5">
+                                        <p style="text-align:right;font-weight:bold;margin-top:5px">Tổng tiền (Total) (1) :</p>
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:0,0}", Model.TOTAL_MONEY) VND
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p style="text-align:right;font-weight:600;margin-top:5px">Thuế suất GTGT (VAT rate):10% x (1) = Tiền thuế GTGT (VAT amount)(2) :</p>
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:0,0}", (Model.TOTAL_MONEY / 10)) VND
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p style="text-align:right;font-weight:600;margin-top:5px">Tổng cộng tiền thanh toán (Grand total)(1+2) :</p>
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:0,0}", (Model.TOTAL_MONEY + Model.TOTAL_MONEY / 10))  VND
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row d-print-none mt-2">
+                    <div class="col-12 text-right"><a class="btn btn-primary" href="javascript:window.print();" target="_blank"><i class="fa fa-print"></i> Print</a></div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function showOrder() {
+        var x = document.getElementById("export-order");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            window.scroll(0, 700);
+        }
+        else {
+            x.style.display = "none";
+        }
+    }
+</script>
+

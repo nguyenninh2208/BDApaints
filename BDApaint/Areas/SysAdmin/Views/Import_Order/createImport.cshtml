@@ -1,0 +1,128 @@
+﻿
+@model BDApaint.Model.IMPORT_ORDER_DETAIL
+
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Form nhập sản phẩm vào kho</h1>
+        <p>Nhập sản phẩm</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Nhập sản phẩm</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    @*<div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>*@
+    <div class="btn-above"><a href="@Url.Action("Index","Home")" class="btn btn-link">Trang chủ</a></div>
+    <div class="btn-above"><a href="@Url.Action("Index","Import_Order")" class="btn btn-link">Danh sách đơn nhập</a></div>
+    <div class="btn-above"><a href="@Url.Action("create","Supplier")" class="btn btn-primary">Thêm nhà cung cấp mới</a></div>
+    <div class="btn-above"><a href="@Url.Action("create","Product")" class="btn btn-primary">Thêm sản phẩm mới</a></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @if (TempData["alertMessage"] != null)
+        {
+            <div id="alertBox" class="alert @TempData["alertType"]">
+                @TempData["alertMessage"]
+            </div>
+            <script>
+                var box = $('#alertBox');
+                box.delay(4000).slideUp(500);
+            </script>
+        }
+        <div class="tile">
+            @using (Html.BeginForm("CreateImport", "Import_Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="person_import">
+                                Người nhập hàng:
+                            </label>
+                            <select id="person_import" required name="PERSON_IMPORT_ID" class="form-control">
+                                @foreach (var item in ViewBag.person)
+                                {
+                                    <option value="@item.ID">@item.NAME</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">
+                                Nhà cung cấp:
+                            </label>
+                            <select id="supplier" required name="SUPPLIER_ID" class="form-control">
+                                @foreach (var item in ViewBag.supplier)
+                                {
+                                    <option value="@item.ID">@item.NAME</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product">
+                                Sản phẩm:
+                            </label>
+                            <select id="product" required name="PRODUCT_ID" class="form-control">
+                                @foreach (var item in ViewBag.product)
+                                {
+                                    <option value="@item.PRODUCT_ID">@item.PRODUCT_NAME</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.PRODUCT_ID, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="amountreal">
+                                Số lượng nhập:
+                            </label>
+                            <input id="amountreal" placeholder="1-999" max="999" min="1" type="number" required value="" name="IMPORT_AMOUNT_REAL" class="form-control" />
+                            @Html.ValidationMessageFor(model => model.IMPORT_AMOUNT_REAL, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="price">
+                                Giá nhập:
+                            </label>
+                            <input id="price" placeholder="1000-99999999" min="1000" max="99999999" type="number" required name="IMPORT_PRICE" class="form-control" />
+                            @Html.ValidationMessageFor(model => model.IMPORT_PRICE, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="form-group">
+                            <label for="unit_id">
+                                Đơn vị sản phẩm:
+                            </label>
+
+                            <select id="unit_id" required name="IMPORT_UNIT_ID" class="form-control">
+                                @foreach (var item in ViewBag.unit)
+                                {
+                                    <option value="@item.ID">@item.NAME</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.IMPORT_UNIT_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                    <button class="btn btn-primary" type="submit">Thêm</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

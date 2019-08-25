@@ -1,0 +1,105 @@
+﻿@model IEnumerable<BDApaint.Model.PRODUCT>
+@{
+    ViewBag.Title = "Search Resutl";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+}
+
+
+<div class="container-body" style="padding:0px;">
+    @***************************************************modal compare*********************@
+    <div class="modal fade" id="modalCompare" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="left:0;">
+            <div class="modal-content" style=" width: 60%; margin-left: 20%;">
+                <div class="modal-header" style="border:none;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body text-center" id="result-compare">
+                    <h3 class="text-center">Sản phẩm <span id="name-compare"></span> </h3>
+                    <h4 class="text-center">Đã được thêm thành công vào danh sách so sánh</h4>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="/CompareProduct/Index" class="myButton" style="background-color: #6cf; color: white;">Xem so sánh</a>
+                    <button type="button" class="myButton" style="background-color:#6cf; color:white;" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @***************************************************end-modal compare*********************@
+    @if (@ViewBag.countLst == 0)
+    {
+        <h2 class="text-center alert alert-info" style="font-family: 'Merriweather', serif;">Không tìm thấy sản phẩm nào có tên : <span class="text-danger" style="font-weight:bold;"> @ViewBag.myString</span></h2>
+        <a class="row myButton" style="margin-bottom: 10px; margin-left: 30px;" href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-arrow-left"></span> Quay về trang chủ</a><br />
+    }
+    else
+    {
+        <div class="row content" style="padding: 3%;">
+            <h2 class="text-center alert-info" id="title-news">Kết quả tìm kiếm</h2>
+            <span> Kết quả tìm kiếm cho từ khóa :<span style="color:red;"> @ViewBag.myString</span> (Đã tìm thấy @Model.Count() kết quả )</span>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                        <div class="some-block" style="position:relative;">
+                            <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                <img class="img-product-aff-@item.PRODUCT_ID" src="/Content/img2/@item.IMAGE" width="150" height="150" alt="@item.IMAGE" />
+                            </a>
+                            <div class="info-product relative-product" style="position:relative;">
+                                <div class="name-product" style="font-weight: 700; font-size: small;">
+                                    <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                        @item.PRODUCT_NAME
+                                    </a>
+                                </div>
+                                <div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 80px;">
+                                     @String.Format("{0:0,0}", @item.PRICE) đ
+                                </div>
+
+                            </div>
+                            <div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">
+
+                                <div class="row" style="margin-right:10%; display:inline-block;">
+                                    <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCompare(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="@item.PRODUCT_ID" name="">
+                                        <span><img src="/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>
+
+                                    </a>
+                                </div>
+                                <div class="row" style="display:inline-block;">
+                                    <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCart(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart" name="">
+                                        <span class="glyphicon glyphicon-shopping-cart"></span>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $('.product-row').mouseover(function (event) {
+        $(this).find('.links').show();
+    })
+    $('.product-row').mouseout(function (event) {
+        $(this).find('.links').hide();
+    })
+
+    function AddCompare(val) {
+        var id = val;
+        var urlgx = '@Url.Action("ThemVaoSoSanh", "CompareProduct")';
+        $.ajax({
+            type: "GET",
+            url: urlgx,
+            data: { id: id },
+            success: function (data) {
+                $('#modalCompare').modal('show');
+            },
+        });
+    }
+</script>

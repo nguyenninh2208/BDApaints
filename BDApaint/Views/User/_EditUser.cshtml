@@ -1,0 +1,67 @@
+﻿@model BDApaint.Model.USER
+
+@{
+    Layout = null;
+}
+<div class="modal fade" id="updateModal" style="margin-left:20%;" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="left:0;">
+        <div class="modal-content" style="width:70%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Cập nhật thông tin</h4>
+            </div>
+            @using (Html.BeginForm("EditUser", "User", FormMethod.Post))
+            {
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Họ tên đầy đủ:
+                        </dt>
+                        <dd>
+                            <input type="text" pattern="^\p{L}+[\p{L}\p{Pd}\p{Zs}']*\p{L}+$|^\p{L}+$" title="Vui lòng nhập tên có viết hoa và khoảng cách" required name="fullname" class="form-control input-sm field" style="width:300px; margin-bottom:15px;" value="@Model.FULLNAME">
+                            <input type="hidden" name="PRODUCT_ID" class="form-control input-sm field" style="width: 300px; margin-bottom: 15px; " value="@Model.ID">
+                        </dd>
+                        <dt>Giới tính:</dt>
+                        <dd>
+                            <input type="radio" name="Gender" checked="checked" value="Nam"/>Nam
+                            <input type="radio" name="Gender" value="Nữ" />Nữ
+                        </dd>
+                        <dt>
+                            Số điện thoại
+                        </dt>
+
+                        <dd>
+                            <input type="text" pattern="(\+84|0)\d{9,10}" title="Định dạng số điện thoại bắt đầu bằng +84 hoặc 0 và ít nhất 9 kí tự" required name="phone" class="form-control input-sm field" style="width: 300px; margin-bottom: 15px;" value="@Model.PHONE">
+                        </dd>
+
+                        <dt>
+                            Địa chỉ:
+                        </dt>
+
+                        <dd>
+                            <input type="text" pattern=".{0}|.{8,}" title="Ít nhất có 8 kí tự" required name="address" class="form-control input-sm field" style="width: 300px; margin-bottom: 15px;" value="@Model.ADDRESS">
+                        </dd>
+
+                        <dt>
+                            Email
+                        </dt>
+
+                        <dd>
+                            <input type="email" title="" required name="email" class="form-control input-sm field" style="width: 300px; margin-bottom: 15px;" value="@Model.EMAIL">
+                        </dd>
+                    </dl>
+
+                </div><!-- /.modal-body -->
+                <div class="modal-footer">
+                    <button class="btn" type="submit" style="background-color:#6cf; color:white;" name="submit" style="margin-left:18%">Cập nhật</button>
+                    <button type="button" class="btn" style="background-color:#6cf; color:white;" data-dismiss="modal">Đóng</button>
+                </div><!-- /.modal-footer -->
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

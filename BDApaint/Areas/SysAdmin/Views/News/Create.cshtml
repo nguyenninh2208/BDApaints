@@ -1,0 +1,120 @@
+﻿@model BDApaint.Model.NEWS
+@{
+    ViewBag.Title = "detail";
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script src="~/ckeditor/ckeditor.js"></script>
+<script src="~/ckfinder/ckfinder.js"></script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i>Form tạo bài viết</h1>
+        <p>Tạo mới bài viết</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Form Components</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @if (TempData["alertMessage"] != null)
+        {
+            <div id="alertBox" class="alert @TempData["alertType"]">
+                @TempData["alertMessage"]
+            </div>
+            <script>
+                var box = $('#alertBox');
+                box.delay(4000).slideUp(500);
+            </script>
+        }
+        <div class="tile">
+            @using (Html.BeginForm("Create", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="NEWS_TITLE">
+                                Tiêu đề:
+                            </label>
+                            @Html.TextBoxFor(model => model.NEWS_TITLE, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NEWS_TITLE, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="NEWS_TYPE_ID">
+                                Chủ đề:
+                            </label>
+                            @Html.DropDownListFor(model => model.NEWS_TYPE_ID, (IEnumerable<SelectListItem>)ViewBag.tn, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NEWS_TYPE_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="NEWS_SUMARY">
+                                Tóm tắt nội dung:
+                            </label>
+                            @Html.TextBoxFor(model => model.NEWS_SUMMARY, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NEWS_SUMMARY, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="ADMIN_ID">
+                                Người viết:
+                            </label>
+                            @Html.DropDownListFor(model => model.ADMIN_ID, (IEnumerable<SelectListItem>)ViewBag.admin, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ADMIN_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="NEWS_IMG">
+                                Hình ảnh:
+                            </label>
+                            @Html.TextBoxFor(model => model.NEWS_IMG, new { @class = "form-control-file", type = "file" })
+                            @Html.ValidationMessageFor(model => model.NEWS_IMG, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <fieldset>
+                                <legend style="font-size: 0.875rem;margin-bottom:1rem">Trạng thái</legend>
+                                <div class="animated-radio-button">
+                                    <label>
+                                        @Html.RadioButtonFor(x => x.STATUS, "true", new { @class = "form-check-control" })
+                                        <span class="label-text">Kích hoạt</span>
+                                    </label>
+                                    <label style="margin-left:10px;">
+                                        @Html.RadioButtonFor(x => x.STATUS, "false", new { @class = "form-check-control" })
+                                        <span class="label-text">Không kích hoạt</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="NEWS_CONTENT">
+                                Nội dung:
+                            </label>
+                            @Html.TextAreaFor(model => model.NEWS_CONTENT, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NEWS_CONTENT, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        var editor = CKEDITOR.replace("NEWS_CONTENT",
+                            {
+                                filebrowserBrowseUrl: '/ckfinder/ckfinder.html',
+                                filebrowserImageBrowseUrl: '/ckfinder/ckfinder.html?type=Images',
+                                filebrowserUploadUrl: '/ckfinder/connector?command=QuickUpload&type=Files&currenFolder=DataUpload',
+                                filebrowserImageUploadUrl: '/ckfinder/connector?command=QuickUpload&type=Images&currenFolder=DataUpload'
+                            });
+                        CKFinder.setupCKEditor(editor);
+                    </script>
+                </div>
+                <div class="tile-footer">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <a class="btn btn-primary" href="@Url.Action("Index","News")">Trang chủ</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

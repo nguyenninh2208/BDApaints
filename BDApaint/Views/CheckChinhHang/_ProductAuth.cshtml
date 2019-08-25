@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BDApaint.Model.PRODUCT>
+@*<div class="col-sm-4">
+        <img class="img-product" src="~/Content/img2/dulux-easyclean-plus-5l.png" width="150" height="180" />
+    </div>
+    <div class="col-sm-8">
+        <ul class="text-left" style="font-weight:bold; font-size:medium; padding:0px; font-size:medium; float:left;">
+            <li>Tên sản phẩm</li>
+            <li>Giá</li>
+            <li>Loại</li>
+            <li>Hãng sản xuất</li>
+            <li>Tên sản phẩm</li>
+            <li>Giá</li>
+            <li>Loại</li>
+            <li>Hãng sản xuất</li>
+        </ul>
+        <ul class="text-left" style="float:left;">
+            <li>sadasdasdasd</li>
+            <li>232323</li>
+            <li>sadasdasdasd</li>
+            <li>sadasdasdasd sản xuất</li>
+            <li>sadasdasdasd sản phẩm</li>
+            <li>sadasdasdasd</li>
+            <li>sadasdasdasd</li>
+            <li>sadasdasdasd</li>
+            <li>sadasdasdasd</li>
+        </ul>
+    </div>*@
+<table class="table">
+    <tr>
+        <th>Hình</th>
+        <th>Tên sản phẩm</th>
+        <th> Giá</th>
+        <th>Số lượng còn hiện tại</th>
+        <th>Ngày sản xuất</th>
+        <th>Hạn sử dụng</th>
+        <th>Mô tả sản phẩm</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> @Html.DisplayFor(modelItem => item.IMAGE)</td>
+            <td>@Html.DisplayFor(modelItem => item.PRODUCT_NAME)</td>
+            <td>@Html.DisplayFor(modelItem => item.PRICE)</td>
+            <td> @Html.DisplayFor(modelItem => item.AMOUNT)</td>
+            <td>@Html.DisplayFor(modelItem => item.DATE_OF_MANUFACTURE)</td>
+            <td> @Html.DisplayFor(modelItem => item.LIMITED_USE)</td>
+            <td>@Html.DisplayFor(modelItem => item.DESCRIPTION)</td>
+        </tr>
+    }
+</table>   

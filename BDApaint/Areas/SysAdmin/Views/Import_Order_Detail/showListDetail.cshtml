@@ -1,0 +1,311 @@
+﻿@{
+    ViewBag.Title = "Danh sach chi tiết giao dịch";
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+
+<style>
+ 
+    dt {
+        width: 40%;
+        padding-left: 5%;
+        float: left;
+    }
+
+    dd {
+        width: 50%;
+        padding-left: 5%;
+        float: left
+    }
+
+    .button-detail {
+        width: 100%;
+        margin: 10px auto;
+        height: 5%;
+    }
+
+    .btn-under-detail {
+        margin: 2% 1%;
+    }
+
+    .title-above-detail {
+        width: 100%;
+        height: 50px;
+        font-size: 30px;
+        text-align: center;
+        line-height: 50px;
+    }
+
+    .row_invoice {
+        width: 100%;
+        height: 25px;
+    }
+
+    .b_invoice {
+        width: 50%;
+        height: 100%;
+        float: left
+    }
+
+    .p_invoice {
+        width: 50%;
+        float: left;
+        height: 100%;
+        margin: 0;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+      
+        var tables = $("#sampleTable");
+        if (tables != null) {
+            var table = $('#sampleTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "Không tìm thấy dữ liệu",
+                    "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                    "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                    "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                }
+            });
+         
+        }
+    })
+
+
+</script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Danh sách nhập hàng</h1>
+        <p>Bảng thông tin danh sách nhập hàng</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="row" style="background-color:#fff">
+    <div class="col-md-12">
+        <div style="margin:10px 10px;border-bottom:solid 1px">
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title odd">Mã đơn hàng</p>
+                <p class="col-md-1"></p>
+                <p class="col-md-5 odd">@ViewBag.ID</p>
+            </div>
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title even">Người nhập</p>
+                <p class="col-md-1"></p>
+                <p class="col-md-5 even">@ViewBag.PersonName</p>
+            </div>
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title odd">Tên nhà cung cấp</p>
+                <p class="col-md-1"></p>
+                <p class="col-md-5 odd">@ViewBag.Sup</p>
+            </div>
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title even">Ngày nhập:</p>
+                <p class="col-md-1"></p>
+                <p class="col-md-5 even">@ViewBag.Date </p>
+            </div>
+
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title odd">Thành tiền:</p>
+                <p class="col-md-1"></p>
+                <p class="col-md-5 odd"> @String.Format("{0:0,0}", ViewBag.Total)VND</p>
+            </div>
+        </div>
+        <div class="app-title1">
+            <div class="card-header" style="float:left">
+                Lọc theo
+                <select class="" onchange="getAllProduct(this.value)">
+                    <option value="-1" selected>Tất cả</option>
+                    <option value="0">Đang chờ duyệt</option>
+                    <option value="1">Đang bán</option>
+                    <option value="2">Đã bán</option>
+                </select>
+            </div>
+            <div class="btn-above">
+                <a href="@Url.Action("Index","Import_Order")" class="btn btn-primary">Trở về</a>
+                <button class="btn btn-primary" onclick="showOrder()">Xem hoá đơn</button>
+            </div>
+        </div>
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>Mã chi tiết</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng nhập thực tế</th>
+                            <th>Đơn vị tính số lượng</th>
+                            <th>Đơn giá </th>
+                            <th>Thành tiền </th>
+                            <th>Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+
+                            <tr>
+                                <td>@x.ID</td>
+                                <td>
+                                    <a href="@Url.Action("detailProduct","Product",new {id = x.PRODUCT_ID })"> @x.PRODUCT.PRODUCT_NAME</a>
+                                </td>
+
+                                <td>@x.IMPORT_AMOUNT_REAL</td>
+                                <td>@x.UNIT_PRODUCT.NAME</td>
+                                <td>@String.Format("{0:0,0}", x.IMPORT_PRICE) VND</td>
+                                <td> @String.Format("{0:0,0}", x.IMPORT_INTO_MONEY) VND</td>
+                                <td>
+                                    <a href="@Url.Action("detail","Import_Order_Detail",new { id = x.ID})">
+                                        <i class="fa fa-info-circle fa-lg"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="app-title" style="width:100%;margin: 5% auto">
+    <div>
+        <h1><i class="fa fa-file-text-o"></i> Hoá đơn</h1>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Invoice</a></li>
+    </ul>
+</div>
+<div class="row" id="export-order" style="max-height:700px">
+    <div class="col-md-12">
+        <div class="tile">
+            <section class="invoice">
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <h2 class="page-header"><img src="~/Content/Images/Logo-BDA-new.png" width="50" height="50"> BDApaint</h2>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="text-right">@ViewBag.Date</h5>
+                    </div>
+                </div>
+                <div class="row invoice-info">
+                    <div class="col-4">
+                        Người bán
+                        <address>
+                            <strong>@ViewBag.Sup</strong><br>
+                            180 Cao lỗ<br>
+                            Phường 4<br>
+                            Quận 8<br>
+                            Phone:@ViewBag.Phone<br />
+
+                            Email: @ViewBag.Email
+                        </address>
+                    </div>
+                    <div class="col-4">
+                        Người mua
+                        <address>
+                            <strong>Đại lý sơn BDApaint</strong><br>
+                            Địa chỉ:
+                            123 Cao lỗ, phường 4, quận  8<br>
+
+                            Phone: 0968900462<br>
+                            BDApaintStore@gmail.com
+                        </address>
+                    </div>
+                    <div class="col-4">
+                        <div class="row_invoice"><b class="b_invoice">Hoá đơn</b><p class="p_invoice"> #007612</p></div>
+                        <div class="row_invoice"><b class="b_invoice">Import ID:</b><p class="p_invoice"> @ViewBag.ID</p></div>
+                        <div class="row_invoice">
+                            <b class="b_invoice">Thanh toán:</b>
+                            <p class="p_invoice">Đã hoàn thành</p>
+                        </div>
+                        <div class="row_invoice"><b class="b_invoice">Tài khoản:</b><p class="p_invoice">@ViewBag.PersonName</p></div>
+                        <div class="row_invoice"><b class="b_invoice">Tổng tiền(chưa VAT):</b><p class="p_invoice">@String.Format("{0:0,0}", ViewBag.Total)</p> </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td>Mã chi tiết</td>
+                                    <td>Tên sản phẩm</td>
+                                    <td>Số lượng nhập tdực tế</td>
+                                    <td>Đơn vị tính số lượng</td>
+                                    <td>Đơn giá </td>
+                                    <td>thành tiền </td>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int a = 0;
+                                    foreach (var x in Model)
+                                    {
+                                        a++;
+                                        <tr>
+                                            <td>@x.ID</td>
+                                            <td>
+                                                 @x.PRODUCT.PRODUCT_NAME
+                                            </td>
+
+                                            <td>@x.IMPORT_AMOUNT_REAL</td>
+                                            <td>@x.UNIT_PRODUCT.NAME</td>
+                                            <td>@String.Format("{0:0,0}", x.IMPORT_PRICE) VND</td>
+                                            <td> @String.Format("{0:0,0}", x.IMPORT_INTO_MONEY) VND</td>
+                                            
+                                        </tr>
+                                    } }
+                                <tr>
+                                    <td colspan="5">
+                                        <p style="text-align:right;font-weight:bold;margin-top:5px">Tổng tiền (Total) (1) :</p>
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:0,0}", ViewBag.Total) VND
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p style="text-align:right;font-weight:600;margin-top:5px">Thuế suất GTGT (VAT rate):10% x (1) = Tiền thuế GTGT (VAT amount)(2) :</p>
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:0,0}", (ViewBag.Total / 10)) VND
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p style="text-align:right;font-weight:600;margin-top:5px">Tổng cộng tiền thanh toán (Grand total)(1+2) :</p>
+                                    </td>
+                                    <td>
+                                        @String.Format("{0:0,0}", (ViewBag.Total + ViewBag.Total / 10))  VND
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row d-print-none mt-2">
+                    <div class="col-12 text-right"><a class="btn btn-primary" href="javascript:window.print();" target="_blank"><i class="fa fa-print"></i> Print</a></div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function showOrder() {
+        var x = document.getElementById("export-order");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            window.scroll(0, 700);
+        }
+        else {
+            x.style.display = "none";
+        }
+    }
+</script>

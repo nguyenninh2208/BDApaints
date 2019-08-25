@@ -1,0 +1,372 @@
+﻿@model List<BDApaint.Model.COMPARE>
+
+@{
+    ViewBag.Title = "So sánh sản phẩm";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@if (@ViewBag.countSoSanh <= 1)
+{
+    <h2 class="alert alert-info text-center">Vui lòng chọn 2 sản phẩm trở lên để so sánh</h2>
+    <a class="row btn btn-default" style="margin-bottom:10px; margin-left:20px;" href="@Url.Action("Index", "Home")">Quay về trang trước</a><br />
+}
+
+else
+{
+
+
+    <h2 class="alert alert-info text-center">So sánh <span>@ViewBag.countSoSanh</span> sản phẩm</h2>
+    <div class="row" style="margin-left:30px; margin-bottom:20px; padding:10px;">
+        <a class="row myButton" style="margin-bottom: 10px; width: 200px;" href="@Url.Action("Index", "Home")"><span class="	glyphicon glyphicon-arrow-left"></span> Quay về trang trước</a><br />
+        <a class="row myButton" style="margin-bottom: 10px; width: 200px;" onclick="btnRemoveAllCompare()"><span class="glyphicon glyphicon-trash"></span> Xóa tất cả sản phẩm</a><br />
+        <a class="row myButton" style="margin-bottom: 10px; width: 200px;" href="@Url.Action("ExportExcelCompare", "CompareProduct")"><span class="glyphicon glyphicon-export"></span> Xuất file Excel</a><br />
+    </div>
+    <article class="comparison-table" style="height:auto; margin-bottom:30px; margin-top:30px;">
+
+        <ul>
+            <li class="bg-purple">
+                <button>Self-Employed</button>
+            </li>
+            <li class="bg-blue">
+                <button>Simple Start</button>
+            </li>
+            <li class="bg-blue active">
+                <button>Essentials</button>
+            </li>
+            <li class="bg-blue">
+                <button>Plus</button>
+            </li>
+        </ul>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="visibility:hidden;"></th>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <th class="bg-purple">
+                            <div class="row">
+                                <a class="btn btn-default" onclick="delItemCompare(@i.PRODUCT_ID)" @*href="@Url.Action("RemoveCompareItem", new {id=@i.PRODUCT_ID})"*@ style="background-color:transparent; width:20%; height:20%; border:none; position:relative; float:right; right:20px; "><span class="glyphicon glyphicon-remove" style=""></span></a>
+                                <a href="/Product/getDetailProduct/@i.PRODUCT_ID">
+                                    <img class="img-product" src="~/Content/img2/@i.IMAGE" width="110" height="80" />
+                                </a>
+                            </div>
+                        </th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="word-wrap: break-word; word-break: keep-all;">Tên sản phẩm</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <td style="word-wrap: break-word; word-break: keep-all;">
+                            <a href="/Product/getDetailProduct/@i.PRODUCT_ID">
+                                @i.PRODUCT_NAME
+                            </a>
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    @{     //setup lại colspan = lấy số count sp + 1
+                           int x = @ViewBag.countSoSanh + 1;
+                    }
+                    <td colspan="@x" class="sep">Thông số phát hành</td>
+                </tr>
+                <tr>
+                    <td>Nhà sản xuất</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <td>@i.PRODUCER_NAME</td>
+                    }
+                </tr>
+                <tr>
+                    <td>Loại sản phẩm</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <td>@i.PRODUCT_TYPE_NAME</td>
+                    }
+                </tr>
+                <tr>
+                    <td>Ngày xuất xưởng</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <td>@String.Format("{0:dd/MM/yyyy}", @i.DATE_OF_MANUFACTURE)</td>
+                    }
+
+                </tr>
+                <tr>
+                    <td>Hạn sử dụng</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <td>@i.LIMITED_USE</td>
+                    }
+
+
+                <tr>
+                    <td>Giá</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        
+                        if ((int)i.DISCOUNT_VALUE != 0)
+                        {
+                            if ((int)i.DISCOUNT_VALUE < 100)
+                            {
+                                int? zMoney = 0;
+                                zMoney = @i.PRICE + ((@i.PRICE * @i.DISCOUNT_VALUE) / 100);
+                                <td>Chỉ còn <span style="font-size: 1.7vw; color: red; font-weight: bold; "> @String.Format("{0:0,0}", @i.PRICE) đ</span><br />Giá gốc :<span style="text-decoration:line-through; opacity:0.7;"> @String.Format("{0:0,0}", @zMoney)</span>  <span style="color:red; font-weight:bold;"> -@i.DISCOUNT_VALUE % </span></td>
+                            }
+                            else
+                            {
+                                int? priceMoney = 0;
+                                priceMoney = @i.PRICE - @i.DISCOUNT_VALUE;
+                                <td>Chỉ còn <span style="font-size: 1.7vw; color: red; font-weight: bold; "> @String.Format("{0:0,0}", @priceMoney) đ</span><br />Giá gốc :<span style="text-decoration:line-through; opacity:0.7;"> @String.Format("{0:0,0}", @i.PRICE)</span>  <span style="color:red; font-weight:bold;"> - @String.Format("{0:0,0}", @i.DISCOUNT_VALUE) đ</span></td> 
+                            }
+                        }
+                        else
+                        {
+                            <td>@String.Format("{0:0,0}", @i.PRICE) đ</td>
+                        }
+                    }
+
+                </tr>
+                <tr>
+                    <td colspan="@x" class="sep">Thông số kỹ thuật</td>
+                </tr>
+                <tr>
+                    <td>Thành phần</td>
+                    
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        var myString = i.SPECIFICATION;
+                        String[] myArray = myString.Split('@');
+                        if (myArray.Length != 0)
+                        {
+                            {
+                                <td>@myArray[0]</td>
+                            }
+
+                        }
+                    }
+                </tr>
+                <tr>
+                    <td>Bề mặt mảng sơn</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        var myString = i.SPECIFICATION;
+                        String[] myArray = myString.Split('@');
+                        if (myArray.Length != 0)
+                        {
+                            //for (int y = 0; y < myArray.Length; y++)
+                            {
+
+                                <td>@myArray[1]</td>
+                            }
+
+                        }
+                    }
+                </tr>
+                <tr>
+                    <td>Tỷ trọng</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        var myString = i.SPECIFICATION;
+                        String[] myArray = myString.Split('@');
+                        if (myArray.Length != 0)
+                        {
+                            //for (int y = 0; y < myArray.Length; y++)
+                            {
+
+                                <td>@myArray[2] kg/lít</td>
+                            }
+
+                        }
+                    }
+                </tr>
+                <tr>
+                    <td>Hàm lượng rắn</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        var myString = i.SPECIFICATION;
+                        String[] myArray = myString.Split('@');
+                        if (myArray.Length != 0)
+                        {
+                            //for (int y = 0; y < myArray.Length; y++)
+                            {
+
+                                <td>@myArray[3] %</td>
+                            }
+
+                        }
+                    }
+                </tr>
+                <tr>
+                    <td>Thời gian khô</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        var myString = i.SPECIFICATION;
+                        String[] myArray = myString.Split('@');
+                        if (myArray.Length != 0)
+                        {
+                            //for (int y = 0; y < myArray.Length; y++)
+                            {
+
+                                <td>@myArray[4]</td>
+                            }
+
+                        }
+                    }
+                </tr>
+                <tr>
+                    <td>Độ phủ lý thuyết</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        var myString = i.SPECIFICATION;
+                        String[] myArray = myString.Split('@');
+                        if (myArray.Length != 0)
+                        {
+                            //for (int y = 0; y < myArray.Length; y++)
+                            {
+
+                                <td>@myArray[5] m<sup>2</sup>/lít/lớp</td>
+                            }
+
+                        }
+                    }
+                </tr>
+                <tr>
+                    <td colspan="@x" class="sep">Chi tiết</td>
+                </tr>
+                <tr>
+                    <td>Mô tả</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <td>@i.DESCRIPTION</td>
+                    }
+                </tr>
+                <tr class="product-color-compare">
+                    <td>Màu</td>
+                    @foreach (var i in Session["sosanh"] as List<BDApaint.Model.COMPARE>)
+                    {
+                        <td>
+                            <div class="product-color-compare-@i.PRODUCT_ID">
+                                <a id="btn-show-color-@i.PRODUCT_ID" class="myButton" onclick=showColorCompare(@i.PRODUCT_ID) >Xem màu</a>
+                            </div>
+                        </td>
+
+                    }
+                </tr>
+            </tbody>
+        </table>
+        <div class="modal fade" id="modalshowColor" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="left:0;">
+                <div class="modal-content" style="padding-left:70px; padding-right: 30px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Màu của sản phẩm <span id="name-color-compare" style="font-weight:bold; text-transform:lowercase;"></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 10px; height: 10px; margin-top: -30px;">
+                            <span aria-hidden="true" style="font-size:30px;">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body-color" style="margin-top: 5%; margin-left: 10%; text-align:center;" id="result-detail-color">
+                        Trình bày các thành phần của Hộp thoại ở đây
+                    </div>
+
+                    <div class="modal-footer" style="border:none;">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </article>
+
+}
+<script type="text/javascript">
+  
+    function btnRemoveAllCompare() {
+        debugger
+        var urlXoaAllItemCompare = '@Url.Action("removeAllItemCompare", "CompareProduct")';
+
+        $.ajax({
+            url: urlXoaAllItemCompare,
+            type: "GET",
+
+            success: function (res) {
+                alert("Đã xóa tất cả sản phẩm so sánh");
+                //load lại trang
+                location.reload();
+            }
+        })
+    }
+
+
+    //but del item compare
+    function delItemCompare(idSp) {
+        var id = idSp;
+        var urlXoaItemCompare = '@Url.Action("RemoveCompareItem", "CompareProduct")';
+        $.ajax({
+            url: urlXoaItemCompare,
+            type: "GET",
+            data: { id: id },
+            success: function (res) {
+                alert("Đã xóa thành công sản phẩm");
+                //load lại trang
+                location.reload();
+
+            }
+        })
+    }
+
+
+
+
+
+    //hiển thị màu của sản phẩm
+
+    function showColorCompare(value) {
+        var id = value;
+        //khi click showcolorcompare thì button sẽ bị ẩn
+        $('#modalshowColor').modal('show');
+        $('#result-detail-color').html('');
+        $('#name-color-compare').html('');
+
+        $.ajax({
+            url: '/Color/showColor',
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function (res) {
+                var html = '';
+                var countColors = res.length;
+                var z = countColors - 1;
+                //đếm số màu đã tìm thấy dc
+                if (countColors == 0) {
+                    var html = '';
+                    html += '<div class="alert alert-danger" role="alert" style="font-size:2vw; ">';
+                    html += 'Sản phẩm này hiện chưa có màu nào !';
+                    html += '</div>';
+                    $('#result-detail-color').append(html);
+                }
+                html += '<h3 class="text-center bg-default text-danger font-text-color" style="margin-bottom: 5%; font-weight:600; ">Đã tìm thấy <span class="count-color text-danger"> ' + countColors + '</span> màu</h3>';
+                $('#name-color-compare').append(res[z].tensp)
+                $.each(res, function (key, item) {
+                    html += '<div   data-toggle="tooltip" title="Mã RGB : ' + item.codeRgb + '  Mã màu :' + item.mamau + '"   data-placement="left">';
+                    html += '  <div id="div-color-compare" style="background-color:rgb(' + item.codeRgb + '); border:2px solid; border-radius:10px; margin-right: 2%;"><span id="text-color-compare" class="text-color" style="font-size: .8vw; color:black;">' + item.tenmau + '</span></div>';
+                    html += '</div>';
+
+                });
+
+                //chỉ appen vào class có id nào đc chọn
+                $('#result-detail-color').append(html);
+                //đếm màu
+                $('[data-toggle="tooltip"]').tooltip();
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+</script>

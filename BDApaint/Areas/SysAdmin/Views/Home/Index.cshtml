@@ -1,0 +1,469 @@
+﻿@model IEnumerable<BDApaint.Model.CART>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script src="~/AdminContent/js/plugins/pace.min.js"></script>
+<script type="text/javascript">
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    };
+    $(document).ready(function () {
+        $.getJSON("/Sysadmin/Home/getTopTran", "", function (rs) {
+            if (rs != null) {
+                var html = "";
+                var i = 1;
+                $.each(rs, function (key, x) {
+                    html += '<tr>';
+                    html += '<td><b>' + i + '</b></td>';
+                    html += '<td><b><a href="/Sysadmin/Cart/detail/' + x.id + '">' + x.id + '</a></b></td>';
+                    html += '<td><b>' + x.user + '</b></td>';
+                    html += '<td><b>' + x.date.toString() + '</b></td>';
+                    html += '<td><b>' + formatNumber(x.total) + ' ' + ' $' + '</b></td>';
+                    html += '</tr>';
+                    i++;
+                });
+                $('#top-tran').html(html);
+            }
+        });
+            $.getJSON("/Sysadmin/Home/getImportNewest", "", function (rs) {
+                if (rs != null) {
+                    var html = "";
+                    var i = 1;
+                    $.each(rs, function (key, x) {
+                        html += '<tr>';
+                        html += '<td><b>' + i + '</b></td>';
+                        html += '<td><b><a href="/Sysadmin/Import_order_detail/getDetailByID/' + x.id + '">' + x.id + '</a></b></td>';
+                        html += '<td><b>' + x.user + '</b></td>';
+                        html += '<td><b>' + x.sup + '</b></td>';
+                        html += '<td><b>' + formatNumber(x.total) + ' ' + ' $' + '</b></td>';
+                        html += '<td><b>' + x.date.toString() + '</b></td>';
+                        html += '</tr>';
+                        i++;
+                    });
+                    $('#newest-import').html(html);
+                }
+        });
+        $.getJSON("/Sysadmin/Home/getImportHighest", "", function (rs) {
+            if (rs != null) {
+                var html = "";
+                var i = 1;
+                $.each(rs, function (key, x) {
+                    html += '<tr>';
+                    html += '<td><b>' + i + '</b></td>';
+                    html += '<td><b><a href="/Sysadmin/Import_order_detail/getDetailByID/' + x.id + '">' + x.id + '</a></b></td>';
+                    html += '<td><b>' + x.user + '</b></td>';
+                    html += '<td><b>' + x.sup + '</b></td>';
+                    html += '<td><b>' + x.date.toString() + '</b></td>';
+                    html += '<td><b>' + formatNumber(x.total) + ' ' + ' $' + '</b></td>';
+                    html += '</tr>';
+                    i++;
+                });
+                $('#highest-import').html(html);
+            }
+        });
+        $.getJSON("/Sysadmin/Home/getTraning", "", function (rs) {
+            if (rs != null) {
+                var html = "";
+                var i = 1;
+                $.each(rs, function (key, x) {
+                    html += '<tr>';
+                    html += '<td><b>' + i + '</b></td>';
+                    html += '<td><b><a href="/Sysadmin/Cart/detail/' + x.id + '">' + x.id + '</a></b></td>';
+                    html += '<td><b>' + x.user + '</b></td>';
+                    html += '<td><b>' + x.date.toString() + '</b></td>';
+                    html += '<td><b>' + formatNumber(x.total) + ' ' + ' $' + '</b></td>';
+                    html += '</tr>';
+                    i++;
+                });
+                $('#tran-ing').html(html);
+            }
+        });
+        $.getJSON("/Sysadmin/Home/getNoPro", "", function (rs) {
+            if (rs != null) {
+                var html = "";
+                var i = 1;
+                $.each(rs, function (key, x) {
+                    html += '<tr>';
+                    html += '<td><b>' + i + '</b></td>';
+                    html += '<td><b><a href="/Sysadmin/Product/detailProduct/' + x.id + '">' + x.name + '</a></b></td>';
+                    html += '<td><img src="/Content/img2/' + x.img + '" width="50" height="50"></td>';
+                    html += '<td><b>' + x.sell + ' ' + 'thùng' + '</b></td>';
+                    html += '<td><b>' + x.amout + ' ' + 'thùng' + '</b></td>';
+                    html += '</tr>';
+                    i++;
+                });
+                $('#no-pro').html(html);
+            }
+        });
+        $.getJSON("/Sysadmin/Home/getUnderPro", "", function (rs) {
+            if (rs != null) {
+                var html = "";
+                var i = 1;
+                $.each(rs, function (key, x) {
+                    html += '<tr>';
+                    html += '<td><b>' + i + '</b></td>';
+                    html += '<td><b><a href="/Sysadmin/Product/detailProduct/' + x.id + '">' + x.name + '</a></b></td>';
+                    html += '<td><img src="/Content/img2/' + x.img + '" width="50" height="50"></td>';
+                    html += '<td><b>' + x.sell + ' ' + 'thùng' + '</b></td>';
+                    html += '<td><b>' + x.amout + ' ' + 'thùng' + '</b></td>';
+                    html += '</tr>';
+                    i++;
+                });
+                $('#under-pro').html(html);
+            }
+        });
+        $.getJSON("/Sysadmin/Home/getTopPro", "", function (rs) {
+            if (rs != null) {
+                var html = "";
+                var i = 1;
+                $.each(rs, function (key, x) {
+                    html += '<tr>';
+                    html += '<td><b>' + i + '</b></td>';
+                    html += '<td><b><a href="/Sysadmin/Product/detailProduct/'+x.id+'">' + x.name + '</a></b></td>';
+                    html += '<td><img src="/Content/img2/' + x.img + '" width="50" height="50"></td>';
+                    html += '<td><b>' + x.sell + ' ' + 'thùng' + '</b></td>';
+                    html += '<td><b>' + x.amount + ' ' + 'thùng' + '</b></td>';
+                    html += '</tr>';
+                    i++;
+                });
+                $('#Top-pro').html(html);
+            }
+        });
+        $.getJSON("/Sysadmin/Home/getTopUser", "", function (rs) {
+            if (rs != null) {
+                var html = "";
+                var i = 1;
+                $.each(rs, function (key, x) {
+                    html += '<tr>';
+                    html += '<td><b>' + i + '</b></td>';
+                    html += '<td><b><a href="/Sysadmin/User/detail/' + x.id + '">' + x.USERNAME + '</a></b></td>';
+                    html += '<td><b>' + formatNumber(x.TOTAL) + ' $' + '</b></td>';
+                    html += '</tr>';
+                    i++;
+                });
+                $('#Top').html(html);
+            }
+        });
+        $.getJSON("/Sysadmin/Home/getUser", "", function (rs) {
+            if (rs.toString != "") {
+                $('#countUser').html(rs.toString())
+            }
+        });
+        $.getJSON("/sysadmin/home/getComment", "", function (rs) {
+            if (rs.toString() != "") {
+                $('#countComment').html(rs.toString())
+            }
+        });
+        $.getJSON("/Sysadmin/home/getCartsuccess", "", function (rs) {
+            if (rs != null) {
+                var obj = $.parseJSON(rs);
+                var pdata = [
+                    {
+                        value: obj[0],
+                        color: "#46BFBD",
+                        highlight: "#5AD3D1",
+                        label: "Giao dịch thành công"
+                    },
+                    {
+                        value: obj[1],
+                        color: "#F7464A",
+                        highlight: "#FF5A5E",
+                        label: "Giao dịch đã huỷ"
+                    },
+                    {
+                        value: obj[2],
+                        color: "#11565A",
+                        highlight: "#12560A",
+                        label: "Đang giao dịch"
+                    }
+                ]
+                var ctxp = $("#pieChartDemo").get(0).getContext("2d");
+                var pieChart = new Chart(ctxp).Pie(pdata);
+            }
+        });
+
+    });
+</script>
+
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-tachometer-alt"></i>Thống kê</h1>
+        <p>Trang thống kê chi tiết tình hình website</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small primary coloured-icon">
+            <i class="icon fa fa-users fa-3x"></i>
+            <div class="info">
+                <h5>Tổng số tài khoản</h5>
+                <p id="countUser"><b></b></p>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small info coloured-icon">
+            <i class="icon fa fa-comments fa-3x"></i>
+            <div class="info">
+                <h5>Lượt bình luận, feedback</h5>
+                <p id="countComment"><b></b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small warning coloured-icon">
+            <i class="icon fa fa-cart-arrow-down fa-3x"></i>
+            <div class="info">
+                <h5>Tổng số đơn hàng</h5>
+                <p id="countCart"><b>@ViewBag.countCart</b></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="widget-small danger coloured-icon">
+            <i class="icon fas fa-money-check-alt fa-3x"></i>
+            <div class="info">
+                <h5>Tổng tiền giao dịch</h5>
+                <p id="totalMoney"><b>@String.Format("{0:0,0}", ViewBag.totalMoney) đ</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="tile">
+            <h3 class="tile-title">Thống kê theo tháng</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="tile">
+            <h3 class="tile-title">Thống kê đơn hàng</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <canvas class="embed-responsive-item" id="pieChartDemo"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 top-user">
+        <div class="tile">
+            <a href="@Url.Action("index","cart")" class="btn btn-outline-primary btn-dashboard">Quản lí giao dịch</a>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active text-success" data-toggle="tab" href="#top-User">Top khách hàng</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" data-toggle="tab" href="#top-Transaction">Top giao dịch</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-success" data-toggle="tab" href="#Transactioning">Đang giao dịch</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="top-User" class="container tab-pane active">
+                    <h3 style="margin:5px auto" class="tile-title text-success">Top khách hàng giao dịch</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="">
+                                <th>#</th>
+                                <th>khách hàng</th>
+                                <th>tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="Top"></tbody>
+                    </table>
+                </div>
+                <div id="top-Transaction" class="container tab-pane fade">
+                    <h3 style="margin:5px auto" class="tile-title text-success">Top giao dịch</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="">
+                                <th>#</th>
+                                <th>mã đơn hàng</th>
+                                <th>khách hàng</th>
+                                <th>ngày giao dịch</th>
+                                <th>tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-tran"></tbody>
+                    </table>
+                </div>
+                <div id="Transactioning" class="container tab-pane fade">
+
+                    <h3 style="margin:5px auto" class="tile-title text-success">Đang giao dịch</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>mã đơn hàng</th>
+                                <th>khách hàng</th>
+                                <th>ngày giao dịch</th>
+                                <th>tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tran-ing"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="tile container-md-3">
+            <a href="@Url.Action("index","product")" class="btn btn-outline-primary btn-dashboard">Quản lí Sản phẩm</a>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active text-success" data-toggle="tab" href="#Top-sp">Bán chạy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-warning" data-toggle="tab" href="#under-sp">Tồn kho</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" data-toggle="tab" href="#no-sp">Hết hàng</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="Top-sp" class="container tab-pane active">
+                    <h3 style="margin:5px auto" class="tile-title text-success">Top sản phẩm bán chạy</h3>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr class="">
+                                <th>#</th>
+                                <th>sản phẩm</th>
+                                <th>ảnh</th>
+                                <th>đã bán</th>
+                                <th>Số lượng trong kho</th>
+                            </tr>
+                        </thead>
+                        <tbody id="Top-pro"></tbody>
+                    </table>
+                </div>
+                <div id="under-sp" class="container tab-pane fade">
+                    <h3 style="margin:5px auto" class="tile-title text-warning">Sản phẩm tồn kho</h3>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>sản phẩm</th>
+                                <th>ảnh</th>
+                                <th>đã bán</th>
+                                <th>Số lượng trong kho</th>
+                            </tr>
+                        </thead>
+                        <tbody id="under-pro"></tbody>
+                    </table>
+                </div>
+                <div id="no-sp" class="container tab-pane fade">
+                    <h3 style="margin:5px auto" class="tile-title text-danger">Sản phẩm hết hàng</h3>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>sản phẩm</th>
+                                <th>ảnh</th>
+                                <th>đã bán</th>
+                                <th>Số lượng trong kho</th>
+                            </tr>
+                        </thead>
+                        <tbody id="no-pro"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile container-md-3">
+                <a href="@Url.Action("index","import_order")" class="btn btn-outline-primary btn-dashboard">Quản lí nhập hàng</a>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active text-success" data-toggle="tab" href="#import-newest">Đơn nhập mới nhất</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-secondary" data-toggle="tab" href="#import-highest">Đơn nhập nhiều nhất</a>
+                    </li>
+                    
+                </ul>
+                <div class="tab-content">
+                    <div id="import-newest" class="container tab-pane active">
+                        <h3 style="margin:5px auto" class="tile-title text-success">Đơn nhập mới nhất</h3>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Mã nhập</th>
+                                    <th>Người nhập hàng</th>
+                                    <th>Nhà cung cấp</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Ngày nhập</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newest-import"></tbody>
+                        </table>
+                    </div>
+                    <div id="import-highest" class="container tab-pane fade">
+                        <h3 style="margin:5px auto" class="tile-title text-secondary">Đơn nhập nhiều nhất</h3>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Mã nhập</th>
+                                    <th>Người nhập hàng</th>
+                                    <th>Nhà cung cấp</th>
+                                    <th>Ngày nhập</th>
+                                    <th>Tổng tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody id="highest-import"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page specific javascripts-->
+<!-- Page specific javascripts-->
+<script type="text/javascript" src="~/AdminContent/js/plugins/chart.js"></script>
+<script type="text/javascript">
+    var data = {
+        labels: ["Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9"],
+        datasets: [
+            {
+                label: "My First dataset",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 80, 81, 56]
+            },
+            {
+                label: "My Second dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [28, 48, 40, 19, 86]
+            }
+        ]
+    };
+    var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+    var lineChart = new Chart(ctxl).Line(data);
+
+    //var ctxp = $("#pieChartDemo").get(0).getContext("2d");
+    //var pieChart = new Chart(ctxp).Pie(pdata);
+</script>

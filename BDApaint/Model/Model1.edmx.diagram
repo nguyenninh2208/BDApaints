@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cc8dc480163e4b57b27bcf6ff1e4cee9" Name="Diagram1">
+        <EntityTypeShape EntityType="DATABASELVTN3Model.ADMIN" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.CART" Width="1.5" PointX="7.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.CART_ITEM" Width="1.5" PointX="9.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.COLOR" Width="1.5" PointX="5.25" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.COLOR_GROUP" Width="1.5" PointX="0.75" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.COLOR_GROUP_NEWS" Width="1.5" PointX="12.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.COMMENT" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.COMMENT_NEWS" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.DELIVERY" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.DELIVERY_ITEM" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.DELIVERY_TYPE" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.DISCOUNT_UNIT" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.FEEDBACK" Width="1.5" PointX="7.5" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.IMPORT_ORDER" Width="1.5" PointX="8.25" PointY="26" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.IMPORT_ORDER_DETAIL" Width="1.5" PointX="10.5" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.MEMBERSHIP_TYPE" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.NEWS" Width="1.5" PointX="10" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.NEWS_TYPE" Width="1.5" PointX="10.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.PERSON_IMPORT" Width="1.5" PointX="6" PointY="24.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.PRODUCER" Width="1.5" PointX="3" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.PRODUCT" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.PRODUCT_COLOR" Width="1.5" PointX="7.5" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.PRODUCT_DISCOUNT" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.PRODUCT_TYPE" Width="1.5" PointX="3" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.SUB_COLOR_GROUP" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.SUPPLIER" Width="1.5" PointX="6" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.sysdiagram" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.UNIT_PRODUCT" Width="1.5" PointX="8.25" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DATABASELVTN3Model.USER" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_NEWS_ADMIN" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_CART_DELIVERY_ITEM" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_CART_ITEM_CART" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_ORDER_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_ORDER_DETAIL_PRODUCT" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_COLOR_SUB_COLOR_GROUP" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_PRODUCT_COLOR_COLOR" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_COLOR_GROUP_NEWS_COLOR_GROUP" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_SUB_COLOR_GROUP_COLOR_GROUP" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_COLOR_GROUP_NEWS_NEWS" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_COMMENT_PRODUCT" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_COMMENT_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_DELIVERY_ITEM_DELIVERY" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_DELIVERY_ITEM_DELIVERY_TYPE" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_FEEDBACK_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_IMPORT_ORDER_PERSON_IMPORT" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_IMPORT_ORDER_SUPPLIER" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_IMPORT_ORDER_DETAIL_PRODUCT" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_USER_MEMBERSHIP_TYPE" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_NEWS_NEWS_TYPE" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_PRODUCT_PRODUCER" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_PRODUCT_COLOR_PRODUCT" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_PRODUCT_PRODUCT_DISCOUNT" ManuallyRouted="false" />
+        <AssociationConnector Association="DATABASELVTN3Model.FK_PRODUCT_PRODUCT_TYPE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

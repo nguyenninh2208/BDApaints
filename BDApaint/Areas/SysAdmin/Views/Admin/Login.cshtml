@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "Logins";
+    Layout = "~/Areas/SysAdmin/Views/Shared/_LayoutLogin.cshtml";
+}
+<script src="~/AdminContent/js/jquery-3.4.1.min.js"></script>
+<script src="~/AdminContent/js/cookie.js"></script>
+<style>
+    #message4 {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Submit-btn").click(function (e) {
+            e.preventDefault();
+            var u = $("#Uname").val();
+            var p = $('#pwd').val();
+            var remmember = $('#remmemberme').prop('checked');
+            if (remmember == true) {
+                Cookies.set('username', u, { expires: 14 });
+                Cookies.set('password', p, { expires: 14 });
+                Cookies.set('remmember', remmember, { expires: 14 });
+
+            }
+            else {
+                Cookies.set("username", null);
+                Cookies.set("password", null);
+                Cookies.set("remmberme", false);
+            }
+            var mess = $("#message4");
+            if (u == "") {
+                mess.html("Không được để trống tài khoản");
+                return false;
+            } else if (p == "") {
+                mess.html("Không được để trống mật khẩu");
+                return false;
+            }
+            else {
+                $.ajax({
+                    url: "/Sysadmin/Admin/getLogin",
+                    data: {
+                        username: u,
+                        password: p
+                    },
+                    type: "POST",
+                    success: function (rs) {
+                        if (rs.toString() == "success") {
+                            window.location = "/SysAdmin/Home/Index";
+                        }
+                        else if (rs.toString() == "!Username") {
+                            mess.html("Không tìm thấy tên tài khoản");
+                            return false;
+                        }
+                        else if (rs.toString() == "!Password") {
+                            mess.html("Sai mật khẩu");
+                            return false;
+                        }
+                        else {
+                            $("#message4").html("Lỗi, vui lòng kiểm tra lại");
+                            mess.html("Kiểm tra dữ liệu nhập");
+                            return false;
+                        }
+                    }, error: function (rs) {
+                        alert(rs.toString());
+                    }
+                })
+            }
+        });
+
+    })
+</script>
+<section class="material-half-bg">
+    <div class="cover"></div>
+</section>
+<section class="login-content">
+    <div class="logo">
+        <h1></h1>
+    </div>
+    <div class="login-box">
+        <form class="login-form" id="form-data-admin">
+            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>Đăng nhập</h3>
+            <small class="text-danger" id="message4"></small>
+            <div class="form-group">
+                <label class="control-label">USERNAME</label>
+                <input class="form-control" id="Uname" type="text" placeholder="Tên đăng nhập" autofocus>
+            </div>
+            <div class="form-group">
+                <label class="control-label">PASSWORD</label>
+                <input class="form-control" id="pwd" autocomplete="password" type="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <div class="utility">
+                    <div class="animated-checkbox">
+                        <label>
+                            <input id="remmemberme" type="checkbox"><span class="label-text">Nhớ mật khẩu </span>
+                        </label>
+                    </div>
+                    <p class="semibold-text mb-2"><a href="#" data-toggle="flip">Quên mật khẩu?</a></p>
+                </div>
+            </div>
+            <div class="form-group btn-container">
+                <button class="btn btn-primary btn-block" id="Submit-btn" type="submit"><i class="fa fa-sign-in fa-lg fa-fw"></i>Đăng nhập</button>
+            </div>
+        </form>
+        <form class="forget-form" action="/" id="form-reset">
+            <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Quên mật khẩu ?</h3>
+            <div class="form-group">
+                <label class="control-label">EMAIL</label>
+                <input class="form-control" type="text" placeholder="Email">
+            </div>
+            <div class="form-group btn-container">
+                <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-unlock fa-lg fa-fw"></i>RESET</button>
+            </div>
+            <div class="form-group mt-3">
+                <p class="semibold-text mb-0"><a href="#" data-toggle="flip"><i class="fa fa-angle-left fa-fw"></i> Back to Login</a></p>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- Essential javascripts for application to work-->
+<script src="~/AdminContent/js/popper.min.js"></script>
+<script src="~/AdminContent/js/bootstrap.min.js"></script>
+<script src="~/AdminContent/js/main.js"></script>
+<!-- The javascript plugin to display page loading on top-->
+<script src="~/AdminContent/js/plugins/pace.min.js"></script>
+
+<script type="text/javascript">
+    // Login Page Flipbox control
+    $('.login-content [data-toggle="flip"]').click(function () {
+        $('.login-box').toggleClass('flipped');
+        return false;
+    });
+</script>
+
+

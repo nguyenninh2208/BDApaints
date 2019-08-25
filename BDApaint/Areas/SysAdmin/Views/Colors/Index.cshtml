@@ -1,0 +1,114 @@
+﻿@model IEnumerable<BDApaint.Model.COLOR>
+@{
+    ViewBag.Title = "Danh sach chi tiết giao dịch";
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<style>
+    .show-Edit{
+        float:left;
+        margin-left:10px;
+        cursor:pointer
+    }
+</style><script>
+    $(document).ready(function () {
+        $("#sampleTable").DataTable({
+            "columns": [
+            { "width": "10%" },
+            { "width": "20%" },
+            { "width": "20%" },
+            { "width": "10%" },
+            { "width": "25%" },
+            { "width": "15%" },
+            ]
+        , "oLanguage": {
+            "sEmptyTable": "Không tìm thấy dữ liệu",
+            "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+            "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+            "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+        }
+        });
+
+    })
+
+    </script>
+              
+<script src="~/AdminContent/js/Colors/delete.js"></script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Danh sách màu</h1>
+        <p>Bảng thông tin danh sách nhóm </p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    <div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>
+    <div class="btn-above">
+        <a href="@Url.Action("create","Colors")" class="btn btn-primary">
+            Thêm màu sơn
+        </a>
+        @*<a href="@Url.Action("UpdateAmount","Product")" class="btn btn-primary">Cập nhật sản phẩm</a>*@
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên màu</th>
+                            <th>Mã màu</th>
+                            <th>Mã màu RGB</th>
+                            <th>Tên nhóm màu</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        @foreach (var x in Model)
+                        {
+                            <tr id="row_@x.COLOR_ID">
+                                <td>
+                                    <a href="/sysadmin/Colors/detail/@x.COLOR_ID">@x.COLOR_ID</a>
+                                </td>
+
+                                <td>@x.COLOR_NAME</td>
+
+                                <td>@x.COLOR_CODE</td>
+
+                                <td style="background-color:rgb(@x.COLOR_RGB_NAME)"><p style="color:#616161;text-shadow:#e0e0e0 1px 1px 0;">@x.COLOR_RGB_NAME</p></td>
+
+                                <td>
+                                     @x.SUB_COLOR_GROUP.SUB_COLOR_GROUP_NAME
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("edit",new {id = x.COLOR_ID })"  class="show-Edit">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="@Url.Action("detail",new {id = x.COLOR_ID })"  class="show-Edit">
+                                        <i class="fa fa-info-circle fa-lg"></i>
+                                    </a>
+                                    <a id="deletePro" onclick="ConfirmDelete(@x.COLOR_ID)" class="show-Edit">
+                                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

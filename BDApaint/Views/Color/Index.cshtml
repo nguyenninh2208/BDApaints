@@ -1,0 +1,495 @@
+﻿@model IEnumerable<BDApaint.Model.COLOR_GROUP>
+
+@{ ViewBag.Title = "Chọn màu"; Layout = "~/Views/Shared/_LayoutMain.cshtml"; }
+
+<div>
+    <img src="~/Content/Images/banner-color-x.png" style="width: 100%; height: 450px;" alt="Công cụ chọn màu bda">
+</div>
+
+<div class="row" id="title-tool" style="margin-top:0px;">
+    <h1 class="text-center text-primary" style="font-weight: 500; color: white; font-family: 'Merriweather', serif;">Bảng màu của BDA paint </h1>
+</div>
+
+<div id="color-main" class="container">
+    <div id="ares-search-color" class="col-xs-12 col-sm-12">
+        <h3 class="page-header"> BẢNG MÀU CHO CHUYÊN GIA</h3>
+        <p>
+            Các mã màu chuyên dụng dành cho thiết kế (RGB, CMYK, HSB) được chuyển đổi tương ứng với 2.016 màu sơn trong cây màu BDA với độ chính xác cao
+        </p>
+        <p>
+            Giờ đây các kiến trúc sư, nhà thiết kế sẽ có được màu sơn tương ứng với mã màu đã chọn một cách nhanh chóng. Bạn có thể tùy chọn sử dụng chức năng tìm kiếm mã màu
+        </p>
+        <h2 class="title-color">tìm kiếm màu nhanh</h2>
+        <div class="row">
+
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="text-center ares-search">
+                    @using (Html.BeginForm("getSearchNameColor", "Color", FormMethod.Post))
+                    {
+                        <div class="search-box">
+                            <input class="search-input" type="text" name="nameColor" required placeholder="Nhập tên màu tên màu...">
+                        </div>
+                        <div class="search-button">
+                            <button class="btn-search btn" type="submit">
+                                <span class="glyphicon glyphicon-search" style="font-size:xx-large;"></span>
+                            </button>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+        <hr id="line" style="margin-bottom:0px;" />
+    </div>
+</div>
+
+@***************************************************hiển thị news theo color group *************************************@
+<h2 class="title-color">tham khảo ý tưởng</h2>
+<div class="row" style="padding-left:50px; padding-right:50px;">
+    <blockquote>
+        <p class="text-left"> Nếu bạn chưa có ý tưởng ? Hãy thử tham khảo các bài viết của chúng tôi theo màu màu bạn đã lựa chọn  !</p>
+
+    </blockquote>
+</div>
+<h3 class="h3-title">Hãy chọn một màu mà bạn thích</h3>
+<div id="ares-group-color" class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="padding-left:100px;">
+    @foreach (var c in Model)
+    {
+        <ul class="list-unstyled list-group ul-color-group colors" style="text-align:center;">
+
+            <li class="li-color-group" style="background-color:@Html.Raw(c.COLOR_GROUP_CODE);">
+                <button class="btn btn-news-color" style="background-color:transparent; border:none; cursor:pointer; width:100%; height:100%;" id="@Html.Raw(c.COLOR_GROUP_ID)"></button>
+            </li>
+            <p style="font-size:.7vw;">@c.COLOR_GROUP_NAME</p>
+        </ul>
+    }
+
+</div>
+<hr id="line" style="margin-bottom:0px;" />
+@***************************************************end - hiển thị news theo color group *************************************@
+
+
+
+<h2 class="title-color">Gợi ý chọn màu</h2>
+
+<div class="row" style="padding-left:50px; padding-right:50px;">
+    <blockquote>
+        <p class="text-left"> Nếu bạn muốn tham khao thêm nhiều màu sắc , có các tùy chọn dành cho bạn ở đây !</p>
+        <footer>From BDA's website</footer>
+    </blockquote>
+</div>
+
+
+
+@***************************************************END SEARCH COLOR *************************************************@ @***************************************************AREA COLOR GROUP *************************************************@
+<h3 class="h3-title">Hãy chọn một màu để tiếp tục</h3>
+<div id="ares-group-color" class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="padding-left:100px;">
+    @foreach (var c in Model)
+    {
+        <ul class="list-unstyled list-group ul-color-group colors" style="text-align:center;">
+
+            <li class="li-color-group" style="background-color:@Html.Raw(c.COLOR_GROUP_CODE);">
+                <button class="btn-color" id="@Html.Raw(c.COLOR_GROUP_ID)"></button>
+            </li>
+            <p style="font-size:.7vw;">@c.COLOR_GROUP_NAME</p>
+        </ul>
+    }
+
+</div>
+@***************************************************END AREA COLOR GROUP *************************************************@ @***************************************************LOADING DETAIL *************************************************@
+<div class="row">
+    <div id="loading" style="display: none;">
+        <img class="text-center img-loading " src="~/Content/icon/Spinner-1.5s-147px.gif" />
+    </div>
+</div>
+@***************************************************END LOADING DETAIL*************************************************@ @***************************************************DETAIL GROUP COLOR *************************************************@ @*vùng thay đổi*@
+<div class="container" id="areas-group-detail-color">
+    @*vùng đổ dữ liệu*@
+</div>
+
+@***************************************************modal hiển thị tin tức của group color*********************@
+<div class="modal fade" id="modalshowNews" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="left:0;">
+        <div class="modal-content" style="padding-left:40px;">
+            <div class="modal-header">
+                <h3 class="modal-title" style="float:left;">Đã tìm thấy <span id="count-group-color-news" style="font-weight:bold;"></span> tin tức gợi ý cho màu <span id="name_group_color_news" style="text-transform:lowercase; font-weight:bold;"></span> </h3>
+                <button style="float:right;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body-color" id="result-color-group-news" style="max-height: 500px; overflow: scroll;">
+                
+                
+            </div>
+
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@***************************************************end-modal*********************@
+
+
+@***************************************************modal hiển thị màu của sản phẩm*********************@
+<div class="modal fade" id="modalshowColor" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="left:0;">
+        <div class="modal-content" style="padding-left:40px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Màu của sản phẩm <span id="name__color_x" style="text-transform:lowercase; font-weight:bold;"></span></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body-color" id="result-detail-color">
+                Trình bày các thành phần của Hộp thoại ở đây
+            </div>
+
+            <div class="modal-footer" style="border:none;">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@***************************************************end-modal*********************@
+
+
+<script type="text/javascript">
+    function clickClose() {
+        $('div.product-color').css("display", "none");
+    }
+
+    function clickProductColor(q) {
+        $('.product-color').show();
+        $('.product-color').html('');
+
+        var id = q;
+        $.ajax({
+            url: '/Color/showProductColor',
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function (res) {
+                if (res.toString() == "") {
+                    var html = '';
+                    html += '<div class="alert alert-danger" role="alert" style="font-size:2vw; ">';
+                    html += 'Hiện tại không có sản phẩm nào thuộc màu này . Xin mời quí khách chọn màu khác hoặc liên hệ với chúng tôi để được giải quyết yêu cầu !';
+                    html += '</div>';
+                    $('div.product-color').append(html);
+                    const kq = document.querySelector('div.product-color');
+                    //(*)
+                    kq.style.border = 'none';
+                }
+
+
+                var html = '';
+                html += '<button class="btn-close" onclick="clickClose()" ></button>'
+                html += '<h3 class="panel-info">SẢN PHẨM CÓ MÀU <span class="text-uppercase"> ' + res[0].tenmau + ' </span></h3>';
+                html += '<p class="text-center bg-default text-danger">Đã tìm thấy <span class="count-product text-danger"> </span> sản phẩm</p>';
+                html += '<div id ="product-list-color" style="overflow-y:scroll; max-height:400px;">'
+
+                $.each(res, function (key, item) {
+
+                    html += '<div class="row product-a">';
+                    html += '<div class="products products-table">';
+                    html += '<div class="product">';
+                    html += '<div class="product-img">';
+                    html += '<img class="img-product-color-'+item.idsp+'" src="/Content/img2/' + item.img + '" style="width:140px; height:100px;">';
+                    html += '</div>';
+                    html += '<div class="product-content">';
+                    html += '<h3><a href="/Product/getDetailProduct/' + item.idsp + '" style="margin-right:10px; color:black;">';
+                    html += '' + item.tensp + '</a></h3>';
+                    html += '<p class="product-text price">' + NumberFormat(item.gia) + ' VNĐ</p>';
+                    html += '<div class="row button-color">';
+                    html += '<a class="myButton" id="' + item.idsp + '" onclick="AddCartColor(' + item.idsp + ')" style="width:auto; float:left; font-size:x-small;" >Thêm giỏ hàng</a>';
+                    html += '<a id="btn-show-color-pro-' + item.idsp + '" class="myButton" onclick=showColorOfProduct(' + item.idsp + ') style="margin-left:10px; width:auto; float:right; margin-right:15px; font-size:x-small;">Xem màu sản phẩm</a>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="row text-center areas-color-product-' + item.idsp + '" style="margin:0px;">'
+                    //vùng đổ màu theo id sản phẩm
+
+                    html += '</div>';
+
+                    html += '</div>';
+                }
+)
+                html += '</div>';
+                //định nghĩa lại border cho cột product-color vì mới xóa border(*) ở trên
+                $('div.product-color').append(html).css("border", "5px outset rgba(0, 0, 0, 0.5)").css("border", "1px solid").css("border-radius", "20px");
+
+                //Đếm cột product-a ( đếm số sp tìm dc)
+                var count = $('.product-a:visible').length;
+                $('.count-product').text(count);
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+
+            }
+        })
+    }
+
+    function showColorOfProduct(x) {
+        var id = x;
+        $('#modalshowColor').modal('show');
+        $('#result-detail-color').html('');
+        $('#name__color_x').html('');
+        $.ajax({
+            url: '/Color/showColor',
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function (res) {
+
+                var html = '';
+                var countColors = res.length;
+                //đếm số màu đã tìm thấy dc
+                html += '<h3 class="text-center bg-default text-danger font-text-color" style="padding:3%; font-weight:600;">Đã tìm thấy <span class="count-color text-danger"> ' + countColors + '</span> màu</h3>';
+                $('#name__color_x').append(res[0].tensp);
+                $.each(res, function (key, item) {
+                    html += '<ul class="list-unstyled list-group ul-color-group colors" data-toggle="tooltip" title="Mã RGB : ' + item.codeRgb + '  Mã màu :' + item.mamau + '"   data-placement="top">';
+                    html += '  <li class="li-color-group" style="background-color:rgb(' + item.codeRgb + ');"></li>';
+                    html += '<p class="text-center" style="font-size:.7vw;">' + item.tenmau + '</p>';
+                    html += '</ul>';
+
+                });
+
+                $('#result-detail-color').append(html);
+                //đếm màu
+                $('[data-toggle="tooltip"]').tooltip();
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+
+
+
+
+
+
+    function clickColorSelected(val) {
+        var id = val; {
+            $.ajax({
+                url: '/Color/showColorId',
+                type: "GET",
+                data: {
+                    id: id
+                },
+                success: function (res) {
+                    var html = '';
+                    $.each(res, function (key, item) {
+                        html += '<div id="colors-box" style="color:#000000; background-color:rgb(' + item.codeRgb + ');" >';
+                        html += '<p class="text-color name-color">' + item.tenmau + '</p>';
+                        html += '<p class="text-color rgb-color">' + item.codeRgb + '</p>';
+                        html += '<p class="text-color ma-color">' + item.mamau + '</p>';
+                        html += '</div>';
+                    });
+                    const newCounterValue = parseInt($('.js-counter').text()) + 1;
+                    $('.js-counter').text(newCounterValue);
+                    var x = $('#selected').append(html);
+                    x.insertBefore('#selected');
+
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            })
+        }
+
+    }
+
+    function clickDetailSub(i) {
+        $('#selected').show();
+        $('#table-detail-sub').html('');
+        var id = i;
+        $('#loading').show(); {
+            $.ajax({
+                url: '/Color/detailSUB_COLOR_GROUP',
+                type: "GET",
+                data: {
+                    id: i
+                },
+                success: function (res) {
+                    var html = '';
+                    $.each(res, function (key, item) {
+                        $('#loading').hide();
+                        html += '<tbody>';
+                        html += '<tr id="dw" style="height:100px;">';
+                        html += '<td id="col-color" style="background-color:rgb(' + item.codeRgb + ');"><button class="colorSelected" id="' + item.id + '" onclick="clickColorSelected(' + item.id + ')"  style="width: 100%; height: 100%; background-color: transparent; border:none; "></button></td>';
+                        html += '<td id="footer-color" class="ten-mau"><strong>Tên màu :</strong>' + item.tenmau + '</td>';
+                        html += '<td id="footer-color" class="code-rgb"><strong>Mã màu RGB :</strong>' + item.codeRgb + '</td>';
+                        html += '<td id="footer-color" class="ma-mau"><strong>Mã màu :</strong>' + item.mamau + '</td>';
+                        html += '<td id="footer-color"> <button id="' + item.id + '" onclick="clickProductColor(' + item.id + ')" class="ButtonColor">Xem sản phẩm cùng màu </button></td>';
+                        html += '</tr>';
+                        html += '</tbody>';
+                    });
+                    $('table#table-detail-sub').append(html);
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            }).always(function () {
+                ajax_sending = false;
+                $('loading').hide();
+            })
+        }
+    }
+    function NumberFormat(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+    //add cart 
+    function AddCartColor(id) {
+        var id = id;
+        var urlg = '@Url.Action("AddCart","CartItem")';
+        $.ajax({
+            type: "GET",
+            url: urlg,
+            data: { id: id },
+            success: function (data) {
+                $('span#countCart').html(data);
+                var itemImg = $('.img-product-color-' + id).eq(0);
+                flyToElement($(itemImg), $('.btn-cart'));
+            },
+        });
+    }
+
+
+
+
+
+
+    $(document).ready(function () {
+        $('button.btn-color').click(function () {
+            $('#areas-group-detail-color').html('');
+            var id = $(this).attr("id");
+            $('#loading').show();
+            $.ajax({
+                url: '/Color/detailCOLOR_GROUP',
+                type: "GET",
+                data: {
+                    id: id
+                },
+                success: function (res) {
+                    $('#loading').hide();
+                    var html = '';
+                    $.each(res, function (key, item) {
+                        html += '<div class="col-xs-5ths" style="background-color:' + item.code + ';">';
+                        html += '<button id="' + item.ma + '" class="btn-detail-sub"  onclick="clickDetailSub(' + item.ma + ')" style="width: 100%; height: 100%; background-color: transparent; border:none;"  ></button>';
+                        html += '<p class="text-detail-group-color" style="font-size:.7vw;">' + item.name + '</p>';
+                        html += '</div>';
+                        html += '';
+                        html += '</div>';
+                        html += '</div>';
+                    });
+                    $('div#areas-group-detail-color').append(html);
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                    $('#loading').hide();
+                }
+
+            }).always(function () {
+                ajax_sending = false;
+                $('loading').hide();
+            })
+        }
+        )
+        $('.btn-news-color').click(function () {
+            $('#result-color-group-news').html('');
+            $('#name_group_color_news').html('');
+            $('#count-group-color-news').html('');
+            var id = $(this).attr("id");
+            $.ajax({
+                url: '/Color/showNewsByColorGroup',
+                type: "GET",
+                data: {
+                    id: id
+                },
+                success: function (res) {
+                    var html = '';
+                    var countColorGroupNews = res.length;
+                    if (countColorGroupNews == 0) {
+                        alert("Chưa có gợi ý nào cho màu này")
+                    }
+                    var x = countColorGroupNews - 1;
+                    //đếm số tin tức đã tìm thấy dc
+                    $('#count-group-color-news').text(countColorGroupNews);
+                    $('#name_group_color_news').append(res[x].tenNhomMau);
+                    $.each(res, function (key, item) {
+                        html +='<div class="row" style="padding: 4%; margin-right: 3%; border-bottom: 1px solid grey;">';
+                        html += '<div class="col-md-4" style="height:100%;">';
+                        html += '<a href="/News/getDetails/' + item.idTinTuc + '">';
+                        html += '<img src="/Content/imgNews/' + item.imgNews + '" style="width:100%; height:250px;" />';
+                        html += '</a>';
+                        html +='</div>';
+                        html +='<div class="col-md-8">';
+                        html +='<div class="row" style="max-height: 70px; overflow-y: hidden; margin-bottom:3%;">';
+                        html += '<h3 style="font-size: 1.9vw; font-weight:bold; margin:0px;"><a href="/News/getDetails/' + item.idTinTuc + '">' + item.title + '</a></h3>';
+                        html +='</div>';
+                        html += '<div class="row">';
+                        html += '<ul style="display: -webkit-inline-box; padding:0px;">';
+                        html += '<li  style="padding: 0px; width: auto; margin-right: 2%;"><span class="glyphicon glyphicon-user"></span> Người đăng : ' + item.adminUpload + '</li>';
+                        html += '<li  style="padding: 0px; width: auto; margin-right: 2%;"><span class="glyphicon glyphicon-calendar"></span> Đăng lúc : ' + item.thoiGianDang + '</li>';
+                        html += '<li  style="padding:0px; width:auto;"><span class="glyphicon glyphicon-th-list"></span> Chủ đề :<a href="/News/getDetailsNewType/' + item.idChuDe + '"> ' + item.chude + '</a></li>';
+                        html += '</ul>';
+                        html += '</div>';
+                        html +='<div class="row" style="height: 150px; overflow: hidden;">';
+                        html += '<blockquote style="font-size:smaller;  line-height:2; word-spacing:2px;">' + item.summary + '</blockquote>';
+                        html +='</div>';
+                        html += '</div>';
+                        html += '<div class="row"><a href="/News/getDetails/' + item.idTinTuc + '">Xem thêm</a></div>';
+                        html +='</div>';
+                    });
+                    $('#result-color-group-news').append(html);
+                    $('#modalshowNews').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            })
+
+        })
+
+
+    })
+
+</script>
+
+@***************************************************END DETAIL COLOR GROUP *************************************************@ @***************************************************DETAIL SUB COLOR GROUP *************************************************@
+
+<div id="areas-sub-group-color">
+    <div class="row" style="margin-top: 30px; padding: 10px;">
+        <div id="selected" style="display:none; border:1px solid;" class="col-md-3 col-lg-3 col-xs-3 col-sm-3">
+            <h4 style="font-family: 'Merriweather', serif;"><span class="js-counter">0</span> màu được chọn</h4>
+
+        </div>
+
+        <div id="table-color" class="col-md-4 col-lg-4 col-xs-4 col-sm-4">
+            <table cellspacing="10" id="table-detail-sub" style="border: 1px solid; border-radius: 30px;"></table>
+        </div>
+        <div class="col-md-5 col-lg-5 col-xs-5 col-sm-5 product-color" style="display: none; margin-left: 5%;">
+            <h3 class="panel-info">SẢN PHẨM CÓ MÀU <span class="nameColor"></span></h3>;
+
+        </div>
+    </div>
+</div>
+@***************************************************LOADING DETAIL *************************************************@
+<div class="row">
+    <div id="loading" style="display: none; margin-top:300px;">
+        <img class="text-center img-loading " src="~/Content/icon/Spinner-1.5s-147px.gif" />
+    </div>
+</div>
+@***************************************************END LOADING DETAIL*************************************************@

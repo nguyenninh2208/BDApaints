@@ -1,0 +1,758 @@
+﻿@model List<BDApaint.Model.PRODUCT>
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+
+}
+
+
+<div class="container-body" style="padding:0px;">
+
+    <div class="row content areas-search-condition" style="margin-top:3%;">
+        <div class="row" style="border: 1px solid rgba(0,0,0,0.5); padding: 10px; margin-bottom:10px; background-color: rgba(0,0,0,0.05); border-radius:20px;">
+            <h4 class="text-danger text-left" style="padding-left: 27px; font-family: 'Merriweather', serif; ">BỘ LỌC TÌM KIẾM</h4>
+            @using (@Html.BeginForm("ResultSearch", "ProductSearch", FormMethod.Get))
+            {
+                <div class="col-md-6 col-xs-12">
+                    <div class="form-group">
+                        <p class="col-sm-3 title-filter">Chọn mức giá</p>
+                        <div class="col-sm-9 text-center row-filter">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control input-filter" id="optionsMoney" style="display: -webkit-inline-box; margin-left: -200px; ">
+                                    <option id="tatcagia" value="tatcagia" class="li-price">Tất cả</option>
+                                    <option id="nhohon500" value="nhohon500" class="li-price">Dưới 500,000</option>
+                                    <option id="500den1tr" value="500den1tr" class="li-price">Từ 500,000-1 triệu</option>
+                                    <option id="tren1tr" value="tren1tr" class="li-price">Trên 1 triệu
+                                    <option />
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="col-sm-3 title-filter">Hãng sản xuất</p>
+                        <div class="col-sm-9 text-center row-filter">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                <select class="form-control input-filter" id="optionsProducer" name="PRODUCER" style="display: -webkit-inline-box; margin-left: -200px; ">
+
+                                    @foreach (var item in ViewBag.producer)
+                                    {
+                                        <option id="producer-@item.PRODUCER_ID" value="@item.PRODUCER_ID">@item.PRODUCER_NAME</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="col-sm-3 title-filter">Loại sản phẩm</p>
+                        <div class="col-sm-9 text-center row-filter">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                <select class="form-control input-filter" id="optionsProductType" name="PRODUCT-TYPE" style="display: -webkit-inline-box; margin-left: -200px; ">
+                                    @foreach (var item in ViewBag.productType)
+                                    {
+                                        <option id="PRODUCT-TYPE-@item.TYPE_ID" value="@item.TYPE_ID">@item.TYPE_NAME</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="col-sm-3 title-filter">Thể tích</p>
+                        <div class="col-sm-9 text-center row-filter">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                <select class="form-control input-filter" id="optionsNet" name="optionsNet" style="display: -webkit-inline-box; margin-left: -200px; ">
+                                    @foreach (var x in ViewBag.productNet)
+                                    {
+                                        <option id="PRODUCT-NET-@x" value="@x">@x</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    @*<div class="form-group">
+                            <p class="col-sm-3 title-filter">Ngày sản xuất</p>
+                            <div class="col-sm-9 text-center row-filter">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                    <select class="form-control input-filter" name="optionsDate" id="optionsDate" style="display: -webkit-inline-box; margin-left: -200px; ">
+                                        @foreach (var x in ViewBag.productDate)
+                                        {
+                                            <option id="PRODUCT-DATE-@x" value="@x">@String.Format("{0:MM/yyyy}", @x)</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        <p class="col-sm-3 title-filter">Tình trạng</p>
+                        <div class="col-sm-9 text-center row-filter">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control input-filter" id="optionsStatus" name="PRODUCT-STATUS-AMOUNT" style="display: -webkit-inline-box; margin-left: -200px; ">
+                                    <option id="conhang" value="conhang" class="STATUS-AMOUNT-AVALABLE">Còn hàng</option>
+                                    <option id="hethang" value="hethang" class="STATUS-AMOUNT-OUTOF">Hết hàng</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            }
+
+
+
+        </div>
+
+
+    </div>
+
+
+    <div class="row content">
+        <div class="col-md-3 col-sm-3 col-lg-3 left-bar">
+            <div class="left-wrap">
+                <div class="panel-group" id="box-left" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" role="tab" id="heading-product-type">
+                            <h4 class="panel-title">
+                                <a href="#" style="font-family: 'Merriweather', serif;">
+                                    THƯƠNG HIỆU
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-product-type">
+                            <div class="list-group">
+
+                                @foreach (var item in ViewBag.producer)
+                                {
+
+                                    <button class="btn-producer list-group-item PRODUCER" data-id="@item.PRODUCER_ID" id="@item.PRODUCER_ID" style=" background-color:transparent;" onclick="clickProducer(@item.PRODUCER_ID)">
+                                        @item.PRODUCER_NAME
+                                    </button>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading" role="tab" id="heading-product-type">
+                            <h4 class="panel-title">
+                                <a href="#" style="font-family: 'Merriweather', serif;">
+                                    LOẠI SẢN PHẨM
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-product-type">
+                            <div class="list-group">
+                                @foreach (var item in ViewBag.productType)
+                                {
+                                    <button class="btn-product-type list-group-item" data-id="@item.TYPE_ID" id="@item.TYPE_ID" style=" background-color:transparent;" onclick="clickProductType(@item.TYPE_ID)">
+                                        @item.TYPE_NAME
+                                        @*<span class="count-@item.PRODUCER_ID"></span>*@
+                                    </button>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-info" style="color: #31708f; background-color: #d9edf7;">
+                        <button onclick="ClickProductNew()" style="padding:4%; text-align:left; width:100%; border:none; font-family: 'Merriweather', serif; background-color:transparent;">
+                            SẢN PHẨM MỚI
+                        </button>
+                    </div>
+                    <div class="panel panel-info" style="color: #31708f; background-color: #d9edf7;">
+                        <button onclick="ClickProductSale()" style="padding:4%; text-align:left; width:100%; border:none; font-family: 'Merriweather', serif; background-color:transparent;">
+                            SẢN PHẨM KHUYẾN MÃI
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-lg-9 home-body" id="home-body">
+            <div class="text-right areas-order-by">
+                @using (@Html.BeginForm("ResultSearch", "ProductSearch", FormMethod.Get))
+                {
+                    <div class="text-right">Sắp xếp theo</div>
+                    <select class="form-control text-right" id="opstionOrderBy" name="opstionOrderBy" style="width:150px; display: -webkit-inline-box; margin-left: -200px; ">
+                        <option value="giamdan">Giá giảm dần</option>
+                        <option value="tangdan">Giá tăng dần</option>
+                    </select>
+                }
+            </div>
+
+
+            <div class="row right-bar" id="result-search">
+                @*@foreach (var item in Model)
+                    {
+                        <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="some-block">
+                                <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                    <img class="img-product" src="~/Content/img2/@item.IMAGE" width="120" height="150" alt="@item.IMAGE" />
+                                </a>
+                                <div class="info-product">
+                                    <div class="name-product" style="font-weight:700; font-size:small;">
+                                        @item.PRODUCT_NAME
+                                    </div>
+                                    <div class="price-product">
+                                        @String.Format("{0:0,0}", @item.PRICE) đ
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    }*@
+            </div>
+
+            <div class="row text-center" style="margin-bottom:0">
+
+
+            </div>
+            @***************************************************modal compare*********************@
+            <div class="modal fade" id="modalCompare" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="left:0;">
+                    <div class="modal-content" style=" width: 60%; margin-left: 20%;">
+                        <div class="modal-header">
+                            <h5 class="text-center" style="float:left;"><span class="glyphicon glyphicon-ok-sign" style="color: #1cbe55; font-size: x-large; "></span> Sản phẩm <span id="name-compare" style="text-transform:lowercase; font-weight:bold;"></span> đã được thêm thành công vào danh sách so sánh </h5>
+                            <button style="float:right; position:fixed;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span class="glyphicon glyphicon-remove" style="right: 80%;"></span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body text-center" id="result-compare" style="border: 1px solid #1cbe55; margin: 3%; max-height: 350px; overflow-x: hidden; ">
+                            <div class="row" id="product-compare">
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a href="/CompareProduct/Index" class="btn btn-default btn-xem-sosanh" style="background-color: #1cbe55; color:white;">Xem so sánh</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @***************************************************end-modal compare*********************@
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    function NumberFormat(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    }
+     function AddCompare(val) {
+        $('#modalCompare').modal('show');
+        $('#product-compare').html('');
+        $('#name-compare').html('');
+        var id = val;
+        var urlgx = '@Url.Action("ThemVaoSoSanh", "CompareProduct")';
+        $.ajax({
+            type: "GET",
+            url: urlgx,
+            data: { id: id },
+            success: function (data) {
+
+                var html = '';
+                var countProduct = data.length;
+                //lấy tên sản phẩm mới đc thêm sẽ ở vị trí length - 1
+                var x = countProduct - 1;
+                html += '<p >Đã có ' + countProduct + ' sản phẩm trong danh sách so sánh</p>';
+                $('#name-compare').append(data[x].PRODUCT_NAME);
+                $.each(data, function (key, item) {
+                    html += '<div class="row" style="padding:2%; border-bottom:1px solid; border-width:thin;">';
+                    html += '<div class="col-md-4">';
+                    html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '"><img src="/Content/img2/' + item.IMAGE + '" width="100" height="100" /></a>';
+                    html += '</div>';
+                    html += '<div class="col-md-8" style="text-align:left;">';
+                    html += '<div class="row" style="font-size: medium; font-weight: bold;"><a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">' + item.PRODUCT_NAME + '</a></div>';
+                    html += '<div class="row">';
+                    //html += '' + NumberFormat(item.PRICE) + ' đ';
+                    if (item.DISCOUNT_VALUE != 0) {
+                        if (item.DISCOUNT_VALUE < 100) {
+                            var pricePercent = 0;
+                            pricePercent = item.PRICE + ((item.PRICE * item.DISCOUNT_VALUE) / 100)
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="" style="font-weight:bold; ">Chỉ còn <span style="color:red; font-weight:bold; font-size: x-large;"> ' + NumberFormat(item.PRICE) + 'đ</span></div>';
+                            html += '<div style="text-decoration:line-through; float:left; opacity:.7; margin:0px; border-right:1px solid; padding:1%;">' + NumberFormat(pricePercent) + ' đ</div>';
+                            html += '<div style="float:left; padding:1%;"> - ' + item.DISCOUNT_VALUE + ' % </div>';
+                            html += '</div>';
+                            html += '</div>';
+
+                        }
+                        else {
+                            var priceMoney = 0;
+                            priceMoney = item.PRICE - item.DISCOUNT_VALUE;
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="" style="font-weight:bold;">Chỉ còn <span style="color:red; font-weight:bold; font-size: x-large;"> ' + NumberFormat(priceMoney) + 'đ</span></div>';
+                            html += '<div style="text-decoration:line-through; float:left; opacity:.7; border-right:1px solid; padding:1%;">' + NumberFormat(item.PRICE) + ' đ</div>';
+                            html += '<div style="padding:1%; float:left;">- ' + NumberFormat(item.DISCOUNT_VALUE) + ' đ </div>';
+                            html += '</div>';
+                        }
+                    } else {
+                        html += '<div style="font-size:x-large" >' + NumberFormat(item.PRICE) + 'đ</div>';
+                    }
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                });
+                $('#product-compare').append(html);
+            },
+        });
+    }
+
+    function ClickProductNew() {
+        var setResult = $('#result-search');
+        setResult.html('');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/ProductSearch/getProductNewMain',
+            contentType: 'html',
+            success: function (res) {
+                var html = '';
+                if (res.length == 0) {
+                    setResult.append('<tr style="color:red;"><td class="alert alert-danger text-center" style="font-size:-webkit-xxx-large;">Không tìm thấy sản phẩm tương ứng</td></tr>')
+                }
+                else {
+                    html += '<p>Đã tìm thấy ' + res.length + ' kết quả</p>';
+                    $.each(res, function (key, item) {
+
+                        html += '<div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">';
+                        html += '<div class="some-block" style="position:relative;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '<img class="img-product-aff-' + item.PRODUCT_ID + '" src="/Content/img2/' + item.IMAGE + '" width="150" height="150" alt="' + item.IMAGE + '" />';
+                        html += '</a>';
+                        html += '<div class="info-product relative-product" style="position:relative;">';
+                        html += '<div class="name-product" style="font-weight: 700; font-size: small;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '' + item.PRODUCT_NAME + '';
+                        html += '</a>';
+                        html += '</div>';
+                        if (item.STATUS == 1) {
+                            html += '<div class="new-product" style="position: absolute; bottom: 0px; font-size: xx-small; bottom: 170px; right: 110px; ">';
+                            html += ' <div class="ribbon ribbon--blue">Mới</div>';
+                            html += ' </div>';
+                        }
+                        html += '<div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 80px;">';
+                        html += '' + NumberFormat(item.PRICE) + ' đ';
+                        html += '</div>';
+                        html += '';
+                        html += '</div>';
+                        html += '<div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">';
+                        html += '@*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@';
+                        html += '<div class="row" style="margin-right:10%; display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCompare(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="' + item.PRODUCT_ID + '" name="">';
+                        html += '<span><img src="/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="row" style="display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCart(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart" name="">';
+                        html += '<span class="glyphicon glyphicon-shopping-cart"></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                    })
+                    setResult.append(html);
+                    $('.areas-order-by').hide();
+                    $('.product-row').mouseover(function (event) {
+                        $(this).find('.links').show();
+                    })
+                    $('.product-row').mouseout(function (event) {
+                        $(this).find('.links').hide();
+                    })
+                }
+            }
+        })
+    }
+
+    function ClickProductSale() {
+        var setResult = $('#result-search');
+        setResult.html('');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/ProductSearch/getProductSaleMain',
+            contentType: 'html',
+            success: function (res) {
+                var html = '';
+                if (res.length == 0) {
+                    setResult.append('<tr style="color:red;"><td class="alert alert-danger text-center" style="font-size:-webkit-xxx-large;">Không tìm thấy sản phẩm tương ứng</td></tr>')
+                }
+                else {
+                    html += '<p>Đã tìm thấy ' + res.length + ' kết quả</p>';
+                    $.each(res, function (key, item) {
+
+                        html += '<div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">';
+                        html += '<div class="some-block" style="position:relative;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '<img class="img-product-aff-' + item.PRODUCT_ID + '" src="/Content/img2/' + item.IMAGE + '" width="150" height="150" alt="' + item.IMAGE + '" />';
+                        html += '</a>';
+                        html += '<div class="info-product relative-product" style="position:relative;">';
+                        html += '<div class="name-product" style="font-weight: 700; font-size: small;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '' + item.PRODUCT_NAME + '';
+                        html += '</a>';
+                        html += '</div>';
+                        if (item.STATUS == 1) {
+                            html += '<div class="new-product" style="position: absolute; bottom: 0px; font-size: xx-small; bottom: 170px; right: 110px; ">';
+                            html += ' <div class="ribbon ribbon--blue">Mới</div>';
+                            html += ' </div>';
+                        }
+                        if (item.DISCOUNT_VALUE != 0) {
+                            html += '<div class="discount-product" style="position: absolute; bottom: 170px; right: -14px; font-size: .5vw;">';
+                            if (item.DISCOUNT_VALUE <= 100) {
+                                html += '<div class="ribbon ribbon--red">- ' + item.DISCOUNT_VALUE + ' %</div>';
+                            }
+                            else {
+                                html += '<div class="ribbon ribbon--red">- ' + NumberFormat(item.DISCOUNT_VALUE) + ' đ<span style="text-transform:lowercase;"><sup>đ</sup></span></div>';
+                            }
+                            html += '</div>';
+                        }
+                        html += '<div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 80px;">';
+                        html += '' + NumberFormat(item.PRICE) + ' đ';
+                        html += '</div>';
+                        html += '';
+                        html += '</div>';
+                        html += '<div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">';
+                        html += '@*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@';
+                        html += '<div class="row" style="margin-right:10%; display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCompare(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="' + item.PRODUCT_ID + '" name="">';
+                        html += '<span><img src="/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="row" style="display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCart(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart" name="">';
+                        html += '<span class="glyphicon glyphicon-shopping-cart"></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                    })
+                    setResult.append(html);
+                    $('.areas-order-by').hide();
+                    $('.product-row').mouseover(function (event) {
+                        $(this).find('.links').show();
+                    })
+                    $('.product-row').mouseout(function (event) {
+                        $(this).find('.links').hide();
+                    })
+                }
+            }
+        })
+    }
+
+
+
+    function clickProductType(id) {
+        var id = id;
+        var setResult = $('#result-search');
+        setResult.html('');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/ProductSearch/getProductTypeMain',
+            data: {
+                id: id
+            },
+            contentType: 'html',
+            success: function (res) {
+                var html = '';
+                if (res.length == 0) {
+                    setResult.append('<tr style="color:red;"><td class="alert alert-danger text-center" style="font-size:-webkit-xxx-large;">Không tìm thấy sản phẩm tương ứng</td></tr>')
+                }
+                else {
+                    html += '<p>Đã tìm thấy ' + res.length + ' kết quả</p>';
+                    $.each(res, function (key, item) {
+
+                        html += '<div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">';
+                        html += '<div class="some-block" style="position:relative;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '<img class="img-product-aff-' + item.PRODUCT_ID + '" src="/Content/img2/' + item.IMAGE + '" width="150" height="150" alt="' + item.IMAGE + '" />';
+                        html += '</a>';
+                        html += '<div class="info-product relative-product" style="position:relative;">';
+                        html += '<div class="name-product" style="font-weight: 700; font-size: small;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '' + item.PRODUCT_NAME + '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 80px;">';
+                        html += '' + NumberFormat(item.PRICE) + ' đ';
+                        html += '</div>';
+                        html += '';
+                        html += '</div>';
+                        html += '<div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">';
+                        html += '@*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@';
+                        html += '<div class="row" style="margin-right:10%; display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCompare(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="' + item.PRODUCT_ID + '" name="">';
+                        html += '<span><img src="/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="row" style="display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCart(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart" name="">';
+                        html += '<span class="glyphicon glyphicon-shopping-cart"></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                    })
+                    setResult.append(html);
+                    $('.areas-order-by').hide();
+                    $('.product-row').mouseover(function (event) {
+                        $(this).find('.links').show();
+                    })
+                    $('.product-row').mouseout(function (event) {
+                        $(this).find('.links').hide();
+                    })
+                }
+            }
+        })
+    }
+
+    function clickProducer(val) {
+        var id = val;
+        debugger
+        var setResult = $('#result-search');
+
+        setResult.html('');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/ProductSearch/getProducerMain',
+            data: {
+                id: id
+            },
+            contentType: 'html',
+            success: function (res) {
+                var html = '';
+                if (res.length == 0) {
+                    setResult.append('<tr style="color:red;"><td class="alert alert-danger text-center" style="font-size:-webkit-xxx-large;">Không tìm thấy sản phẩm tương ứng</td></tr>')
+                }
+                else {
+                    html += '<p>Đã tìm thấy ' + res.length + ' kết quả</p>';
+                    $.each(res, function (key, item) {
+
+                        html += '<div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">';
+                        html += '<div class="some-block" style="position:relative;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '<img class="img-product-aff-' + item.PRODUCT_ID + '" src="/Content/img2/' + item.IMAGE + '" width="150" height="150" alt="' + item.IMAGE + '" />';
+                        html += '</a>';
+                        html += '<div class="info-product relative-product" style="position:relative;">';
+                        html += '<div class="name-product" style="font-weight: 700; font-size: small;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '' + item.PRODUCT_NAME + '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 80px;">';
+                        html += '' + NumberFormat(item.PRICE) + ' đ';
+                        html += '</div>';
+                        html += '';
+                        html += '</div>';
+                        html += '<div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">';
+                        html += '@*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@';
+                        html += '<div class="row" style="margin-right:10%; display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCompare(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="' + item.PRODUCT_ID + '" name="">';
+                        html += '<span><img src="/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="row" style="display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCart(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart" name="">';
+                        html += '<span class="glyphicon glyphicon-shopping-cart"></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+
+                    })
+                    setResult.append(html);
+                    $('.areas-order-by').hide();
+                    $('.product-row').mouseover(function (event) {
+                        $(this).find('.links').show();
+                    })
+                    $('.product-row').mouseout(function (event) {
+                        $(this).find('.links').hide();
+                    })
+                }
+            }
+
+        })
+    }
+
+    $(document).ready(function () {
+        debugger
+        var setResult = $('#result-search');
+        setResult.html('');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/ProductSearch/ProductReady',
+            contentType: 'html',
+            success: function (res) {
+                var html = '';
+                if (res.length == 0) {
+                    setResult.append('<tr style="color:red;"><td class="alert alert-danger text-center" style="font-size:-webkit-xxx-large;">Không tìm thấy sản phẩm tương ứng</td></tr>')
+                }
+                else {
+                    html += '<p>Đã tìm thấy ' + res.length + ' kết quả</p>';
+                    $.each(res, function (key, item) {
+
+                        html += '<div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">';
+                        html += '<div class="some-block" style="position:relative;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '<img class="img-product-aff-' + item.PRODUCT_ID + '"  src="/Content/img2/' + item.IMAGE + '" width="150" height="150" alt="' + item.IMAGE + '" />';
+                        html += '</a>';
+                        html += '<div class="info-product relative-product" style="position:relative;">';
+                        html += '<div class="name-product" style="font-weight: 700; font-size: small;">';
+                        html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                        html += '' + item.PRODUCT_NAME + '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 80px;">';
+                        html += '' + NumberFormat(item.PRICE) + ' đ ';
+                        html += '</div>';
+
+                        html += '';
+                        html += '</div>';
+                        html += '<div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">';
+                        html += '@*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@';
+                        html += '<div class="row" style="margin-right:10%; display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCompare(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="' + item.PRODUCT_ID + '" name="">';
+                        html += '<span><img src="/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="row" style="display:inline-block;">';
+                        html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCart(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart" name="">';
+                        html += '<span class="glyphicon glyphicon-shopping-cart"></span>';
+                        html += '';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                    })
+                    setResult.append(html);
+                    $('.areas-order-by').hide();
+                    $('.product-row').mouseover(function (event) {
+                        $(this).find('.links').show();
+                    })
+                    $('.product-row').mouseout(function (event) {
+                        $(this).find('.links').hide();
+                    })
+                }
+
+                $('#optionsMoney,#optionsProducer,#optionsProductType,#optionsNet,#optionsStatus,#opstionOrderBy').change(function () {
+                    debugger
+                    var optionsMoney = $('#optionsMoney').val();
+                    var optionsProducer = $('#optionsProducer').val();
+                    var optionsProductType = $('#optionsProductType').val();
+                    var optionsNet = $('#optionsNet').val();
+                    var optionsStatus = $('#optionsStatus').val();
+                    var opstionOrderBy = $('#opstionOrderBy').val();
+                    var setResult = $('#result-search');
+                    setResult.html('');
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "/ProductSearch/ResultSearch?optionsMoney=" + optionsMoney + "&optionsProducer=" + optionsProducer + "&optionsProductType=" + optionsProductType + "&optionsNet=" + optionsNet + "&optionsStatus=" + optionsStatus + "&opstionOrderBy=" + opstionOrderBy,
+                        data: {
+                            optionsMoney: optionsMoney,
+                            optionsProducer: optionsProducer,
+                            optionsProductType: optionsProductType,
+                            optionsNet: optionsNet,
+                            optionsStatus: optionsStatus,
+                            opstionOrderBy: opstionOrderBy
+                        },
+                        contentType: 'html',
+                        success: function (res) {
+                            var html = '';
+                            if (res.length == 0) {
+                                setResult.append('<tr style="color:red;"><td class="alert alert-danger text-center no-result" style="font-size:-webkit-xxx-large; ">Không tìm thấy sản phẩm tương ứng</td></tr>')
+                            }
+                            else {
+                                html += '<p>Đã tìm thấy ' + res.length + ' kết quả</p>';
+                                $.each(res, function (key, item) {
+
+                                    html += '<div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">';
+                                    html += '<div class="some-block" style="position:relative;">';
+                                    html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                                    html += '<img class="img-product-aff-' + item.PRODUCT_ID + '" src="/Content/img2/' + item.IMAGE + '" width="150" height="150" alt="' + item.IMAGE + '" />';
+                                    html += '</a>';
+                                    html += '<div class="info-product relative-product" style="position:relative;">';
+                                    html += '<div class="name-product" style="font-weight: 700; font-size: small;">';
+                                    html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+                                    html += '' + item.PRODUCT_NAME + '';
+                                    html += '</a>';
+                                    html += '</div>';
+                                    html += '<div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 80px;">';
+                                    html += '' + NumberFormat(item.PRICE) + ' đ';
+                                    html += '</div>';
+                                    html += '';
+                                    html += '</div>';
+                                    html += '<div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">';
+                                    html += '@*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@';
+                                    html += '<div class="row" style="margin-right:10%; display:inline-block;">';
+                                    html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCompare(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="' + item.PRODUCT_ID + '" name="">';
+                                    html += '<span><img src="/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>';
+                                    html += '';
+                                    html += '</a>';
+                                    html += '</div>';
+                                    html += '<div class="row" style="display:inline-block;">';
+                                    html += '<a class="myButton" id="' + item.PRODUCT_ID + '" onclick="AddCart(' + item.PRODUCT_ID + ')" class="detail-product btn btn-info btn-lg add-cart" name="">';
+                                    html += '<span class="glyphicon glyphicon-shopping-cart"></span>';
+                                    html += '';
+                                    html += '</a>';
+                                    html += '</div>';
+                                    html += '</div>';
+                                    html += '</div>';
+                                    html += '</div>';
+                                })
+
+                                setResult.append(html);
+                                $('.areas-order-by').show();
+
+                                $('.product-row').mouseover(function (event) {
+                                    $(this).find('.links').show();
+                                })
+                                $('.product-row').mouseout(function (event) {
+                                    $(this).find('.links').hide();
+                                })
+
+                            }
+                        }
+                    })
+                })
+            }
+        })
+    }
+
+
+
+        )
+
+
+</script>

@@ -1,0 +1,138 @@
+﻿@model IEnumerable<BDApaint.Model.PRODUCT_DISCOUNT>
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+     
+        var tables = $("#sampleTable");
+        if (tables != null) {
+            var table = $('#sampleTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "Không tìm thấy dữ liệu",
+                    "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                    "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                    "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                },
+                "columns": [
+                { "width": "5%" },
+                { "width": "10%" },
+                { "width": "15%" },
+                { "width": "15%" },
+                { "width": "15%" },
+                { "width": "10%" },
+                { "width": "10%" },
+                { "width": "5%" },
+                { "width": "5%" },
+                { "width": "10%" },
+            ]
+            });
+           
+        }
+    })
+
+
+</script>
+<script src="~/AdminContent/js/product_discount/delete.js"></script>
+<script src="~/AdminContent/js/product_discount/changeStatus.js"></script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Khuyến mãi theo sản phẩm</h1>
+        <p>Bảng thông tin danh sách khuyến mãi theo sản phẩm</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    <div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>
+    <div class="btn-above"><a href="@Url.Action("create","Product_Discount")" class="btn btn-primary">Tạo mới khuyến mãi</a></div>
+</div>
+@if (TempData["alertMessage"] != null)
+{
+    <div id="alertBox" class="alert @TempData["alertType"]">
+        @TempData["alertMessage"]
+    </div>
+    <script>
+        var box = $('#alertBox');
+        box.delay(4000).slideUp(500);
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Giá trị giảm giá</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày hết hạn</th>
+                            <th>Coupon code</th>
+                            <th>Giá trị đơn hàng tối thiểu</th>
+                            <th>Giá trị giảm giá tối đa</th>
+                            <th>Mô tả</th>
+                            <td>Trạng thái</td>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                            <tr id="row_@x.ID">
+
+                                <td>@x.ID</td>
+                                @if (x.DISCOUNT_UNIT_ID == 1)
+                                {
+                                    <td>@String.Format("{0:0,0}", x.DISCOUNT_VALUE)</td>
+                                }
+                                else
+                                {
+                                    <td>@x.DISCOUNT_VALUE %</td>
+                                }
+
+                                <td>@String.Format("{0:dd-MM-yyyy}", x.CREATE_DATE)</td>
+                                <td>@String.Format("{0:dd-MM-yyyy}", @x.UNTIL_VALID)</td>
+                                <td>@x.COUPON_CODE</td>
+                                <td>@String.Format("{0:0,0}", @x.MINIMUM_ORDER_VALUE) VND</td>
+                                <td>@String.Format("{0:0,0}", @x.MAXIMUM_DISCOUNT_VALUE) VND</td>
+                                <td>@x.DESCRIPTION</td>
+                                @if (x.STATUS == true)
+                                {
+                                    <td><a id="btnChangeStatus_@x.ID" href="" onclick="changeStatusDiscount(@x.ID)">Kích hoạt</a></td>
+                                }
+                                else
+                                {
+                                    <td><a id="btnChangeStatus_@x.ID" href="" onclick="changeStatusDiscount(@x.ID)">Ngưng kích hoạt</a></td>
+                                }
+                                <td style="text-align:center">
+                                    <a href="@Url.Action("edit","Product_Discount",new {id = x.ID })" class="showEdit">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                    <a id="deletePro" style="cursor:pointer" onclick="ConfirmDelete(@x.ID)" class="show-Edit">
+                                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="@Url.Action("detail","Product_Discount",new {id = x.ID })" class="showEdit button">
+                                        <i class="fa fa-info-circle fa-lg"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

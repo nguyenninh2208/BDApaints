@@ -1,0 +1,71 @@
+﻿@model BDApaint.Model.PRODUCER
+
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+
+}
+
+<div class="form-for-administrator">
+    <div class="form-group overwrite-formgroup">
+        <div class="div-above-form">
+            <h2 class="title-adiv-product">Thêm loại hãng sản xuất</h2>
+            <hr style="height:1px;margin:5px auto" />
+        </div>
+        @using (Html.BeginForm("Create", "Producer", FormMethod.Post, new { id = "form", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="sub-control">
+                <label class="label-form-admin">
+                    Tên :
+                </label>
+
+                @Html.TextBoxFor(model => model.PRODUCER_NAME, new { @class = "form-control overwrite-formcontrol" })
+                @Html.ValidationMessageFor(model => model.PRODUCER_NAME, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="sub-control">
+                <label class="label-form-admin">
+                    URL:
+                </label>
+
+                @Html.TextBoxFor(model => model.URL, new { @class = "form-control overwrite-formcontrol" })
+                @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="sub-control">
+                <label class="label-form-admin">
+                    EMAIL:
+                </label>
+
+                @Html.TextBoxFor(model => model.EMAIL, new { @class = "form-control overwrite-formcontrol" })
+                @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="sub-control">
+                <label class="label-form-admin">
+                    Số điện thoại:
+                </label>
+
+                @Html.TextBoxFor(model => model.PHONE, new { @class = "form-control overwrite-formcontrol" })
+                @Html.ValidationMessageFor(model => model.PHONE, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="sub-control">
+                <label class="label-form-admin">
+                    Địa chỉ:
+                </label>
+
+                @Html.TextBoxFor(model => model.ADDRESS, new { @class = "form-control overwrite-formcontrol" })
+                @Html.ValidationMessageFor(model => model.ADDRESS, "", new { @class = "text-danger" })
+            </div>
+
+            <button class="btn btn-info" type="submit" name="submit" style="margin-left:20%">Cập nhật</button>
+            <a class="btn btn-info" href="@Url.Action("Index","Producer")" style="margin-left:1%">Thoát</a>
+        }
+    </div>
+</div>
+

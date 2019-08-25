@@ -1,0 +1,157 @@
+﻿@model BDApaint.Model.PRODUCT
+
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+@*<script src="~/AdminContent/js/productJS/edit.js"></script>*@
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Form cập nhập</h1>
+        <p>Cập nhật sản phẩm</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Form Components</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            @if (TempData["alertMessage"] != null)
+            {
+                <div id="alertBox" class="alert @TempData["alertType"]">
+                    @TempData["alertMessage"]
+                </div>
+                <script>
+                    var box = $('#alertBox');
+                    box.delay(4000).slideUp(500);
+                </script>
+            }
+            <form id="editProduct" action="@Url.Action("Edit","Product")" enctype="multipart/form-data" method="post">
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="PRODUCT_ID">
+                                ID:
+                            </label>
+                            @Html.TextBoxFor(x => x.PRODUCT_ID, new {@readonly = "", @class = "form-control " })
+                        </div>
+                        <div class="form-group">
+                            <label for="PRODUCT_NAME">Tên sản phẩm</label>
+                            @Html.TextBoxFor(model => model.PRODUCT_NAME, new { @class = "form-control", @placeholder = "SƠN XXX" })
+                            @Html.ValidationMessageFor(model => model.PRODUCT_NAME, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="PRODUCER_ID">
+                                Hãng :
+                            </label>
+                            @Html.DropDownListFor(model => model.PRODUCER_ID, (IEnumerable<SelectListItem>)ViewBag.s, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.PRODUCER_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="label-form-admin">
+                                Loại :
+                            </label>
+                            @Html.DropDownListFor(model => model.PRODUCT_TYPE_ID, (IEnumerable<SelectListItem>)ViewBag.s1, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.PRODUCT_TYPE_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="PRICE">
+                                Giá:
+                            </label>
+                            @Html.TextBoxFor(model => model.PRICE, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.PRICE, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="CODE_AUTH">
+                                Mã kiểm tra:
+                            </label>
+                            @Html.TextBoxFor(model => model.CODE_AUTH, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.CODE_AUTH, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="DATE_OF_MANUFACTURE">
+                                Ngày sản xuất:
+                            </label>
+                            @Html.TextBoxFor(x => x.DATE_OF_MANUFACTURE, new { @class = "form-control ", type = "date" })
+                            @Html.ValidationMessageFor(model => model.DATE_OF_MANUFACTURE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+
+                        <div class="form-group">
+                            <label for="LIMITED_USE">
+                                Hạn sử dụng:
+                            </label>
+                            @Html.TextBoxFor(model => model.LIMITED_USE, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LIMITED_USE, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="DESCRIPTION">
+                                Mô tả:
+                            </label>
+                            @Html.TextAreaFor(model => model.DESCRIPTION, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="NET">
+                                Thể tích:
+                            </label>
+                            @Html.TextBoxFor(model => model.NET, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NET, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Loại giảm giá - khuyến mãi:
+                            </label>
+                            @Html.DropDownListFor(x => x.DISCOUNT, (IEnumerable<SelectListItem>)ViewBag.lstDiscount, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.DISCOUNT, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="IMAGE">
+                                Hình ảnh:
+                            </label>
+                            @*<input type="file" name="imageUpload" id="imageUpload" class="form-control-file" />*@
+                            @Html.TextBoxFor(model => model.IMAGE, new { @class = "form-control-file", type = "file" })
+                            @Html.ValidationMessageFor(model => model.IMAGE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                    <input class="btn btn-primary" type="submit" id="btnSubmit" value="submit" />
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Product")">Trang chủ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@*<script>
+    $("#btnSubmit").click(function () {
+        var formData = new FormData();
+        debugger
+        $.ajax({
+            type: "POST",
+            url: '/SysAdmin/Product/Edit',
+            data: formData,
+            contentType: false,
+            processData:false,
+            success: function (rs) {
+                if (rs.toString() === "success") {
+                    alert("Success");
+                    window.location.href="/SysAdmin/Product/Index"
+                }
+                else if (rs.toString() === "imageNotValid") {
+                    swal("Error", "imageNotValid", "error");
+                }
+                else {
+                    swal("Error", "Update Failed", "error");
+                }
+            }, error: function (rs) {
+                swal("Error", "Check your data input", "error");
+            }
+        })
+    })</script>*@
+

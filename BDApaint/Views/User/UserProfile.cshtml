@@ -1,0 +1,1191 @@
+﻿@model BDApaint.Model.USER
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<style type="text/css">
+    *,
+    *:before,
+    *:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    body, html {
+        background-color: #eee;
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container-user-profile {
+        width: 100%;
+        height: 100%;
+        display: table;
+        margin-top: 10%;
+        margin-bottom: 5%;
+        margin-left: 5%;
+        margin-right: 5%;
+        position: relative;
+    }
+
+    li, ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .tab-list {
+        width: 20%;
+        float: left;
+        position: absolute;
+        height: 100%;
+        background-color: #fff;
+    }
+
+        .tab-list ul {
+           
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .tab-list li {
+            padding: 15px 20px;
+            border-bottom: 1px solid #ccc;
+            text-transform: uppercase;
+            color: #000;
+            font-weight: 700;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .tab-list li.active {
+                background-color: #6cf;
+                color: #fff;
+            }
+
+    .tab-body {
+        width: 100%;
+        height: 100%;
+        float: left;
+        margin-left: 20%;
+        background-color: #fff;
+    }
+
+        .tab-body h1 {
+            font-size: 18px;
+            color: #000;
+        }
+
+        .tab-body p {
+            color: #444;
+            font-size: 15px;
+        }
+
+        .tab-body .tab-body-content {
+            display: none;
+            padding: 20px 40px;
+            border-left: 0;
+            min-height: 500px;
+        }
+
+            .tab-body .tab-body-content.active {
+                display: block;
+            }
+
+        .tab-body ul {
+            height: 100%;
+            width: 100%;
+            display: table;
+            border-bottom: 1px solid #ccc;
+            padding: 25px 0px;
+        }
+
+            .tab-body ul:first-child {
+                padding-top: 0;
+            }
+
+            .tab-body ul:last-child {
+                border-bottom: 0px solid #ccc;
+            }
+
+
+
+    .table-header {
+        border-bottom: 1px solid rgba(0,0,0,.12);
+        box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+        padding-left: 0;
+    }
+
+    .video-list {
+        padding-left: 0;
+        padding-right: 0;
+        background: #f4f4f4;
+        height: 100%;
+    }
+
+    li.nav-item {
+        display: inline-block;
+    }
+
+    .liIcon {
+        float: left;
+        color: darkgray;
+        text-align: center;
+    }
+
+    .profile-info-name {
+        font-family: 'Merriweather', serif;
+    }
+
+    .profile-info-value span {
+        font-family: 'Quicksand', sans-serif;
+    }
+
+    .box-status {
+        width: 100%;
+        color: white;
+        padding: 10px;
+        vertical-align: middle;
+        text-align: center;
+        border-radius: 20px;
+        border: none;
+    }
+
+    .box-member {
+        border: 1px solid;
+        border-radius: 10px;
+        padding: 3px;
+    }
+
+    .tab-body-content.active {
+        background: none;
+    }
+
+    .badge {
+        padding: 1px 9px 2px;
+        font-size: 12.025px;
+        font-weight: bold;
+        white-space: nowrap;
+        color: #ffffff;
+        background-color: #999999;
+        -webkit-border-radius: 9px;
+        -moz-border-radius: 9px;
+        border-radius: 9px;
+    }
+
+        .badge:hover {
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .badge-error {
+        background-color: #b94a48;
+    }
+
+        .badge-error:hover {
+            background-color: #953b39;
+        }
+
+    .badge-success {
+        background-color: #468847;
+    }
+
+        .badge-success:hover {
+            background-color: #356635;
+        }
+</style>
+
+<div class="container-user-profile">
+    @if (TempData["alertMessage"] != null)
+    {
+        <div id="alertBox" class="alert @TempData["alertType"]">
+            @TempData["alertMessage"]
+        </div>
+        <script>
+            var box = $('#alertBox');
+            box.delay(4000).slideUp(500);
+        </script>
+    }
+    <div class="tab-list" style="text-align: center;">
+        <div class="row" style="padding:5%;">
+            @if (Model.GENDER == 1)
+            {
+                <img src="~/Content/icon/boy.png" />
+            }
+            else
+            {
+                <img src="~/Content/icon/girl.png" />
+            }
+            <span class="text-center" style="font-weight: bold; word-break: keep-all; text-transform:uppercase;">Xin chào,@Model.FULLNAME</span>
+        </div>
+        <ul style="justify-content: center; font-family: 'Merriweather', serif;">
+
+            <li class="active" data-tab="1">
+                <span><i style="font-size:large;" class="glyphicon glyphicon-user liIcon"></i> Thông tin cá nhân</span>
+            </li>
+            <li data-tab="2">
+                <span><i style="font-size:large;" class="glyphicon glyphicon-edit liIcon"></i> Đổi mật khẩu</span>
+            </li>
+            <li data-tab="3">
+                <i style="font-size:large;" class="glyphicon glyphicon-shopping-cart liIcon"></i><span> Đơn hàng</span>
+            </li>
+            <li data-tab="4">
+                <i style="font-size:large;" class="glyphicon glyphicon-comment liIcon"></i><span> Bình luận</span>
+            </li>
+            <li data-tab="5">
+                <i style="font-size:large;" class="glyphicon glyphicon-list-alt liIcon"></i><span> Lịch sử mua hàng</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-body">
+
+
+        <div class="tab-body-content active" data-tabcontent="1">
+            @Html.Partial("_getProFile", Model);
+        </div>
+
+
+
+        <div class="tab-body-content" data-tabcontent="2">
+            @Html.Partial("_ChangePassword", Model);
+        </div>
+
+
+        <div class="tab-body-content" data-tabcontent="3" id="orderUser" data-id="@Model.ID">
+            <div class="row">
+                <div class="row" id="orderCart" style="padding:1%;">
+                    <label>Sắp xếp theo trạng thái đơn hàng</label>
+                    <select id="optionsOrderCart">
+                        <option selected value="tatca">Tất cả</option>
+                        <option value="danggiaodich">Đang giao dịch</option>
+                        <option value="thanhcong">Thành công</option>
+                        <option value="dahuy">Đã hủy</option>
+                    </select>
+                </div>
+                <table class="table table-sm" style="width: 70%;">
+                    <thead>
+                        <tr class="active" style="border:none;">
+                            <th style="vertical-align: middle;">Mã đơn hàng</th>
+                            <th style="vertical-align: middle;">Ngày đặt</th>
+                            <th style="vertical-align: middle;">Tổng tiền</th>
+                            <th style="vertical-align: middle;">Trạng thái</th>
+                            <th style="vertical-align: middle;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="result-cart"></tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <div class="tab-body-content" data-tabcontent="4" id="CommentUser" data-id="@Model.ID">
+            <table class="table table-sm" style="width: 70%;">
+                <thead>
+                    <tr class="active" style="border:none;">
+                        <th style="vertical-align: middle;">Mã bình luận</th>
+                        <th style="vertical-align: middle;">Hình</th>
+                        <th style="vertical-align: middle;">Tên sản phẩm</th>
+                        <th style="vertical-align: middle;">Nội dung bình luận</th>
+                        <th style="vertical-align: middle;">Bình luận vào lúc</th>
+                    </tr>
+                </thead>
+                <tbody id="resultComment"></tbody>
+            </table>
+
+        </div>
+        <div class="tab-body-content" data-tabcontent="5" id="historyOrder" data-id="@Model.ID">
+            <div class="row">
+                <h3 class="alert text-left font-text-color" style="font-weight:bold;">Phân loại thành viên</h3>
+                @{int moneySuccess = @ViewBag.sumMoneySuccess; }
+                @if (@moneySuccess < 10000000 || @moneySuccess == 0)
+                {
+                    <div class="row progress-order" style=" margin-bottom:10%;">
+                        <div class="container-row" style="width:70%;">
+                            <ul class="progressbar">
+                                <li>Chưa phân loại (0đ)</li>
+                                <li>Bạc (10,000,000đ)</li>
+                                <li>Vàng (100,000,000đ)</li>
+                                <li>Bạch kim (200,000,000đ)</li>
+                                <li>Kim cương(500,000,000đ)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    int moneyNeed = 10000000 - moneySuccess;
+                    <blockquote>
+                        <p> Bạn cần <span style="color: red; font-weight: bold; font-size: x-large;"> @String.Format("{0:0,0}", @moneyNeed) đ </span> nữa để lên thành viên Bạc</p>
+                    </blockquote>
+
+
+                }
+                else if (@moneySuccess > 10000000 && @moneySuccess < 100000000)
+                {
+                    <div class="row progress-order" style=" margin-bottom:10%;">
+                        <div class="container-row" style="width:70%;">
+                            <ul class="progressbar">
+                                <li class="active">Chưa phân loại (0đ)</li>
+                                <li>Bạc (10,000,000đ)</li>
+                                <li>Vàng (100,000,000đ)</li>
+                                <li>Bạch kim (200,000,000đ)</li>
+                                <li>Kim cương(500,000,000đ)</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    int moneyNeed = 100000000 - moneySuccess;
+                    <blockquote>
+                        <p> Bạn cần <span style="color: red; font-weight: bold; font-size: x-large;"> @String.Format("{0:0,0}", @moneyNeed) đ </span> nữa để lên thành viên Vàng</p>
+                    </blockquote>
+                }
+                else if (@moneySuccess > 100000000 && @moneySuccess < 200000000)
+                {
+                    <div class="row progress-order" style=" margin-bottom:10%;">
+                        <div class="container-row" style="width:70%;">
+                            <ul class="progressbar">
+                                <li class="active">Chưa phân loại (0đ)</li>
+                                <li class="active">Bạc (10,000,000đ)</li>
+                                <li>Vàng (100,000,000đ)</li>
+                                <li>Bạch kim (200,000,000đ)</li>
+                                <li>Kim cương(500,000,000đ)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    int moneyNeed = 200000000 - moneySuccess;
+                    <blockquote>
+                        <p> Bạn cần <span style="color: red; font-weight: bold; font-size: x-large;"> @String.Format("{0:0,0}", @moneyNeed) đ </span> nữa để lên thành viên Bạch kim</p>
+                    </blockquote>
+                }
+                else if (@moneySuccess > 200000000 && @moneySuccess < 500000000)
+                {
+                    <div class="row progress-order" style=" margin-bottom:10%;">
+                        <div class="container-row" style="width:70%;">
+                            <ul class="progressbar">
+                                <li class="active">Chưa phân loại (0đ)</li>
+                                <li class="active">Bạc (10,000,000đ)</li>
+                                <li class="active">Vàng (100,000,000đ)</li>
+                                <li>Bạch kim (200,000,000đ)</li>
+                                <li>Kim cương(500,000,000đ)</li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    int moneyNeed = 500000000 - moneySuccess;
+                    <blockquote>
+                        <p> Bạn cần <span style="color:red; font-weight:bold; font-size:x-large;"> @String.Format("{0:0,0}", @moneyNeed) đ </span> nữa để lên thành viên Kim cương</p>
+                    </blockquote>
+
+                }
+                else if (@moneySuccess > 500000000)
+                {
+                    <div class="row progress-order" style=" margin-bottom:10%;">
+                        <div class="container-row" style="width:70%;">
+                            <ul class="progressbar">
+                                <li class="active">Chưa phân loại (0đ)</li>
+                                <li class="active">Bạc (10,000,000đ)</li>
+                                <li class="active">Vàng (100,000,000đ)</li>
+                                <li class="active">Bạch kim (200,000,000đ)</li>
+                                <li>Kim cương(500,000,000đ)</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+
+                <h3 class="left-center alert font-text-color" style="font-weight:bold;">Lịch sử mua hàng</h3>
+                @if (@ViewBag.sumMoneySuccess != 0)
+                {
+                    <div class="row"><span class="glyphicon glyphicon-ok-sign" style="color:green; font-size:x-large;"></span> Số tiền đơn hàng thành công : <span style="color: green; font-weight: bold; font-size: x-large; font-family: 'Quicksand', sans-serif;"> @String.Format("{0:0,0}", @ViewBag.sumMoneySuccess) đ</span> (<span class="badge badge-success">@ViewBag.countSuccess</span> đơn hàng)<a class="btn btn-default" onclick="OrderSuccess(@Model.ID)">Xem chi tiết </a></div><br />
+                }
+                else
+                {
+                    <div class="row"><span class="glyphicon glyphicon-ok-sign" style="color:green; font-size:x-large;"></span> Bạn chưa có đơn hàng nào thành công </div><br />
+                }
+                @if (@ViewBag.sumMoneyWaiting != 0)
+                {
+                    <div class="row"><span class="glyphicon glyphicon-minus-sign" style="color: grey; font-size: x-large;"></span> Số tiền đơn hàng đang chờ giao dịch :<span style="color: grey; font-weight: bold; font-size: x-large; font-family: 'Quicksand', sans-serif;"> @String.Format("{0:0,0}", @ViewBag.sumMoneyWaiting) đ </span>(<span class="badge">@ViewBag.countWaiting</span> đơn hàng)<a class="btn btn-default" onclick="OrderWait(@Model.ID)">Xem chi tiết </a></div><br />
+                }
+                else
+                {
+                    <div class="row"><span class="glyphicon glyphicon-minus-sign" style="color: grey; font-size: x-large;"></span> Bạn chưa có đơn hàng nào đang chờ giao dịch</div><br />
+                }
+                @if (@ViewBag.sumMoneyCancel != 0)
+                {
+                    <div class="row"><span class="glyphicon glyphicon-remove-sign" style="color: red; font-size: x-large;"></span> Số tiền đơn hàng đã hủy :<span style="color: red; font-weight: bold; font-size: x-large; font-family: 'Quicksand', sans-serif;">  @String.Format("{0:0,0}", @ViewBag.sumMoneyCancel) đ</span>  (<span class="badge badge-error"> @ViewBag.countCancel</span> đơn hàng)<a class="btn btn-default" onclick="OrderCancel(@Model.ID)">Xem chi tiết </a></div>
+                }
+                else
+                {
+                    <div class="row"><span class="glyphicon glyphicon-remove-sign" style="color: red; font-size: x-large;"></span> Bạn chưa có đơn hàng nào đã hủy </div>
+                }
+
+            </div>
+        </div>
+        @******************************************Modal-CART-ITEM*********************************************@
+        <div class="modal fade" id="modalCartItem" role="dialog" aria-hidden="true" style="z-index:9999;">
+            <div class="modal-dialog modal-lg" style="left:0;">
+                <div class="modal-content" style="padding-left:70px; padding-right: 30px;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Có <span id="count-cart-item"></span> sản phẩm trong đơn hàng : <span id="count-cart-id"></span> </h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 10px; height: 10px; margin-top: -30px;">
+                            <span aria-hidden="true" style="font-size:30px;">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" id="result-cart-item" style="overflow-y: scroll; max-height:400px;   ">
+                        <table class="table table-sm" style="width: 100%;">
+
+                            <thead>
+                                <tr class="active" style="border:none;">
+                                    <th>Hình</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Đơn giá</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart-item-click"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color:#6cf; color:white;" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @******************************************Modal-CART-ITEM*********************************************@
+
+        @******************************************Modal-SHOW-REASON-CANCEL********************************************@
+        <div class="modal fade" style=" z-index:9999;" id="modalShowReason" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="left:0;">
+                <div class="modal-content" style="padding-left:70px; padding-right: 30px;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Bạn đã hủy đơn hàng này </h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 10px; height: 10px; margin-top: -30px;">
+                            <span aria-hidden="true" style="font-size:30px;">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" style="overflow-y: scroll; max-height:400px;   ">
+                        <table class="table table-sm" style="width: 100%;">
+                            <thead>
+                                <tr class="active" style="border:none;">
+                                    <th>Mã đơn hàng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Lí do</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reason-cancel-click"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color:#6cf; color:white;" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @******************************************Modal-SHOW-REASON-CANCEL*********************************************@
+
+
+        @******************************************Modal-Success********************************************@
+        <div class="modal fade" id="modalOrderSuccess" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="left:0;">
+                <div class="modal-content" style="padding-left:70px; padding-right: 30px;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Bạn có <span id="count-order-success"></span> đơn hàng thành công </h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 10px; height: 10px; margin-top: -30px;">
+                            <span aria-hidden="true" style="font-size:30px;">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" style="overflow-y: scroll; max-height:400px;   ">
+                        <table class="table table-sm" style="width: 100%;">
+                            <thead>
+                                <tr class="active" style="border:none;">
+                                    <th>Mã đơn hàng</th>
+                                    <th>Ngày đặt </th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="result-order-success"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color:#6cf; color:white;" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @******************************************Modal-Success*********************************************@
+        @******************************************Modal-Dang-GiaoDich********************************************@
+        <div class="modal fade" id="modalOrderWait" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="left:0;">
+                <div class="modal-content" style="padding-left:70px; padding-right: 30px;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Bạn có <span id="count-order-wait"></span> đơn hàng đang giao dịch </h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 10px; height: 10px; margin-top: -30px;">
+                            <span aria-hidden="true" style="font-size:30px;">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" style="overflow-y: scroll; max-height:400px;   ">
+                        <table class="table table-sm" style="width: 100%;">
+                            <thead>
+                                <tr class="active" style="border:none;">
+                                    <th>Mã đơn hàng</th>
+                                    <th>Ngày đặt </th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="result-order-wait"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color:#6cf; color:white;" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @******************************************Modal-Dang-GiaoDich*********************************************@
+        @******************************************Modal-Delete********************************************@
+        <div class="modal fade" id="modalOrderDel" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="left:0;">
+                <div class="modal-content" style="padding-left:70px; padding-right: 30px;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Bạn có <span id="count-order-del"></span> đơn hàng đang giao dịch </h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 10px; height: 10px; margin-top: -30px;">
+                            <span aria-hidden="true" style="font-size:30px;">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body" style="overflow-y: scroll; max-height:400px;   ">
+                        <table class="table table-sm" style="width: 100%;">
+                            <thead>
+                                <tr class="active" style="border:none;">
+                                    <th>Mã đơn hàng</th>
+                                    <th>Ngày đặt </th>
+                                    <th>Tổng tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="result-order-del"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn" style="background-color:#6cf; color:white;" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        @******************************************Modal-Dang-GiaoDich*********************************************@
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $('.tab-list ul li').click(function () {
+        $('.tab-list ul li').removeClass('active');
+        $(this).addClass('active');
+        $('.tab-body .tab-body-content').hide();
+        var tab = $(this).data('tab');
+        $('.tab-body .tab-body-content[data-tabcontent=' + tab + ']').show();
+    });
+    function NumberFormat(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+
+    //hiển thị cart item theo cart id
+    function clickCartItem(vak) {
+        $('#modalCartItem').modal('show');
+        $('tbody#cart-item-click').html('');
+        $('#count-cart-item').html('');
+        $('#count-cart-id').html('');
+        var id = vak;
+        $.ajax({
+            url: '/User/getCartItem',
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function (res) {
+                var html = '';
+                var countItem = res.length;
+                $('#count-cart-item').append(countItem);
+                if (res.toString() == "") {
+                    alert("giỏ hàng không có sản phẩm nào");
+                    $('#modalCartItem').modal('hide');
+                }
+                $('#count-cart-id').append('' + res[0].CART_ID + '');
+                $.each(res, function (key, item) {
+                    html += '<tr>';
+                    html += '<td style="vertical-align: middle;"><a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '"><img class="img-product" src="/Content/img2/' + item.IMAGE + '" width="110" height="80" /></a> </td>';
+                    html += '<td style="vertical-align: middle;">' + item.PRODUCT_NAME + '</td>';
+                    html += '<td style="vertical-align: middle;">' + item.QUANTITY + '</td>';
+
+                    if (item.DISCOUNT_VALUE != null) {
+                        //giảm giá theo %
+                        if (item.DISCOUNT_VALUE <= 100) {
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.UNIT_PRICE) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(item.PRICE) + 'đ</span> <span id="discountValue">- ' + item.DISCOUNT_VALUE + '%</span></td>';
+                        }
+                            //giảm giá tiền cố định
+                        else {
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.UNIT_PRICE) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(item.PRICE) + 'đ</span> <span id="discountValue" style="font-size:xx-small;";>- ' + NumberFormat(item.DISCOUNT_VALUE) + ' đ</span></td>';
+                        }
+                    }
+                        //nếu cart item ko có giảm giá
+                    else {
+                        html += '<td style="vertical-align: middle;">' + NumberFormat(item.UNIT_PRICE) + ' đ</td>';
+                    }
+                    html += '<td style="vertical-align: middle;">' + NumberFormat(item.TOTAL_MONEY) + 'đ</td>';
+                    html += '</tr>';
+                });
+                $('tbody#cart-item-click').append(html);
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+
+    }
+
+
+
+
+    //hiển thị cart theo onchange sắp xếp
+    $('#optionsOrderCart').change(function () {
+        var id = $('#orderUser').attr("data-id");
+        var optionsOrderCart = $('#optionsOrderCart').val();
+        $('#result-cart').html('');
+
+        $.ajax({
+            url: '/User/getOrderUser',
+            type: "GET",
+            data: {
+                id: id,
+                optionsOrderCart: optionsOrderCart
+            },
+            success: function (res) {
+                var length = res.length;
+                if (length == 0) {
+                    $('#orderUser').html('');
+                    var html = '';
+                    $('#orderUser').append('<h2 class="alert text-center" style="margin-right:20%;">Hiện tại bạn chưa có đơn hàng nào</h2>');
+                    $('#orderUser').prepend('<a class="myButton" href="/User/UserProfile"><span class="glyphicon glyphicon-arrow-left"></span> Quay về</a>');
+                }
+                $.each(res, function (key, item) {
+
+                    html += '<tr>';
+                    html += '<td style="vertical-align: middle;">' + item.idgiohang + ' </td>';
+                    html += '<td style="vertical-align: middle;">' + item.ngaydat + '</td>';
+
+
+
+                    if (item.giamGiaCart != null) {
+
+                        //giảm giá %
+                        if (item.giamGiaCart <= 100) {
+                            var pricePercent = 0;
+                            pricePercent = item.tongtien + ((item.tongtien * item.giamGiaCart) / 100);
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(pricePercent) + 'đ</span> <span id="discountValue">' + item.giamGiaCart + '%</span></td>';
+                        }
+                            //giảm giá tiền cố định
+                        else {
+                            var priceMoney = 0;
+                            priceMoney = item.tongtien - item.giamGiaCart;
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(priceMoney) + 'đ</span> <span id="discountValue">' + NumberFormat(item.giamGiaCart) + ' đ</span></td>';
+                        }
+
+                    } else {
+                        //giỏ hàng ko có giảm giá
+                        html += '<td style="vertical-align: middle;">' + NumberFormat(item.tongtien) + ' đ</td>';
+                    }
+
+                    //0 : đang giao dịch , 1 : thành công , 2 : đã hủy
+                    if (item.trangthai == 1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:green;">Thành công </span></td>';
+                    }
+                    else if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:grey;">Đang giao dịch</span></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:red;">Đã hủy</span></td>';
+                    }
+
+                    //Trạng thái đang giao dịch mới được hủy
+                    if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle;"><a data-id="' + item.idgiohang + '" class="DeleteButton delete-cart" onclick=DeleteCartClick(' + item.idgiohang + ') style="color:white; border:1px solid; width:100%;"><span style="font-size: large;" class="glyphicon glyphicon-remove" "></span> Hủy đơn hàng</a><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a><a class="text-center btn" onclick="showReasonCancel(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-eye-open"></span> Xem lí do hủy</a></td>';
+
+                    }
+                    else if (item.trangthai == 1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    html += '</tr>';
+
+
+                });
+                $('tbody#result-cart').append(html);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    })
+
+
+
+
+    $(document).ready(function () {
+        var id = $('#CommentUser').attr("data-id");
+        $.ajax({
+            url: '/User/getCommentUser',
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function (res) {
+                var length = res.length;
+                if (length == 0) {
+                    var html = '';
+                    $('#CommentUser').append('<h2 class="alert text-center" style="margin-right:20%;">Hiện tại bạn chưa có bình luận nào</h2>');
+                }
+                $.each(res, function (key, item) {
+                    html += '<tr>';
+                    html += '<td style="vertical-align: middle;">' + item.idcmt + '</td>';
+                    html += '<td style="vertical-align: middle;"><a href="/Product/getDetailProduct/' + item.idsp + '"><img class="img-product" src="/Content/img2/' + item.hinhsp + '" width="110" height="80" /></a> </td>';
+                    html += '<td style="vertical-align: middle;">' + item.tensp + '</td>';
+                    html += '<td style="vertical-align: middle;">' + item.noidung + '</td>';
+                    html += '<td style="vertical-align: middle;">' + item.time + '</td>';
+                    html += '</tr>';
+                });
+                $('tbody#resultComment').append(html);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+
+    })
+
+    //hiển thị cart ở chế độ ready
+    var id = $('#orderUser').attr("data-id");
+    $.ajax({
+        url: '/User/getOrderReady',
+        type: "GET",
+        data: {
+            id: id
+        },
+        success: function (res) {
+            var length = res.length;
+            if (length == 0) {
+                var html = '';
+                $('#orderUser').append('<h2 class="alert text-center" style="margin-right:20%;">Hiện tại bạn chưa có đơn hàng nào</h2>');
+            }
+            $.each(res, function (key, item) {
+                var discountCart = 0;
+                if (discountCart != null) {
+                    discountCart = item.giamGiaCart
+                }
+                html += '<tr>';
+                html += '<td style="vertical-align: middle;">' + item.idgiohang + ' </td>';
+                html += '<td style="vertical-align: middle;">' + item.ngaydat + '</td>';
+                if (item.giamGiaCart != null) {
+
+                    //giảm giá %
+                    if (item.giamGiaCart <= 100) {
+                        var pricePercent = 0;
+                        pricePercent = item.tongtien + ((item.tongtien * item.giamGiaCart) / 100);
+                        html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(pricePercent) + 'đ</span> <span id="discountValue">' + item.giamGiaCart + '%</span></td>';
+                    }
+                        //giảm giá tiền cố định
+                    else {
+                        var priceMoney = 0;
+                        priceMoney = item.tongtien - item.giamGiaCart;
+                        html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(priceMoney) + 'đ</span> <span id="discountValue">' + NumberFormat(item.giamGiaCart) + ' đ</span></td>';
+                    }
+
+                } else {
+                    //giỏ hàng ko có giảm giá
+                    html += '<td style="vertical-align: middle;">' + NumberFormat(item.tongtien) + ' đ</td>';
+                }
+
+
+                //0 : đang giao dịch , 1 : thành công , 2 : đã hủy
+                if (item.trangthai == 1) {
+
+                    html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:green;">Thành công</span></td>';
+                }
+                else if (item.trangthai == 0) {
+                    html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:grey;">Đang giao dịch</span></td>';
+                }
+                else if (item.trangthai == -1) {
+                    html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:red;">Đã hủy</span></td>';
+                }
+
+                //Trạng thái đang giao dịch mới được hủy
+                if (item.trangthai == 0) {
+                    html += '<td style="vertical-align: middle;"><a data-id="' + item.idgiohang + '" class="DeleteButton delete-cart" onclick=DeleteCartClick(' + item.idgiohang + ') style="color:white; border:1px solid; width:100%;"><span style="font-size: large;" class="glyphicon glyphicon-remove" "></span> Hủy đơn hàng</a><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                }
+                else if (item.trangthai == -1) {
+                    html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a><a class="text-center btn" onclick="showReasonCancel(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-eye-open"></span> Xem lí do hủy</a></td>';
+
+                }
+                else if (item.trangthai == 1) {
+                    html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                }
+                html += '</tr>';
+            });
+            $('tbody#result-cart').append(html);
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    })
+
+
+    //lấy các đơn hàng đã giao thành công
+    function OrderSuccess(id){
+        $('#modalOrderSuccess').modal('show');
+        $('#result-order-success').html('');
+        var id=id;
+        $.ajax({
+            url: '/User/getOrderUser',
+            type: "GET",
+            data: {
+                id: id,
+                optionsOrderCart: "thanhcong"
+            },
+            success: function (res) {
+                var length = res.length;
+                $('#count-order-success').text(length);
+                if (length == 0) {
+                    $('#result-order-success').html('');
+                    var html = '';
+                    $('#result-order-success').append('<h2 class="alert text-center" style="margin-right:20%;">Hiện tại bạn chưa có đơn hàng nào</h2>');
+                    $('#result-order-success').prepend('<a class="myButton" href="/User/UserProfile"><span class="glyphicon glyphicon-arrow-left"></span> Quay về</a>');
+                }
+                $.each(res, function (key, item) {
+                    html += '<tr>';
+                    html += '<td style="vertical-align: middle;">' + item.idgiohang + ' </td>';
+                    html += '<td style="vertical-align: middle;">' + item.ngaydat + '</td>';
+                    if (item.giamGiaCart != null) {
+                        //giảm giá %
+                        if (item.giamGiaCart <= 100) {
+                            var pricePercent = 0;
+                            pricePercent = item.tongtien + ((item.tongtien * item.giamGiaCart) / 100);
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(pricePercent) + 'đ</span> <span id="discountValue">' + item.giamGiaCart + '%</span></td>';
+                        }
+                            //giảm giá tiền cố định
+                        else {
+                            var priceMoney = 0;
+                            priceMoney = item.tongtien - item.giamGiaCart;
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(priceMoney) + 'đ</span> <span id="discountValue">' + NumberFormat(item.giamGiaCart) + ' đ</span></td>';
+                        }
+
+                    } else {
+                        //giỏ hàng ko có giảm giá
+                        html += '<td style="vertical-align: middle;">' + NumberFormat(item.tongtien) + ' đ</td>';
+                    }
+
+                    //0 : đang giao dịch , 1 : thành công , 2 : đã hủy
+                    if (item.trangthai == 1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:green;">Thành công </span></td>';
+                    }
+                    else if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:grey;">Đang giao dịch</span></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:red;">Đã hủy</span></td>';
+                    }
+
+                    //Trạng thái đang giao dịch mới được hủy
+                    if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle;"><a data-id="' + item.idgiohang + '" class="DeleteButton delete-cart" onclick=DeleteCartClick(' + item.idgiohang + ') style="color:white; border:1px solid; width:100%;"><span style="font-size: large;" class="glyphicon glyphicon-remove" "></span> Hủy đơn hàng</a><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a><a class="text-center btn" onclick="showReasonCancel(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-eye-open"></span> Xem lí do hủy</a></td>';
+
+                    }
+                    else if (item.trangthai == 1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    html += '</tr>';
+                });
+                $('tbody#result-order-success').append(html);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+
+    function OrderWait(id){
+        $('#modalOrderWait').modal('show');
+        $('#result-order-wait').html('');
+        var id=id;
+        $.ajax({
+            url: '/User/getOrderUser',
+            type: "GET",
+            data: {
+                id: id,
+                optionsOrderCart: "danggiaodich"
+            },
+            success: function (res) {
+                var length = res.length;
+                $('#count-order-wait').text(length);
+                if (length == 0) {
+                    $('#result-order-wait').html('');
+                    var html = '';
+                    $('#result-order-wait').append('<h2 class="alert text-center" style="margin-right:20%;">Hiện tại bạn chưa có đơn hàng nào</h2>');
+                    $('#result-order-wait').prepend('<a class="myButton" href="/User/UserProfile"><span class="glyphicon glyphicon-arrow-left"></span> Quay về</a>');
+                }
+                $.each(res, function (key, item) {
+                    html += '<tr>';
+                    html += '<td style="vertical-align: middle;">' + item.idgiohang + ' </td>';
+                    html += '<td style="vertical-align: middle;">' + item.ngaydat + '</td>';
+                    if (item.giamGiaCart != null) {
+                        //giảm giá %
+                        if (item.giamGiaCart <= 100) {
+                            var pricePercent = 0;
+                            pricePercent = item.tongtien + ((item.tongtien * item.giamGiaCart) / 100);
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(pricePercent) + 'đ</span> <span id="discountValue">' + item.giamGiaCart + '%</span></td>';
+                        }
+                            //giảm giá tiền cố định
+                        else {
+                            var priceMoney = 0;
+                            priceMoney = item.tongtien - item.giamGiaCart;
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(priceMoney) + 'đ</span> <span id="discountValue">' + NumberFormat(item.giamGiaCart) + ' đ</span></td>';
+                        }
+
+                    } else {
+                        //giỏ hàng ko có giảm giá
+                        html += '<td style="vertical-align: middle;">' + NumberFormat(item.tongtien) + ' đ</td>';
+                    }
+
+                    //0 : đang giao dịch , 1 : thành công , 2 : đã hủy
+                    if (item.trangthai == 1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:green;">Thành công </span></td>';
+                    }
+                    else if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:grey;">Đang giao dịch</span></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:red;">Đã hủy</span></td>';
+                    }
+
+                    //Trạng thái đang giao dịch mới được hủy
+                    if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle;"><a data-id="' + item.idgiohang + '" class="DeleteButton delete-cart" onclick=DeleteCartClick(' + item.idgiohang + ') style="color:white; border:1px solid; width:100%; font-size: smaller;"><span style="font-size: smaller;" class="glyphicon glyphicon-remove" "></span> Hủy đơn hàng</a><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a><a class="text-center btn" onclick="showReasonCancel(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-eye-open"></span> Xem lí do hủy</a></td>';
+
+                    }
+                    else if (item.trangthai == 1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    html += '</tr>';
+                });
+                $('tbody#result-order-wait').append(html);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+
+    function OrderCancel(id){
+        $('#modalOrderDel').modal('show');
+        $('#result-order-del').html('');
+        var id=id;
+        $.ajax({
+            url: '/User/getOrderUser',
+            type: "GET",
+            data: {
+                id: id,
+                optionsOrderCart: "dahuy"
+            },
+            success: function (res) {
+                var length = res.length;
+                $('#count-order-del').text(length);
+                if (length == 0) {
+                    $('#result-order-del').html('');
+                    var html = '';
+                    $('#result-order-del').append('<h2 class="alert text-center" style="margin-right:20%;">Hiện tại bạn chưa có đơn hàng nào</h2>');
+                    $('#result-order-del').prepend('<a class="myButton" href="/User/UserProfile"><span class="glyphicon glyphicon-arrow-left"></span> Quay về</a>');
+                }
+                $.each(res, function (key, item) {
+                    html += '<tr>';
+                    html += '<td style="vertical-align: middle;">' + item.idgiohang + ' </td>';
+                    html += '<td style="vertical-align: middle;">' + item.ngaydat + '</td>';
+                    if (item.giamGiaCart != null) {
+                        //giảm giá %
+                        if (item.giamGiaCart <= 100) {
+                            var pricePercent = 0;
+                            pricePercent = item.tongtien + ((item.tongtien * item.giamGiaCart) / 100);
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(pricePercent) + 'đ</span> <span id="discountValue">' + item.giamGiaCart + '%</span></td>';
+                        }
+                            //giảm giá tiền cố định
+                        else {
+                            var priceMoney = 0;
+                            priceMoney = item.tongtien - item.giamGiaCart;
+                            html += '<td style="vertical-align: middle;"><span style="font-weight:bold; font-size:large; margin-left: 5%;">' + NumberFormat(item.tongtien) + ' đ</span><br><span style="text-decoration: line-through; opacity:0.8; border-right:1px solid; padding:3%; line-height:2;"> ' + NumberFormat(priceMoney) + 'đ</span> <span id="discountValue">' + NumberFormat(item.giamGiaCart) + ' đ</span></td>';
+                        }
+
+                    } else {
+                        //giỏ hàng ko có giảm giá
+                        html += '<td style="vertical-align: middle;">' + NumberFormat(item.tongtien) + ' đ</td>';
+                    }
+
+                    //0 : đang giao dịch , 1 : thành công , 2 : đã hủy
+                    if (item.trangthai == 1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:green;">Thành công </span></td>';
+                    }
+                    else if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:grey;">Đang giao dịch</span></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td style="vertical-align: middle; text-align:center;"><span class="box-status" style="background-color:red;">Đã hủy</span></td>';
+                    }
+
+                    //Trạng thái đang giao dịch mới được hủy
+                    if (item.trangthai == 0) {
+                        html += '<td style="vertical-align: middle;"><a data-id="' + item.idgiohang + '" class="DeleteButton delete-cart" onclick=DeleteCartClick(' + item.idgiohang + ') style="color:white; border:1px solid; width:100%; font-size: smaller;"><span style="font-size: smaller;" class="glyphicon glyphicon-remove" "></span> Hủy đơn hàng</a><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    else if (item.trangthai == -1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a><a class="text-center btn" onclick="showReasonCancel(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-eye-open"></span> Xem lí do hủy</a></td>';
+
+                    }
+                    else if (item.trangthai == 1) {
+                        html += '<td><a class="text-center btn" onclick="clickCartItem(' + item.idgiohang + ')"  data-id="' + item.idgiohang + '" style="vertical-align: middle; border:1px solid; width:100%;  color:black; margin-top:10px"><span style="font-size: large;" class="glyphicon glyphicon-list-alt"></span> Chi tiết đơn hàng</a></td>';
+                    }
+                    html += '</tr>';
+                });
+                $('tbody#result-order-del').append(html);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+
+
+
+
+
+
+
+
+    //sự kiện click xóa đơn hàng của user
+    function DeleteCartClick(id) {
+        debugger
+        var id = id;
+        var mesDeleteCart = @ViewBag.mesDelCart
+        $.ajax({
+            url: '/User/DeleteCart/' + id,
+            type: "GET",
+            data: { id: id },
+            contentType: 'application/json; charset=utf-8',
+            success: function (res) {
+                //add modal vao layout chinh vào dưới cùng của class
+                $('.container-user-profile').append(res);
+                $('#deleteCartModal').modal('show');
+            }
+        })
+    }
+
+    function showReasonCancel(idgiohang) {
+        var id = idgiohang;
+        debugger
+        $('#modalShowReason').modal('show');
+        $('tbody#reason-cancel-click').html('');
+        $.ajax({
+            url: '/User/getOrderCancel',
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function (res) {
+                var html = '';
+                $.each(res, function (key, item) {
+                    html += '<tr>';
+                    html += '<td style="vertical-align: middle;"> ' + item.IDgiohang + '</td>';
+                    if (item.trangThai == -1) {
+                        var alert;
+                        alert = "Đã hủy";
+                    }
+                    html += '<td style="vertical-align: middle;">' + alert + '</td>';
+                    html += '<td style="vertical-align: middle;">' + item.liDoHuy + ' </td>';
+                    html += '</tr>';
+                });
+                $('tbody#reason-cancel-click').append(html);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+
+
+
+
+
+
+
+    //submit form
+    function Update() {
+        debugger
+        var newpass = $('#newpass').val();
+        $.ajax({
+            url: '/User/UpdatePassWord/' + newpass,
+            type: 'POST',
+            data: { id: newpass },
+            success: function (rs) {
+                if (rs.toString() == 'success') {
+                    $('#message').html("Cập nhật thành công");
+                    return;
+                } else if (rs.toString() == 'fail') {
+                    $('#message').html("Cập nhật Thất bại");
+                    return;
+                } else {
+                    $('#message').html(rs.toString());
+                    return;
+                }
+            },
+            error: function (errormessage) {
+                $('#message').html(errormessage.responeText);
+            }
+        });
+    }
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<BDApaint.Model.NEWS>
+@{
+    ViewBag.Title = "resultSearchNews";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@if (@ViewBag.countNews == 0)
+{
+    <h2 class="text-center alert alert-info" style="font-family: 'Merriweather', serif;">Không tìm thấy bài viết nào có từ khóa : <span class="text-danger" style="font-weight:bold;"> @ViewBag.query</span></h2>
+    <a class="row myButton" style="margin-bottom: 10px; margin-left: 30px;" href="@Url.Action("Index", "News")"><span class="glyphicon glyphicon-arrow-left"></span> Quay về trang trước</a><br />
+}
+else
+{
+    <article class="container">
+        <h2 class="text-center alert-info" id="title-news">Kết quả tìm kiếm</h2>
+        <div class="row" style="float:left; width:70%; padding-top:10px;">
+            <span> Kết quả tìm kiếm của :<span style="color:red;"> @ViewBag.query</span> (Đã tìm thấy @Model.Count() kết quả )</span>
+            @foreach (var item in Model)
+            {
+                <div class="row" id="single-news" style="padding: 30px;">
+                    <div class="row" style="float:left;">
+                        <a href="@Url.Action("getDetails", "News", new {id = @item.NEWS_ID })">
+                            <img class="" src="/Content/imgNews/@item.NEWS_IMG" alt="@item.NEWS_TITLE" width="500" height="300">
+                        </a>
+                    </div>
+                    <div class="row" style="float:left; text-align:left;">
+                        <div class="article-text">
+                            <h2 class="title-content"><a href="@Url.Action("getDetails", "News", new { id = @item.NEWS_ID })">@item.NEWS_TITLE</a></h2>
+                            <ul class="list-unstyled list-inline" style="margin:0; padding:0; height:30px;">
+                                <li>
+                                    <strong> Thời gian đăng bài </strong>: @item.NEWS_DATE
+                                </li>
+                                <li>
+                                    <strong>Người đăng</strong> : @item.ADMIN.USERNAME
+                                </li>
+                                <li>
+                                    <strong>Chủ đề</strong> :<a href="@Url.Action("getDetailsNewType", "News", new { id = @item.NEWS_TYPE_ID })"> @item.NEWS_TYPE.NEWS_NAME</a>
+                                </li>
+
+                            </ul>
+                            <p>
+                                @item.NEWS_SUMMARY
+                            </p>
+
+                            <a class="glyphicon glyphicon-option-horizontal btn-detail" href="/News/getDetails/@item.NEWS_ID" style="font-size: xx-large;"></a>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+        </div>
+        <div id="side-bar" style="float:right; width:30%; padding-left:30px;">
+            <div class="row">
+                <h2 class="widget-title" style="word-wrap: break-word; word-break: keep-all; letter-spacing: 1px; margin-bottom: 5px; border-bottom: 2px solid #6cf; width: 80%; ">
+                    Danh mục
+                </h2>
+                <ul class="item-danh-muc">
+                    @foreach (var item in ViewBag.typeNew)
+                    {
+                        <li><a href="@Url.Action("getDetailsNewType", "News", new { id = @item.TYPE_NEWS_ID })">@item.NEWS_NAME</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="row">
+                <h2 class="widget-title" style="letter-spacing: 1px; word-wrap: break-word; word-break: keep-all; margin-bottom: 5px; border-bottom: 2px solid #6cf; width: 80%; ">
+                    Bài viết mới nhất
+                </h2>
+                <ul class="item-danh-muc">
+                    @foreach (var item in ViewBag.newest)
+                    {
+                        <li>
+                            <a href="@Url.Action("getDetails", "News", new {id = @item.NEWS_ID })" style="color:black; text-decoration:none;">
+                                @item.NEWS_TITLE<br />
+                                <span class="post-date-new">
+                                    @String.Format("{0:dd/MM/yyyy}", @item.NEWS_DATE)
+                                </span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </article>
+
+}
+

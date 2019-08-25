@@ -1,0 +1,252 @@
+﻿
+@model BDApaint.Model.USER
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<style>
+    
+    .div-above-detail {
+        width: 100%;
+        max-height: 1200px;
+        margin: 5% 0;
+        background-color: #fff;
+        -webkit-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        border-radius: 5px;
+        position: relative;
+    }
+    #info-transactionUser {
+        width: 100%;
+        
+        margin: 5% 0;
+        background-color: #fff;
+        -webkit-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        border-radius: 5px;
+        position: relative;
+    }
+    dt {
+        width: 40%;
+        padding-left: 5%;
+        float: left;
+    }
+
+    dd {
+        width: 50%;
+        padding-left: 5%;
+        float: left
+    }
+
+    .button-detail {
+        width: 100%;
+        margin: 10px auto;
+        height: 5%;
+    }
+
+    .btn-under-detail {
+        margin: 2% 1%;
+    }
+
+    .title-above-detail {
+        width: 100%;
+        height: 50px;
+        font-size: 30px;
+        text-align: center;
+        line-height: 50px;
+    }
+</style>
+
+<div class="div-above-detail">
+    <h4 class="title-above-detail">Chi tiết thông tin khách hàng</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt class="dt-table odd">
+            Mã người dùng:
+        </dt>
+
+        <dd class="dd-table odd">
+            @Html.DisplayFor(x => x.ID)
+        </dd>
+
+        <dt class="dt-table even">
+            Tên khách hàng :
+        </dt>
+
+        <dd class="dd-table even">
+            @Html.DisplayFor(model => model.FULLNAME)
+        </dd>
+
+        <dt class="dt-table odd">
+            Ngày đăng ký:
+        </dt>
+
+        <dd class="dd-table odd">
+            @Html.DisplayFor(model => model.DATE_REGISTER)
+        </dd>
+
+        <dt class="dt-table even">
+            Giới tính :
+        </dt>
+        @if (Html.DisplayFor(model => model.GENDER).ToString() == "1")
+        {
+            <dd class="dd-table even">
+                NAM
+            </dd>
+        }
+        else
+        {
+            <dd class="dd-table even">Nữ</dd>
+        }
+        <dt class="dt-table odd">
+            Email:
+        </dt>
+
+        <dd class="dd-table odd">
+            @Html.DisplayFor(model => model.EMAIL)
+        </dd>
+        <dt class="dt-table even">
+            Số điện thoại:
+        </dt>
+
+        <dd class="dd-table even">
+            @Html.DisplayFor(model => model.PHONE)
+        </dd>
+
+        <dt class="dt-table odd">
+            Địa chỉ :
+        </dt>
+
+        <dd class="dd-table odd">
+            @Html.DisplayFor(model => model.ADDRESS)
+        </dd>
+        <dt class="dt-table even">
+            Số lần giao dịch :
+        </dt>
+
+        <dd class="dd-table even">
+            @ViewBag.n
+        </dd>
+        <dt class="dt-table odd">
+            Tổng tiền đã giao dịch :
+        </dt>
+
+        <dd class="dd-table odd">
+            @String.Format("{0:0,0}", @ViewBag.total) VND
+        </dd>
+    </dl>
+    <div class="button-detail">
+        <a style="margin-left:5%;" href="@Url.Action("Index","User")" class=" btn-under-detail  btn btn-outline-primary">Trang chủ</a>
+        <button id="showDetail" class="btn btn-under-detail btn-outline-success" onclick="showDetail()">Xem giao dịch</button>
+    </div>
+</div>
+<script src="~/AdminContent/js/cartJS/changeStatus.js"></script>
+<div id="info-transactionUser" style="display:none">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ngày giao dịch</th>
+                                <th>Địa chỉ</th>
+                                <th>Người nhận hàng</th>
+                                <th>Trạng thái đơn hàng</th>
+                                <th>Tổng tiền</th>
+                                <th>Chi tiết đơn hàng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var x in ViewBag.cartUser)
+                            {
+                            <tr>
+                                <td>@x.CART_ID</td>
+                                <td>@x.DATE_ORDER</td>
+                                <td>@x.SHIP_ADDRESS</td>
+                                <td>@x.SHIP_NAME</td>
+                                @{
+                                    if (x.STATUS == 1)
+                                    {
+                                        <td><a id="btnChangeStatus_@x.CART_ID" href="" onclick="changeStatusCart(@x.CART_ID)">Giao dịch thành công</a></td>
+                                    }
+                                    else if (x.STATUS == -1)
+                                    {
+                                        <td><a id="btnChangeStatus_@x.CART_ID" href="" onclick="changeStatusCart(@x.CART_ID)">Giao dịch huỷ bỏ</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a id="btnChangeStatus_@x.CART_ID" href="" onclick="changeStatusCart(@x.CART_ID)">Giao dịch đang thực hiện</a></td>
+
+                                    }
+                                }
+                                @if (x.TOTAL_MONEY == null)
+                                {
+                                    <td>00 VND</td>
+                                }
+                                else
+                                {
+                                    <td>@String.Format("{0:0,0}", x.TOTAL_MONEY)VND</td>
+                                }
+                                <td>
+                                    <a href="@Url.Action("detailCart","Cart_Item",new { id = x.CART_ID})">
+                                        <i class=" fa fa-info-circle fa-lg"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*@foreach (var i in ViewBag.cartUser)
+    {
+        <div style="margin:10px 10px;border-bottom:solid 1px">
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title">Mã đơn hàng</p>
+                <p class="col-md-5"><a href="@Url.Action("detail","Cart",new { id = i.CART_ID})">@i.CART_ID</a></p>
+            </div>
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title">Ngày giao dịch</p>
+                <p class="col-md-5">@i.DATE_ORDER</p>
+            </div>
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title">Địa chỉ nhận hàng</p>
+                <p class="col-md-5">@i.SHIP_ADDRESS</p>
+            </div>
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title">Tổng tiền:</p>
+                <p class="col-md-5">@String.Format("{0:0,0}", @i.TOTAL_MONEY) VND</p>
+            </div>
+
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title">Người nhận hàng:</p>
+                <p class="col-md-5">@i.SHIP_NAME </p>
+            </div>
+            <div class="row row-title-import">
+                <p class="col-md-3 border-right-p-title">Chi tiết đơn hàng:</p>
+                <p class="col-md-5"><a href="@Url.Action("detailCart","Cart_Item",new { id = i.CART_ID})">Chi tiết</a> </p>
+            </div>
+        </div>
+    }*@
+</div>
+
+<script>
+    function showDetail() {
+        var x = document.getElementById("info-transactionUser");
+        var y = document.getElementById("btn-show-detail");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+           
+            window.scroll(0,400)
+        }
+        else {
+            x.style.display = "none";
+        }
+    }
+
+</script>

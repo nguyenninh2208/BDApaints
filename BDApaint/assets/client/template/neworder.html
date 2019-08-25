@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Thông tin đơn hàng mới từ khách hàng</title>
+    <meta charset="utf-8" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+   
+</head>
+<body>
+    <div class="form-content" id="form-order-detail">
+        <div class="content-email">
+            <div class=" detail-content detail-order">
+               
+                <h1>Cảm ơn bạn đã mua hàng tại BDA</h1>
+                <p>Thông tin người đặt hàng :</p>
+                <div class="table-responsive" style="border: 2px solid rgba(0,0,0,0.5); background-color: rgba(0,0,0,0.09);">
+                    <table class="table" style="margin-bottom:0px;">
+                        <tr>
+                            <td>Mã số đơn hàng</td>
+                            <td>:</td>
+                            <td>{{OrderID}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tên</td>
+                            <td>:</td>
+                            <td>{{NameShip}}</td>
+                        </tr>
+                        <tr>
+                            <td>Số điện thoại giao hàng</td>
+                            <td>:</td>
+                            <td>{{Phone}} </td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ giao hàng</td>
+                            <td>:</td>
+                            <td>{{Address}} </td>
+                        </tr>
+                        <tr>
+                            <td>Địa chỉ email</td>
+                            <td>:</td>
+                            <td>{{Email}} </td>
+                        </tr>
+                        <tr>
+                            <td>Ghi chú giao hàng</td>
+                            <td>:</td>
+                            <td>{{MessShip}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="note-order">
+                    <p>Quý khách được giảm <b>{{DiscountValue}}</b></p>
+                    <p id="total">Tổng tiền đơn hàng :<b>{{Total}} đ  </b></p>
+                    <p>Đã gửi thông tin đơn hàng đến email <b>{{Email}} </b> Nếu không tìm thấy , vui lòng tìm thêm trong Spam hoặc Junk Folder.</b></p>
+                    <p>Thời gian đặt hàng :<b>  {{DateOrder}} </b></p>
+                    <p>Thời gian giao hàng dự kiến :<b>  {{DeliveryDate}} </b></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

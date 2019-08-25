@@ -1,0 +1,372 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div>
+    <img src="~/Content/Images/banner-calculator-x.png" style="width: 100%; height: 450px;" alt="Công cụ chọn màu bda">
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //tính diện tích nhà
+        function cal() {
+            //khai báo biến nhà
+
+            var chieudainha = $('#chieudai-nha').val();
+            var chieurongnha = $('#chieurong-nha').val();
+            var chieucaonha = $('#chieucao-nha').val();
+
+            var sotang = $('#sotang-nha').val();
+            var dientichnha = (chieudainha + chieurongnha) * chieucaonha * 2;
+            //xu li am 
+
+            //xử lí thông số nhà
+
+            if (chieudainha < 0) {
+                alert('Chiều dài nhà không được nhập giá trị âm');
+            }
+            else if (chieurongnha < 0) {
+                    alert('Chiều rộng nhà không được phép là số âm');
+            }
+            else if (chieucaonha < 0) {
+                alert('Chiều cao nhà không được phép là số âm');
+            }
+             else {
+               
+                var chkTranNha = $('#trannha_checkbox').is(":checked");
+                if (chkTranNha == true) {
+                    dientichnha = ((chieudainha + chieurongnha) * chieucaonha * 2) + (chieudainha * chieurongnha);
+                } else {
+                    dientichnha = (chieudainha + chieurongnha) * chieucaonha * 2;
+                }
+                if (sotang == 0) {
+                    if (chkTranNha == true) {
+                        dientichnha = ((chieudainha + chieurongnha) * chieucaonha * 2) + (chieudainha * chieurongnha);
+                    }
+                    else {
+                        dientichnha = ((chieudainha + chieurongnha) * chieucaonha * 2);
+                    }
+                }
+                 if (sotang > 0) {
+                    //gán thêm 1 cho mỗi giá trị val của số tầng
+                    let x = Number(sotang);
+                    let sotangplus = ++x;
+                    if (chkTranNha == true) {
+                        dientichnha = (((chieudainha + chieurongnha) * chieucaonha * 2) + (chieudainha * chieurongnha)) * (sotangplus);
+                    }
+                    else {
+                        dientichnha = (((chieudainha + chieurongnha) * chieucaonha * 2)) * (sotangplus);
+                    }
+                }
+                if (sotang < 0) {
+                    alert('Số tầng không được nhập giá trị âm');
+                }
+
+                //gán diện tích nhà vào ô tổng diện tích
+                $('#tongdientich').val(dientichnha);
+            }
+        
+        }
+
+        //sự kiện onchange
+        $('#chieudai-nha,#chieurong-nha,#chieucao-nha,input[type="checkbox"],#sotang-nha').change(function () {
+            cal();
+        })
+        //tính cửa
+        function calcua() {
+            //khai báo biến cửa
+            var chieucaocua = $('#chieucao-cua').val();
+            var chieurongcua = $('#chieurong-cua').val();
+            var soluongcua = $('#soluong-cua').val();
+            if (chieucaocua < 0) {
+                alert('Chiều cao cửa  không được nhập số âm');
+            }
+            else if (chieurongcua < 0) {
+                alert('Chiều rộng cửa không được nhập số âm');
+            }
+            else if (soluongcua < 0) {
+                alert('Số lượng cửa  không được nhập số âm');
+            }
+            else {
+                var dientichcua = chieucaocua * chieurongcua * soluongcua;
+                $('#ketquacua').val(dientichcua);
+            }
+        }
+
+        //sự kiện onchang thằng cửa
+        $('#chieucao-cua,#chieurong-cua,#soluong-cua').change(function () {
+            calcua();
+        })
+
+
+
+        function calcuaso() {
+            //khai báo cửa sổ
+            var chieucaocuaso = $('#chieucao-cuaso').val();
+            var chieurongcuaso = $('#chieurong-cuaso').val();
+            var soluongcuaso = $('#soluong-cuaso').val();
+            if (chieucaocuaso <0 ) {
+                alert('Chiều cao cửa số không được nhập số âm');
+            }
+            else if (chieurongcuaso < 0) {
+                alert('Chiều rộng cửa sổ không được nhập số âm');
+            }
+            else if (soluongcuaso < 0) {
+                alert('Số lượng cửa sổ không được nhập số âm');
+            }
+            else {
+
+
+                var dientichcuaso = chieucaocuaso * chieurongcuaso * soluongcuaso;
+                $('#ketquacuaso').val(dientichcuaso);
+            }
+            
+        }
+        //sự kiện onchange cửa sổ
+        $('#chieucao-cuaso,#chieurong-cuaso,#soluong-cuaso').change(function () {
+            calcuaso();
+        })
+
+
+
+
+
+
+    })
+
+</script>
+
+
+
+
+
+
+<div class="row" id="title-tool" style="margin-top:0px;">
+    <h1 class="text-center text-primary" style="font-weight: 500; color: white; font-family: 'Merriweather', serif;">Tính toán sơn </h1>
+</div>
+<div class="row" style="padding-left: 50px; padding-right: 50px; line-height: 2;">
+    <blockquote >
+        <p class="text-left" style="line-height:2;">Kết quả chỉ mang tính ước lượng dựa trên độ phủ lý thuyết của từng loại sơn , chỉ áp dụng cho công trình dân dụng (nhà ở thông thường). Lượng sơn thực dùng có thể thay đổi tùy theo bề mặt thi công.</p>
+        <footer>From BDA's website</footer>
+    </blockquote>
+</div>
+<div class="row" id="areas-cal">
+    <div class="col-12 col-lg-8" style="width:60%;">
+
+        <div class="form-group sq-ft-wrapper mb-4">
+            <label class="mb-0 calc-center">Nhập thông số của ngôi nhà <span style="color:red; font-weight:bold; font-size:x-large;">*</span></label>
+        </div>
+        <div class="openings-group d-flex calc-center dientich-nha" style="display: -webkit-box;">
+            <div class="mesurement-dimension">
+                <input id="chieudai-nha" type="number" min="0" class="form-control" name="chieudai-nha" placeholder="0" />
+                <div>Chiều dài (m) </div>
+            </div>
+
+
+            <div class="mesurement-dimension">
+                <input id="chieurong-nha" type="number" min="1" placeholder="0" name="chieurong-nha" class="form-control" />
+                <div>Chiều rộng (m)</div>
+            </div>
+
+
+            <div class="mesurement-dimension">
+                <input id="chieucao-nha" type="number" min="1" placeholder="0" name="chieucao-nha" class="form-control" />
+                <div>Chiều cao (m)</div>
+            </div>
+
+
+        </div>
+        <div class="mesurement-dimension d-block" style="padding-left:20px; padding:0 0 0 20px;">
+            <label class="checkbox-inline">
+               
+                    <input id="trannha_checkbox" type="checkbox" name="trannha" class="custom-control-input" value="" />
+                    <label class="custom-control-label" for="trannha_checkbox">Bao gồm trần nhà</label>
+
+            </label>
+
+        </div>
+        <div class="form-group so-tang">
+            <label class="calc-center">Số tầng</label>
+            <div class="mesurement-dimension">
+                <p>Nếu tính mỗi tầng trệt thì hãy chọn giá trị là 0</p>
+                <input id="sotang-nha" type="number" min="0" class="form-control" name="sotang-nha" placeholder="0" />
+            </div>
+        </div>
+        <div class="form-group dientich-cua">
+            <label class="calc-center">Cửa</label>
+            <div class="openings-group d-flex calc-center" style="display: -webkit-box;">
+                <div class="mesurement-dimension">
+                    <input id="chieucao-cua" type="number" min="0" class="form-control" name="chieucao-cua" placeholder="0" />
+                    <div>Chiều cao (m)</div>
+                </div>
+
+                <div class="mesurement-dimension">
+                    <input id="chieurong-cua" type="number" min="0" class="form-control" name="chieurong-cua" placeholder="0" />
+                    <div>chiều rộng (m)</div>
+                </div>
+
+                <div class="mesurement-dimension">
+                    <input id="soluong-cua" type="number" min="0" class="form-control" name="soluong-cua" placeholder="0" />
+                    <div>Số lượng (cái)</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group dientich-cuaso">
+            <label class="calc-center">Cửa sổ</label>
+            <div class="openings-group d-flex calc-center" style="display: -webkit-box;">
+                <div class="mesurement-dimension">
+                    <input id="chieucao-cuaso" type="number" min="0" class="form-control input-validate" name="chieucao-cuaso" placeholder="0" />
+                    <div>Chiều cao (m)</div>
+                </div>
+
+                <div class="mesurement-dimension">
+                    <input id="chieurong-cuaso" type="number" min="0" class="form-control input-validate" name="chieurong-cuaso" placeholder="0" />
+                    <div>chiều rộng (m)</div>
+                </div>
+
+                <div class="mesurement-dimension">
+                    <input id="soluong-cuaso" type="number" min="0" class="form-control" name="soluong-cuaso" placeholder="0" />
+                    <div>Số lượng (cái)</div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="col-12 col-lg-4 px-0 px-lg-3" style="width:calc(100%-60%);">
+        <blockquote>
+            <span class="glyphicon glyphicon-warning-sign" style="font-size: xx-large; color: red; margin:3%;"></span>
+            <p class="text-left">Vui lòng nhập độ phủ lý thuyết và số lớp cần sơn để tiến hành tính toán . Lưu ý các chỗ có kí tự <span style="color:red; font-weight:bold; font-size:x-large;">*</span> nghĩa là điều kiện bắt buộc phải nhập để tính toán .</p>
+        </blockquote>
+        <div style="border: 1px solid black; border-radius: 20px; box-shadow: 5px 10px rgb(128, 128, 128); padding: 20px; background: rgba(0,0,0,0.05);">
+
+            <div class="calc-center text-left __x">
+                <span class="title-result col-md-6">  Diện tích ngôi nhà :</span>
+                <div class="col-md-6 last-result">  <input id="tongdientich"  disabled type="text" name="tongdientich" style="width: 70px; display: inline-block;" class="form-control" /> (m<sup>2</sup>)</div>
+            </div>
+            <div class="calc-center text-left __x">
+                <span class="title-result col-md-6"> Diện tích cửa :</span>
+                <div class="col-md-6 last-result">  <input id="ketquacua" name="ketquacua" type="text" disabled style="width: 70px; display: inline-block;" class="form-control" /> (m<sup>2</sup>)</div>
+            </div>
+            <div class="calc-center text-left __x">
+                <span class="title-result col-md-6">Diện tích cửa sổ :</span>
+                <div class="col-md-6 last-result"> <input id="ketquacuaso" name="ketquacuaso" disabled type="text" style="width: 70px; display: inline-block;" class="form-control" /> (m<sup>2</sup>)</div>
+            </div>
+            <div class="calc-center text-left __x">
+                <span class="title-result col-md-6">  Độ phủ lý thuyết <span style="color:red; font-weight:bold; font-size:x-large;">*</span> :</span>
+                <div class="col-md-6 last-result">  <input id="dophulythuyet" type="number" min="0" name="dophulythuyet" placeholder="0" style="width: 70px; display: inline-block;" class="form-control" /> (m<sup>2</sup>/ L)</div>
+            </div>
+            <div class="calc-center text-left __x">
+                <span class="title-result col-md-6">  Số lớp cần sơn <span style="color:red; font-weight:bold; font-size:x-large;">*</span> :</span>
+                <div class="col-md-6 last-result"> <input id="solop" type="number" min="0" name="solop" placeholder="0" style="width: 70px; display: inline-block;" class="form-control" /> (lớp)</div>
+            </div>
+
+
+            <div class="text-center">
+                <button onclick="clickCal()" class="myButton">Xem kết quả</button>
+            </div>
+            <div id="result-final" class="text-center">
+                <div class="row">
+                    <span class="calc-center text-left col-md-6" style="font-size:medium; font-weight:700;  ">Diện tích cần sơn : </span>
+                    <span class="col-md-6" id="dientichcanson"></span>
+                </div>
+                <div class="row">
+                    <span class="calc-center text-left col-md-6" style="font-size:medium; font-weight:700;">Số lít cần dùng : </span>
+                    <span class="col-md-6" id="solitcandung"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function clickCal() {
+        var Scua = $('#ketquacua').val();
+        var Scuaso = $('#ketquacuaso').val();
+        var Sngoinha = $('#tongdientich').val();
+      
+         if ($('#chieudai-nha').val() == "") {
+            alert('Vui lòng nhập chiều dài của ngôi nhà');
+        }
+        else if ($('#chieurong-nha').val() == "") {
+            alert('Vui lòng nhập chiều rộng của ngôi nhà');
+        }
+        else if ($('#chieucao-nha').val() == "") {
+            alert('Vui lòng nhập chiều cao của ngôi nhà');
+        }
+        else if ($('#dophulythuyet').val() == "") {
+            alert('Vui lòng nhập độ phủ lý thuyết của sản phẩm');
+        }
+        else if ($('#solop').val() == "") {
+            alert('Vui lòng nhập số lớp cần sơn');
+        }
+        else if ($('#dophulythuyet').val() > 15) {
+            alert('Độ phủ lý thuyết không vượt quá 15 m^2/L')
+        }
+        else {
+            $('#result-final').show();
+        }
+    }
+    $(document).ready(function () {
+
+        function calresult() {
+
+            var dientichngoinha = Number($('#tongdientich').val());
+            var dientichcua = Number($('#ketquacua').val());
+            var dientichcuaso = Number($('#ketquacuaso').val());
+            var tongdientichcua = (dientichcua + dientichcuaso);
+            var dientichcanson = (dientichngoinha - tongdientichcua);
+            var dophult = $('#dophulythuyet').val();
+            var solop = $('#solop').val();
+            if (dophult < 0) {
+                alert('Độ phủ lý thuyết không được nhập giá trị âm');
+            } else if (solop < 0) {
+                alert('Số lớp không được nhập giá trị âm');
+            }
+            else {
+                //lam tron den so tp t1
+                var solitcanson = ((dientichcanson * solop) / dophult).toFixed(1);
+                $('#dientichcanson').text(dientichcanson + " ").append('(m<sup>2</sup>)');
+                $('#solitcandung').text(solitcanson + " (L)");
+            }
+        }
+            //var html = '';
+
+            //$.each(function (key, item) {
+            //    html += '<h3 class="text-center" style="margin-top:5px;">K?t qu?</h3>';
+            //    html += '<div class="row">';
+            //    html += '<span class="calc-center text-left" style="font-size:large; font-weight:700;">Diện tích cần sơn : </span>';
+            //    html += '<span class="text-center" id="dientichcanson">' + item.dientichcanson + ' (L)</span>';
+            //    html += '</div>';
+            //    html += '<div class="row">';
+            //    html += '<span class="calc-center text-left" style="font-size:large; font-weight:700;">Số lít cần dùng : </span>';
+            //    html += '<span class="text-center" id="solitcandung">' + item.solitcanson + ' (L)</span>';
+            //    html += '</div>';
+            //})
+            //$('#result-final').appendTo(html);
+
+            //gán diện tích cần sơn vào ô kết quả diện tích cần sơn
+            //$('#dientichcanson').val(dientichcanson);
+        
+        ////sự kiện onchange cửa sổ
+        //$('#tongdientich,#ketquacua,#ketquacuaso').change(function () {
+        //    calresult();
+        //})
+        $('#tongdientich,#ketquacua,#ketquacuaso,#dophulythuyet,#solop,#chieucao-cuaso,#chieurong-cuaso,#soluong-cuaso,#chieucao-cua,#chieurong-cua,#soluong-cua,#chieudai-nha,#chieurong-nha,#chieucao-nha,input[type="checkbox"],#sotang-nha').change(function () {
+            calresult();
+            
+        })
+
+
+    })
+        
+
+
+</script>

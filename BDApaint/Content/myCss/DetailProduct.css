@@ -1,0 +1,103 @@
+﻿
+.pb-product-details-ul {
+    list-style-type: none;
+    padding-left: 0;
+    color: black;
+    min-height:160px;
+    max-width:100%;
+}
+
+.pb-product-details-ul > li {
+    padding-bottom: 5px;
+    font-size: 15px;
+}
+.pb-product-details-ul-li{
+    min-height:40px;
+    max-width:100%;
+}
+#gradient {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#feffff+0,ddf1f9+31,a0d8ef+62 */
+    background: #feffff; /* Old browsers */
+    background: -moz-linear-gradient(left, #feffff 0%, #ddf1f9 31%, #a0d8ef 62%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #feffff 0%,#ddf1f9 31%,#a0d8ef 62%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #feffff 0%,#ddf1f9 31%,#a0d8ef 62%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#a0d8ef',GradientType=1 ); /* IE6-9 */
+    border: 1px solid #f2f2f2;
+    padding: 20px;
+    max-height: 400px;
+}
+
+#hits {
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+    vertical-align: middle;
+    padding-top: 15px;
+    font-size: 17px;
+    color: white;
+}
+
+#fan {
+    vertical-align: middle;
+    padding-top: 15px;
+    font-size: 17px;
+    color: white;
+}
+
+.pb-product-details-fa > span {
+    padding-top: 20px;
+}
+
+.detail-p{
+    font-size:20px;
+    font-weight:300;
+    color:black;
+    font-family:Arial, Helvetica, sans-serif;
+    float:left;
+    min-width:30%;
+    min-height:100%;
+}
+.detail-span{
+    float:left;
+    min-width:70%;
+    min-height:100%;
+    padding-top:6px;
+}
+
+#form-review{
+   min-width:100%;
+   min-height:200px;
+}
+
+.form-review-sub{
+    min-height:50px;
+    min-width:100%;
+}
+.form-review-sub-input{
+    min-width:100%;
+    min-height:45px;
+    
+}
+.btn-submit{
+    min-width:100px;
+}
+.review-class{
+    min-height:100%;
+    min-width:40%;
+    float:left;
+
+}
+.review-class-sub{
+    margin-left:20px;
+}
+#review-id{
+    min-width:55%;
+    border-left:solid 1px;
+    float:left;
+    margin-left:3%;
+    min-height:200px;
+}
+#review-title{
+    font-size:20px;
+    color:olivedrab;
+    margin-left:20px;
+}

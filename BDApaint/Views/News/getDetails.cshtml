@@ -1,0 +1,121 @@
+﻿@model  BDApaint.Model.NEWS
+
+@{
+    ViewBag.Title = @Html.Raw(Model.NEWS_TITLE);
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<meta property="og:url" content="https://www.localhost:5756/News/getDetails/@Model.NEWS_ID" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="@Model.NEWS_TITLE" />
+<meta property="og:description" content="@Model.NEWS_SUMMARY" />
+<meta property="og:image" content="https://www.localhost:5756/Content/imgNews/@Model.NEWS_IMG" />
+<div class="row col-md-8" style="padding-left: 5%;">
+    <article class="article" style="border-bottom:1px solid rgba(0,0,0,0.09); padding:20px;">
+        <header class="header" style="background-color: transparent;">
+
+            <h1 class="headline" style="font-size: 3.6vw; font-weight: bold; ">
+                @Html.Raw(Model.NEWS_TITLE)
+            </h1>
+            <div class="meta">
+                @*<span class="author">by <span class="author-name">@Html.Raw(Model.ADMIN.USERNAME)</span></span>*@
+                <span class="pub-date" style="color: #999; padding-bottom: 5px; font-weight: 500; font-size:large;"><span class="glyphicon glyphicon-calendar"></span> Được đăng vào lúc @String.Format("{0:d/M/yyyy HH:mm:ss}", @Model.NEWS_DATE)</span>
+            </div>
+        </header>
+        <p style="font-size:large; font-weight:bolder;">
+            @Html.Raw(Model.NEWS_SUMMARY)
+        </p>
+        <figure>
+            <img src="/Content/imgNews/@Html.Raw(Model.NEWS_IMG)" alt="@Html.Raw(Model.NEWS_TITLE)" style="width:100%;">
+        </figure>
+        <blockquote>
+            <p id="content-news">  @Html.Raw((Model.NEWS_CONTENT)))</p>
+
+            <footer style="padding: 3%; ">
+                <span style="font-weight:bold; display:inline-block">Người đăng : </span><div class="category" style="display:inline-block; ">@Html.Raw(Model.ADMIN.USERNAME)</div>
+            </footer>
+        </blockquote>
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+        <!-- Your like button code -->
+        <div class="fb-like" data-href="https://www.localhost:5756/News/getDetails/@Model.NEWS_ID" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-action="Like" data-font="lucida grande"></div>
+
+
+        <!-- Your share button code -->
+        <div class="fb-share-button"
+             data-href="https://www.localhost:5756/News/getDetails/@Model.NEWS_ID"
+             data-layout="button_count">
+        </div>
+    </article>
+    <div style="margin-left:3%; padding:2%;">
+        <div class="row">
+            <span style="font-weight:bold; display:inline-block; ">Danh mục : </span><a href="@Url.Action("getDetailsNewType", "News", new { id = @Model.NEWS_TYPE_ID })"> <div class="category" style="display: inline-block; border: 1px solid; border-radius: 5px; display: inline-block; background: whitesmoke; color: black; padding: 5px; ">@Html.Raw(Model.NEWS_TYPE.NEWS_NAME)</div></a>
+        </div>
+    </div>
+    <div class="panel-danger" id="news-lien-quan">
+        <span class="txt-lienquan" style="width:auto;">Tin liên quan</span>
+        <ul class="list-news-lienquan" style="float:left;">
+            @foreach (var item in ViewBag.cungchude)
+            {
+              <li><a href="@Url.Action("getDetails", "News", new {id = @item.NEWS_ID })">@item.NEWS_TITLE</a></li>
+                
+            }
+
+        </ul>
+
+    </div>
+
+    <div class="panel-danger" id="news-lien-quan">
+        <span class="txt-lienquan" style="width:auto;">Tin cùng tác giả</span>
+        <ul class="list-news-lienquan" style="float:left;">
+            @foreach (var item in ViewBag.cungTacGia)
+            {
+                <li><a href="@Url.Action("getDetails", "News", new {id = @item.NEWS_ID })">@item.NEWS_TITLE</a></li>
+            }
+
+        </ul>
+
+    </div>
+
+</div>
+<div id="side-bar" class="col-md-4" style="margin-top:5%; ">
+    <div class="row">
+        <h2 class="widget-title" style="word-wrap: break-word; word-break: keep-all; letter-spacing: 1px; margin-bottom: 5px; border-bottom: 2px solid #6cf; width: 80%; ">
+            Danh mục
+        </h2>
+        <ul class="item-danh-muc">
+            @foreach (var item in ViewBag.typeNew)
+            {
+                <li><a href="@Url.Action("getDetailsNewType", "News", new { id = @item.TYPE_NEWS_ID })">@item.NEWS_NAME</a></li>
+            }
+        </ul>
+    </div>
+    <div class="row">
+        <h2 class="widget-title" style="letter-spacing: 1px; word-wrap: break-word; word-break: keep-all; margin-bottom: 5px; border-bottom: 2px solid #6cf; width: 80%; ">
+            Bài viết mới nhất
+        </h2>
+        <ul class="item-danh-muc">
+            @foreach (var item in ViewBag.newest)
+            {
+                <li>
+                    <a href="@Url.Action("getDetails", "News", new {id = @item.NEWS_ID })" style="color:black; text-decoration:none;">
+                        @item.NEWS_TITLE<br />
+                        <span class="post-date-new">
+                            @String.Format("{0:dd/MM/yyyy}", @item.NEWS_DATE)
+                        </span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+
+
+

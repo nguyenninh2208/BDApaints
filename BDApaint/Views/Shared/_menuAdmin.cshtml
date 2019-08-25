@@ -1,0 +1,157 @@
+﻿
+<style type="text/css">
+    .li-menu-admin {
+        display: inline-block;
+        color: #fff;
+        margin: 0 10px;
+        text-align: center;
+        line-height: 50px;
+        color: black;
+        font-weight: 900;
+    }
+
+        .li-menu-admin:hover {
+            cursor: pointer;
+            color: red;
+        }
+
+    #ul-menu-admin {
+        min-width: 100%;
+        max-height: 50px;
+        background-color: turquoise;
+        z-index: 99999;
+        position: fixed;
+    }
+
+    #div-menu-admin {
+        max-width: 90%;
+        max-height: 50px;
+        margin-bottom: 50px;
+        z-index: 999999;
+    }
+
+    ul li {
+        position: relative;
+    }
+
+    .sub-ul-menu-admin {
+        display: block;
+        display: none;
+        z-index: 999;
+        list-style-type: none;
+        background-color: turquoise;
+        width: 120%;
+        top: 200%;
+        padding-left: 0;
+    }
+
+    .li-menu-admin:hover > .sub-ul-menu-admin {
+        display: block;
+        position: absolute;
+        top: 100%;
+    }
+
+    .sub-li-menu-admin {
+        width: 100%;
+        color: black;
+        cursor: pointer;
+    }
+
+        .sub-li-menu-admin:hover {
+            color: #fff;
+            background-color: black;
+        }
+
+    .sub-sub-ul-menu-admin {
+        display: block;
+        display: none;
+        list-style-type: none;
+        background-color: turquoise;
+        width: 100%;
+        padding-left: 0;
+        left: 100%;
+        top: 0;
+        z-index: 99;
+        transition: all .4s ease;
+        -webkit-transition: all .4s ease;
+    }
+
+    .sub-li-menu-admin:hover > .sub-sub-ul-menu-admin {
+        display: block;
+        position: absolute;
+    }
+
+    .sub-sub-li-menu-admin {
+        width: 100%;
+        color: #000;
+        cursor: pointer;
+    }
+
+        .sub-sub-li-menu-admin:hover {
+            color: #fff;
+            background-color: #000;
+            cursor: pointer
+        }
+</style>
+
+    <div id="div-menu-admin">
+        <ul id="ul-menu-admin">
+
+            <li class="li-menu-admin">
+                <i class="fab fa-product-hunt fa-lg" style="margin-right:5px;">
+                </i>Sản phẩm
+                <span class="caret"> </span>
+                <ul class="sub-ul-menu-admin" id="menu-sp">
+                    <li class="sub-li-menu-admin">
+                        Loại sản phẩm
+                       
+                        <ul class="sub-sub-ul-menu-admin">
+                            @foreach (var i in ViewBag.l)
+                            {
+                                <li class="sub-sub-li-menu-admin">
+                                    @i.PRODUCER_NAME
+                                </li>
+                               
+                            }
+
+                            </ul>
+                        
+                    </li>
+                    <li class="sub-li-menu-admin">
+                        Nhà cung cấp
+                        <ul class="sub-sub-ul-menu-admin">
+                            @foreach (var i in ViewBag.l1)
+                            {
+                                <li class="sub-sub-li-menu-admin">
+                                    @i.TYPE_NAME
+                                </li>
+
+                            }
+                        </ul>
+                    </li>
+                    <li class="sub-li-menu-admin">
+                        1
+                        <ul class="sub-sub-ul-menu-admin">
+                            <li class="sub-sub-li-menu-admin">
+                                123
+                            </li>
+                            <li class="sub-sub-li-menu-admin">
+                                456
+                            </li>
+                            <li class="sub-sub-li-menu-admin">
+                                789
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="li-menu-admin"><i class="fas fa-table fa-lg " style="margin-right:5px;"></i>Danh mục khác<span class="caret"></span></li>
+            <li class="li-menu-admin">Đăng xuất</li>
+            <li class="li-menu-admin">
+                <i class="fas fa-home fa-lg"></i>
+                @*<p id="adminNameli"></p>*@
+            </li>
+        </ul>
+    </div>
+    <!-- End Navbar -->
+

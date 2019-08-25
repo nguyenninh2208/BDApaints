@@ -1,0 +1,67 @@
+﻿@model List<BDApaint.Model.COLOR>
+@{
+    ViewBag.Title = "resultSearchNameColor";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@if (@ViewBag.count == 0)
+{
+    <h2 class="text-center alert alert-info">Màu bạn tìm không có trong hệ thống của chúng tôi</h2>
+    <a class="myButton" style="margin-bottom: 10px; margin-left: 30px;" href="@Url.Action("Index", "Color")"><span class="glyphicon glyphicon-arrow-left"></span> Quay về trang trước</a>
+}
+
+else if(@ViewBag.count == 1)
+{
+    <div class="edit-add-product" style=" min-height: 300px; width: 80%; margin-bottom:0;">
+        <blockquote style="margin-top:5%; margin-left:5%;">
+            <span class="alert">Kết quả tìm kiếm của từ khóa <span class="text-danger">@ViewBag.nameColor </span>(<span>Đã tìm thấy @ViewBag.count kết quả</span>)</span>
+
+        </blockquote>
+        <div class="row" style="margin-left:5%;">
+            @foreach (var c in Model)
+            {
+                <ul class="list-unstyled list-group ul-color-group colors" style="margin-left:40%;">
+                    <li class="li-color-group" style="background-color:rgb(@c.COLOR_RGB_NAME); width:100px; height:100px;">
+                        <button class="btn-color" id="@c.COLOR_ID"></button>
+                    </li>
+
+                    <p  style="font-size: 2.3vw; margin-left: -20%; color:black;">Tên màu : @c.COLOR_NAME</p>
+                    <p  style="font-size: 2.3vw; margin-left: -20%; color:black;">Mã màu : @c.COLOR_CODE</p>
+
+                </ul>
+            }
+        </div>
+
+    </div>
+    <div class="row" style="padding:20px;">
+        <a class="myButton" style="margin-bottom: 10px; margin-left: 30px;" href="@Url.Action("Index", "Color")"><span class="glyphicon glyphicon-arrow-left"></span> Quay về trang trước</a>
+    </div>
+}
+
+else if (@ViewBag.count >= 2)
+{
+    <div class="edit-add-product" style=" min-height: 300px; width: 80%; margin-bottom:0px;">
+        <blockquote style="margin-top:5%; margin-left:5%;">
+            <span class="alert">Kết quả tìm kiếm của từ khóa <span class="text-danger">@ViewBag.nameColor </span>(<span>Đã tìm thấy @ViewBag.count kết quả</span>)</span>
+
+        </blockquote>
+        <div class="row">
+            @foreach (var c in Model)
+            {
+                <ul class="list-unstyled list-group ul-color-group colors">
+                    <li class="li-color-group" style="background-color:rgb(@c.COLOR_RGB_NAME); width:100px; height:100px;">
+                        <button class="btn-color" id="@c.COLOR_ID"></button>
+                    </li>
+
+                    <p class="text-color" style="font-size: .9vw;">Tên màu : @c.COLOR_NAME</p>
+                    <p class="text-color" style="font-size: .9vw; ">Mã màu : @c.COLOR_CODE</p>
+
+                </ul>
+            }
+        </div>
+
+    </div>
+    <div class="row" style="padding:20px;">
+        <a class="myButton" style="margin-bottom: 10px; margin-left: 30px;" href="@Url.Action("Index", "Color")"><span class="glyphicon glyphicon-arrow-left"></span> Quay về trang trước</a>
+    </div>
+}

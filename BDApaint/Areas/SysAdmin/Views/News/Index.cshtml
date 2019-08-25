@@ -1,0 +1,214 @@
+﻿@{
+
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        var tables = $("#sampleTable");
+        if (tables != null) {
+            var table = $('#sampleTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "Không tìm thấy dữ liệu",
+                    "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                    "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                    "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                },"columns": [
+                    { "width": "5%" },
+                    { "width": "30%" },
+                    { "width": "15%" },
+                    { "width": "20%" },
+                    { "width": "20%" },
+                    {"width": "10%" }
+                ]
+            });
+           
+        }
+    })
+
+
+</script>
+<script type="text/javascript">
+        function deleteNews(id) {
+            event.preventDefault();
+            swal({
+                title: "Bạn chắc chắn thay đổi ?",
+                text: "Tin tức này sẽ được xoá",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type: "GET",
+                            url: "/SysAdmin/News/delete",
+                            data: { id: id },
+                            dataType: 'json',
+                            success: function (rs) {
+                                if (rs.toString() != "0") {
+                                    swal("Xoá thành công", "Nhấn OK để tiếp tục", "success");
+                                    $('#row_' + id).remove();
+                                }
+                                else {
+                                    Ư
+                                    swal("Xoá không thành công", "Error", "error");
+                                }
+
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                swal("Lỗi ", "Vui lòng thử lại", "error");
+
+                            }
+                        });
+                    }
+                    else {
+                        swal("Đã huỷ", "Thông tin vẫn còn nguyên", "error")
+                    }
+                });
+    };
+    function changeStatus(id) {
+        event.preventDefault();
+        swal({
+            title: "Bạn chắc chắn thay đổi ?",
+            text: "Trạng thái tin tức này sẽ được thay đổi",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Có",
+            cancelButtonText: "Không",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/SysAdmin/News/changeStatus",
+                        data: { id: id },
+                        dataType: 'json',
+                        success: function (rs) {
+                            if (rs == 1) {
+                                swal("Thay đổi thành công", "Nhấn OK để tiếp tục", "success");
+                                $('#btnChange_' + id).text("Hiển thị");
+                            }
+                            else if (rs == 0) {
+                                swal("Thay đổi thành công", "Nhấn OK để tiếp tục", "success");
+                                $('#btnChange_' + id).text("Không hiển thị");
+                            }
+                            else {
+                                swal("Thay đổi không thành công, vui lòng thử lại", "Nhấn OK để tiếp tục", "error");
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            swal("Lỗi ", "Vui lòng thử lại", "error");
+
+                        }
+                    });
+                }
+                else {
+                    swal("Đã huỷ", "Thông tin vẫn còn nguyên", "error")
+                }
+            });
+    }
+</script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Danh sách tin tức</h1>
+        <p>Bảng thông tin danh sách tin tức</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    <div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>
+    <div class="btn-above">
+        <a href="@Url.Action("create","News")" class="btn btn-primary">
+            Thêm tin tức mới
+        </a>
+        @*<a href="@Url.Action("UpdateAmount","Product")" class="btn btn-primary">Cập nhật sản phẩm</a>*@
+    </div>
+</div>
+@if (TempData["alertMessage"] != null)
+{
+    <div id="alertBox" class="alert @TempData["alertType"]">
+        @TempData["alertMessage"]
+    </div>
+    <script>
+        var box = $('#alertBox');
+        box.delay(4000).slideUp(500);
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tiêu đề</th>
+                            <th>Hình ảnh </th>
+                            <th>Chủ đề</th>
+                            <th>Tác giả</th>
+                            <th>Ngày đăng</th>
+                            <th>Trạng thái</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                            <tr id="row_@x.NEWS_ID">
+                                <td>
+
+                                    @x.NEWS_ID
+                                </td>
+                                <td> @x.NEWS_TITLE </td>
+                                <td><img src="~/Content/imgNews/@x.NEWS_IMG" width="50" height="50" /></td>
+                                <td> @x.NEWS_TYPE.NEWS_NAME </td>
+                                <td>@x.ADMIN.FULL_NAME</td>
+                                <td> @x.NEWS_DATE </td>
+                                @if (x.STATUS == true)
+                                {
+                                    <td><a href="#" onclick="changeStatus(@x.NEWS_ID)" id="btnChange_@x.NEWS_ID"> Hiển thị </a></td>
+                                }
+                                else
+                                {
+                                    <td> <a href="#" onclick="changeStatus(@x.NEWS_ID)" id="btnChange_@x.NEWS_ID">Không hiển thị</a></td>
+                                }
+
+                                <td>
+                                    <a href="@Url.Action("Edit", new { id = x.NEWS_ID })" style="float:left" class="showEdit button">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="" id="btn-delete" onclick="deleteNews(@x.NEWS_ID)" style="float:left;margin-right:2px;" class="show-Edit button">
+                                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

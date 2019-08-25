@@ -1,0 +1,239 @@
+﻿@model IEnumerable<BDApaint.Model.CART_ITEM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@if (Session["giohang"] == null)
+{
+    <div class="row" style="margin-top:40px; margin-bottom:40px;">
+        <h2 class="text-center alert alert-danger" style="font-size:2em;padding:10px;margin:10px"> Giỏ hàng trống !! </h2>
+        <a href="@Url.Action("Index","Home")" style="font-size:2em;padding:10px;margin:10px">    Vui lòng quay trở lại trang chủ để mua hàng !! </a>
+    </div>
+}
+else
+{
+    <div class="container">
+        @*nếu ks chưa đăng nhập*@
+        @if (Session["UserID"] == null)
+        {
+            <div class="row progress-order" style="margin-top:10%; margin-bottom:10%;">
+                <div class="container-row">
+                    <ul class="progressbar">
+                        <li>Chọn sản phẩm</li>
+                        <li>Đăng nhập</li>
+                        <li>Nhập thông tin thanh toán</li>
+                        <li>Đặt hàng thành công</li>
+                    </ul>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row progress-order" style="margin-top:10%; margin-bottom:10%;">
+                <div class="container-row">
+                    <ul class="progressbar">
+                        <li class="active">Chọn sản phẩm</li>
+                        <li>Đăng nhập</li>
+                        <li>Nhập thông tin thanh toán</li>
+                        <li>Đặt hàng thành công</li>
+                    </ul>
+                </div>
+            </div>
+        }
+
+        <div class="spec ">
+            <h2 style="font-family: 'Merriweather', serif;">Giỏ hàng của bạn</h2>
+            <div class="ser-t">
+                <b></b>
+                <span><i></i></span>
+                <b class="line"></b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="vertical-align:middle; font-size:large;">Hình</th>
+                                <th style="vertical-align: middle; font-size: large;">Tên sản phẩm</th>
+                                <th style="vertical-align: middle; font-size: large;">Số lượng</th>
+                                <th style="vertical-align: middle; font-size: large;">Ðơn giá</th>
+                                <th style="vertical-align: middle; font-size: large;">Thành tiền</th>
+                                <th style="vertical-align: middle; font-size: large;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="areas-cart-item"></tbody>
+                        <tfoot>
+                            @*@{
+                                int total = 0;
+                                int i = 0;
+                                                        }*@
+                            <tr>
+                                <td></td>
+                                <td class="text-center" style="font-size:large; font-weight:700;">@*Tổng số lượng*@</td>
+
+                                <td class="sum-quantity">@*@ViewBag.sumQuantity*@</td>
+                                <td class="text-right" style=" font-size:large; font-weight:700;">Tổng thành tiền:</td>
+                                <td class="text-center" style="color: red; font-size: x-large;">
+                                    <span class="text-center sum-total-money">
+                                        @*@String.Format("{0:0,0}", @ViewBag.sumTotal) đ*@
+                                    </span>đ
+                                    @*@{
+                                        i++;
+                                        total += @ViewBag.sumTotal;
+                                                                        }*@
+                                </td>
+                                <td><a role="button" onclick="DeleteAllItem()" class="DeleteButton" style="color: white; font-size: small;"><span class="glyphicon glyphicon-trash"></span> Xóa giỏ hàng</a></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a href="/Home/Index" role="button" class="btn btn-default btn-back-index"><span class="glyphicon glyphicon-arrow-left"></span> Tiếp tục mua hàng</a></td>
+                                <td><a href="/CartItem/Payment" role="button" class="myButton" style="width:100%; text-align:center; font-size:14px;">Đặt hàng <span class="	glyphicon glyphicon-arrow-right"></span> </a></td>
+                                @if (Session["UserID"] == null)
+                                {
+                                    <td>Đăng nhập để tiếp tục<br /> <span class="glyphicon glyphicon-hand-right"></span><a href="/Home/loginView" style="font-weight:bold;">  Đăng nhập</a></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+
+    function DeleteItem(q) {
+        var id = q;
+        var urlXoaItem = '@Url.Action("Remove","CartItem")';
+
+        //dùng để xóa dữ liệu trên vùng này trước
+        $('#areas-cart-item').html('');
+        $('.sum-total-money').html('');
+        $.ajax({
+            url: urlXoaItem,
+            type: "GET",
+            data: { id: id },
+            success: function (res) {
+                $(getAll).append('#areas-cart-item');
+                window.location.reload();
+            }
+        })
+    }
+    function NumberFormat(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+    function getAll() {
+        debugger
+        var urlg = '@Url.Action("getAll", "CartItem")';
+        i = 0;
+        total = 0;
+        $.ajax({
+            type: "GET",
+            url: urlg,
+            success: function (res) {
+                var html = '';
+                if (res.toString() == "") {
+                    var html = '';
+                    html += '<td class="alert text-center " colspan=6  style="font-size:2vw;     border: black; ">';
+                    html += 'Giỏ hàng chưa có sản phẩm nào';
+                    html += '<a class="myButton" href="/Home/Index/">Quay về trang chủ</a>';
+                    html += '</td>';
+                    $('#areas-cart-item').replaceWith(html);
+                    $('tfoot').remove();
+                    $('.progress-order').remove();
+
+                }
+                $.each(res, function (key, item) {
+                    item.TOTAL_MONEY = item.QUANTITY * item.UNIT_PRICE
+
+                    html += '<tr id="tr-' + item.PRODUCT_ID + '">';
+                    html += '';
+                    html += '<td style="vertical-align: middle;" class="text-center"><a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '"><img src="/Content/img2/' + item.IMAGE + '" width="70" height="60" /></a> </td>';
+                    html += '<td style="vertical-align: middle;" class="text-left"><a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">' + item.PRODUCT_NAME + '</a></td>';
+                    html += '<td style="vertical-align: middle;" class="text-center">';
+                    html += '<input style="width:50%;" data-id="' + item.PRODUCT_ID + '"; class="col-lg-4 cart-item-quantity-' + item.PRODUCT_ID + '" style="height:30px;" onchange="changeQuantity(' + item.PRODUCT_ID + ')" value=' + item.QUANTITY + ' type="number" min="1" max="100" step="1"    />';
+                    html += '</td>';
+                    html += '<td class="text-center" style="vertical-align: middle;">';
+                    html += '<span class="unit-price">' + NumberFormat(item.UNIT_PRICE) + ' đ </span>';
+                    //nếu discount value ko null thì show div price-box
+                    if (item.DISCOUNT_VALUE) {
+                        html += '<div id="price-box" style="text-decoration:none; font-size:large; line-height: .5;">';
+                        html += '<span class="price-product" style="text-decoration: line-through; font-size:smaller; opacity:0.5; float:left; padding:10px; border-right:1px solid;">' + NumberFormat(item.PRICE) + 'đ</span>';
+                        if (item.DISCOUNT_VALUE < 100) {
+                            html += '<span class="value-discount" style="float:right; font-size:smaller; padding:10px; margin-right:10%;">' + item.DISCOUNT_VALUE + ' % </span>';
+                        }
+                        else {
+                            html += '<span class="value-discount" style="float:right; font-size:smaller; margin-top:5%;">-' + NumberFormat(item.DISCOUNT_VALUE) + ' đ </span>';
+                        }
+                        html += '</div>';
+                    }
+                    html += '</td>';
+                    html += '<td style="vertical-align: middle;" class="text-center"><span class="total-money" id="total-money-' + item.PRODUCT_ID + '"> ' + NumberFormat(item.TOTAL_MONEY) + 'đ </span></td>';
+                    html += '<td style="vertical-align: middle;"><a role="button" onclick="DeleteItem(' + item.PRODUCT_ID + ')" class="DeleteButton" style="color:white;"><span class="glyphicon glyphicon-remove"></span></a>';
+                    html += '<a role="button"  class="myButton" onclick=changeQuantity(' + item.PRODUCT_ID + ')  style="color:white; margin-left:5px;"><span class="glyphicon glyphicon-refresh"></span></a></td>'
+                    html += '</tr>';
+                    html += '</div>';
+                    i++;
+                    total += item.TOTAL_MONEY;
+
+                }
+            )
+
+                $('tbody').append(html);
+                $('.sum-total-money').append(NumberFormat(total));
+
+
+            }, error: function (rs) {
+                //alert(rs.responseText);
+            }
+        })
+    }
+    $().ready(function () {
+        getAll();
+    }
+    )
+    function changeQuantity(id) {
+        var newSoLuong = $('.cart-item-quantity-' + id).val();
+        var id = id;
+        var urlEditItem = '@Url.Action("EditQuantity", "CartItem")';
+        $('#areas-cart-item').html('');
+        $('.total-money').html('');
+        $('.cart-item-quantity').html('');
+        $('.sum-total-money').html('');
+        $.ajax({
+            url: urlEditItem,
+            data: { id: id, newQuantity: newSoLuong },
+            type: 'POST',
+            success: function (res) {
+                $(getAll).append('#areas-cart-item');
+
+            }
+        })
+    }
+    function DeleteAllItem(q) {
+        //var id = q;
+        //$('#areas-cart-item').html('');
+        var urlXoaAllItem = '@Url.Action("RemoveAll", "CartItem")';
+        $('#areas-cart-item').html('');
+        $('tfoot').remove();
+        $.ajax({
+            url: urlXoaAllItem,
+            type: "GET",
+            //data: { id: id },
+            success: function (res) {
+                window.location.reload();
+            }
+        })
+    }
+</script>

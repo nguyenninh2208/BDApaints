@@ -1,0 +1,142 @@
+﻿
+@model BDApaint.Model.USER
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<style>
+    #form-signup {
+        margin: 10% 10%;
+        background-color: #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        border-radius: 5px
+    }
+
+    #title-signup {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .sub-form {
+        margin-left: 5%
+    }
+</style>
+<div>
+    <div class="row" id="form-signup">
+        <div class="col-md-12">
+            <h3 id="title-signup">ĐẮNG KÝ TÀI KHOẢN</h3>
+            @if (TempData["alertMessage"] != null)
+            {
+                <div id="alertBox" class="alert @TempData["alertType"]">
+                    @TempData["alertMessage"]
+                </div>
+                <script>
+                    var box = $('#alertBox');
+                    box.delay(4000).slideUp(500);
+                </script>
+            }
+            <hr style="width:50%" />
+            <div class="tile">
+                <form action="@Url.Action("Register", "User")" method="post" id="form-data" role="form">
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-lg-5 sub-form">
+                            <div class="form-group">
+                                <label for="USERNAME">USERNAME </label>
+                                @Html.TextBoxFor(x => x.USERNAME, new { @class = "form-control", @placeholder = "Username" })
+                                @Html.ValidationMessageFor(x => x.USERNAME, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="PASSWORD">PASSWORD </label>
+                                @Html.TextBoxFor(x => x.PASSWORD, new { @class = "form-control", @placeholder = "Password", @type = "password" })
+                                @Html.ValidationMessageFor(x => x.PASSWORD, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="re-password">Nhập lại PASSWORD </label>
+                                <input id="re-password" class="form-control" placeholder="Re-Password" type="password" />
+                                <span class="text-danger" id="check-re-password"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="FULLNAME">Hộ tên đầy đủ </label>
+                                @Html.TextBoxFor(x => x.FULLNAME, new { @class = "form-control", @placeholder = "Họ tên đầy đủ" })
+                                @Html.ValidationMessageFor(x => x.FULLNAME, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                        <div class="col-lg-5 sub-form">
+                            <div class="form-group">
+                                <label for="EMAIL">Email </label>
+                                @Html.TextBoxFor(x => x.EMAIL, new { @class = "form-control", @placeholder = "Email" })
+                                @Html.ValidationMessageFor(x => x.EMAIL, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="PHONE">Số điện thoại </label>
+                                @Html.TextBoxFor(x => x.PHONE, new { @class = "form-control", @placeholder = "Số điện thoại" })
+                                @Html.ValidationMessageFor(x => x.PHONE, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="ADDRESS">Địa chỉ </label>
+                                @Html.TextBoxFor(x => x.ADDRESS, new { @class = "form-control", @placeholder = "Địa chỉ" })
+                                @Html.ValidationMessageFor(x => x.ADDRESS, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label for="GENDER">Giới tính</label>
+                                <div class="animated-radio-button">
+                                    <label class="for-radio">
+                                        @Html.RadioButtonFor(x => x.GENDER, "1", new { @class = "form-check-control form-check-control1" })
+                                        <span class="label-text">Nam</span>
+                                    </label>
+                                    <label style="margin-left:10px;" class="for-radio">
+                                        @Html.RadioButtonFor(x => x.GENDER, "0", new { @class = "form-check-control form-check-control1"})
+                                        <span class="label-text">Nữ</span>
+                                    </label>
+                                    @Html.ValidationMessageFor(x => x.GENDER, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin:2% 5%">
+                        <button type="submit" class="col-md-1 btn btn-primary" id="btn-submit">Submit</button>
+                        <span style="margin-left:10px">Đã có tài khoản?<a href="/Home/LoginView" class="btn btn-link" style="margin-left:2px;">Đăng nhập</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#btn-submit").on("click", function () {
+            var pw = $('#PASSWORD').val();
+            var re = $('#re-password').val();
+            if (re == "") {
+                $('#check-re-password').html("Không được để trống ");
+            }
+            else if (pw != re) {
+                $('#check-re-password').html("Mật khẩu nhập lại không đúng");
+            }
+            else {
+                $('#check-re-password').html("");
+            }
+            //var rbtDetail = document.getElementsByName("GENDER");
+            //var isValid = false;
+            //for (var i = 0; i < rbtDetail.length; i++) {
+            //    if (rbtDetail[i].checked) {
+            //        isValid = true;
+            //        break;
+            //    }
+            //}
+            //if (isValid == true) {
+               
+            //    return true;
+            //}
+            //else {
+               
+            //    return false;
+            //}
+        })
+    })
+</script>

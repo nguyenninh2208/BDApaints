@@ -1,0 +1,90 @@
+﻿@model BDApaint.Model.CART
+
+@{
+    ViewBag.Title = "OrderSuccess";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div style="margin-top:5%; margin-bottom:5%;">
+    <div class="row" style="margin-top: 5%; margin-bottom: 12%;">
+        <div class="container-row">
+            <ul class="progressbar">
+                <li class="active">Chọn sản phẩm</li>
+                <li class="active">Đăng nhập</li>
+                <li class="active">Nhập thông tin thanh toán</li>
+                <li class="active">Đặt hàng thành công</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<div class="form-content" id="form-order-detail">
+
+    <div class="header-email">
+        <img src="~/Content/Images/icon-cart.png" alt="" class="img-order-detail">
+        <p>Đơn hàng của bạn</p>
+    </div>
+    <div class="content-email" style="margin-left: 5%; margin-right: 5%;">
+        <img src="~/Content/Images/Logo-BDA-new1.png" />
+
+        <div class=" detail-content detail-order">
+            <p class="salam">Bạn đã đặt hàng thành công !</p>
+            <p>Cảm ơn bạn đã đặt hàng tại BDA</p>
+            <p>Thông tin người đặt hàng :</p>
+            <div class="table-responsive" style="border: 2px solid rgba(0,0,0,0.5); background-color: rgba(0,0,0,0.09);">
+                <table class="table" style="margin-bottom:0px;">
+                    <tr>
+                        <td>Mã số đơn hàng</td>
+                        <td>:</td>
+                        <td>@Model.CART_ID</td>
+                    </tr>
+                    <tr>
+                        <td>Tên</td>
+                        <td>:</td>
+                        <td>@Model.SHIP_NAME</td>
+                    </tr>
+                    <tr>
+                        <td>Số điện thoại giao hàng</td>
+                        <td>:</td>
+                        <td>@Model.SHIP_MOBILE</td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ giao hàng</td>
+                        <td>:</td>
+                        <td>@Model.SHIP_ADDRESS</td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ email</td>
+                        <td>:</td>
+                        <td>@Model.SHIP_EMAIL</td>
+                    </tr>
+                    <tr>
+                        <td>Ghi chú giao hàng</td>
+                        <td>:</td>
+                        <td>@Model.SHIP_MESSAGES</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="note-order">
+                @if (@Model.DISCOUNT_VALUE != null)
+                {
+                    if (@Model.DISCOUNT_VALUE <= 100)
+                    {
+                        <p>Khuyến mãi tri ân khách hàng : - @Model.DISCOUNT_VALUE % trên tổng giá trị đơn hàng</p>
+                    }
+                    else
+                    {
+                        <p>Khuyến mãi tri ân khách hàng : - @Model.DISCOUNT_VALUE đ </p>
+                    }
+                }
+                <p>Tổng tiền đơn hàng : <b>@String.Format("{0:0,0}", @Model.TOTAL_MONEY) đ</b></p>
+                <p>Đã gửi thông tin đơn hàng đến email  <b>@Model.SHIP_EMAIL</b> Nếu không tìm thấy , vui lòng tìm thêm trong Spam hoặc Junk Folder.</b></p>
+                <p>Thời gian đặt hàng : <b>@String.Format("{0:dd/MM/yyyy hh:mm:ss tt}", @Model.DATE_ORDER) </b></p>
+                <p>Ngày giao hàng dự kiến : <b>@String.Format("{0:dd/MM/yyyy hh:mm:ss tt}", @Model.ESTIMATED_DATE_DELIVERY) </b></p>
+
+                <a class="myButton" href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-arrow-left"></span> Trở về trang chủ</a>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿@model BDApaint.Model.DELIVERY_ITEM
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script src="~/AdminContent/js/Delivery_Item/edit.js"></script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Form cập nhật</h1>
+        <p>cập nhật đơn vị - loại vận chuyển</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Form Components</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <form id="formData">
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                ID:
+                            </label>
+                            @Html.TextBoxFor(x => x.DELIVERY_ITEM_ID, new { @class="form-control",@value= "@x.DELIVERY_ITEM_ID", @readonly=""})
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Tên :
+                            </label>
+                            @Html.TextBoxFor(x => x.BOTH_NAME, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.BOTH_NAME, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Loại vận chuyển:
+                            </label>
+                            @Html.DropDownListFor(model => model.DELIVERY_TYPE_ID, (IEnumerable<SelectListItem>)ViewBag.type, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.DELIVERY_TYPE_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Đơn vị vận chuyển:
+                            </label>
+                            @Html.DropDownListFor(model => model.DELIVERY_ID, (IEnumerable<SelectListItem>)ViewBag.company, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.DELIVERY_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Giá tiền:
+                            </label>
+                            @Html.TextBoxFor(x => x.DELIVERY_ITEM_COST, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(x => x.DELIVERY_ITEM_COST, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Số ngày vận chuyển:
+                            </label>
+                            @Html.TextBoxFor(x => x.ESTIMATED_DATE_DELIVERY, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(x => x.ESTIMATED_DATE_DELIVERY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                    <input type="submit" value="Cập nhật" class="btn btn-success" id="btnSubmit" />
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Delivery_Item")">Trang chủ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

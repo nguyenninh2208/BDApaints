@@ -1,0 +1,108 @@
+﻿@model IEnumerable<BDApaint.Model.SUPPLIER>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#sampleTable tfoot tr th").each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input  type = "text" placeholder="' + title + '" />')
+        //});
+        var tables = $("#sampleTable");
+        if (tables != null) {
+            var table = $('#sampleTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "Không tìm thấy dữ liệu",
+                    "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                    "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                    "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                }
+            });
+            //table.columns().every(function () {
+            //    var that = this;
+            //    $("input", this.footer()).on('keyup change clear', function () {
+            //        if (that.search() !== this.value) {
+            //            that
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    })
+            //})
+        }
+    })
+
+
+</script>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12" id="game_account">
+            <div class="card">
+                <div style="min-width:100%;min-height:10%;">
+                    <div class="card-header" style="float:left">
+                        Lọc theo
+                        <select class="" onchange="getAllProduct(this.value)">
+                            <option value="-1" selected>Tất cả</option>
+                            <option value="0">Đang chờ duyệt</option>
+                            <option value="1">Đang bán</option>
+                            <option value="2">Đã bán</option>
+                        </select>
+
+                    </div>
+                    <div><a href="@Url.Action("Create","Supplier")" class="btn btn-info">Thêm nhà cung cấp mới</a></div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="display table-sm" id="table_id">
+                            <thead class="text-info">
+                                <tr>
+                                    <th>Mã</th>
+                                    <th>Tên nhà cung cấp</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Email</th>
+                                    <th>URL</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accountTbody">
+                                @foreach (var x in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div title="Chi tiết" class="text-dark bg-transparent" style="cursor: pointer">
+                                                <a onclick="getdetail(@x.ID)">@x.ID</a>
+                                            </div>
+                                        </td>
+
+                                        <td>@x.NAME</td>
+
+                                        <td>@x.ADDRESS</td>
+                                        <td>@x.PHONE</td>
+                                        <td>@x.EMAIL</td>
+                                        <td>@x.URL</td>
+                                        <td>
+
+                                            <a href="@Url.Action("getSupplierByIDToEdit",new {id = x.ID })"  style="float:left" class="showEdit button">
+                                                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                            </a>
+                                            <a href="@Url.Action("deleteSupplier",new { id = x.ID})" style="float:left;margin-right:2px;" class="show-Edit button">
+                                                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

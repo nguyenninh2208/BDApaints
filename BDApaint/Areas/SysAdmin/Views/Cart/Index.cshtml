@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "getProduct";
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#sampleTable tfoot tr th").each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input  type = "text" placeholder="' + title + '" />')
+        //});
+        var tables = $("#sampleTable");
+        if (tables != null) {
+            var table = $('#sampleTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "Không tìm thấy dữ liệu",
+                    "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                    "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                    "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                }
+            });
+            //table.columns().every(function () {
+            //    var that = this;
+            //    $("input", this.footer()).on('keyup change clear', function () {
+            //        if (that.search() !== this.value) {
+            //            that
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    })
+            //})
+        }
+    })
+
+
+</script>
+<script src="~/AdminContent/js/cartJS/changeStatus.js"></script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Danh sách giao dịch</h1>
+        <p>Bảng thông tin danh sách giao dịch của khách hàng</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    <div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>
+    @*<div class="btn-above"><a href="@Url.Action("createS","Import_Order")" class="btn btn-primary">á</a></div>*@
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn hàng</th>
+                            <th>Tên khách hàng</th>
+                            <th>Ngày giao dịch</th>
+                            <th>Tên người nhận hàng</th>
+                            <th>Số điện thoại</th>
+                            <th>Địa chỉ nhận hàng</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            @*<th>Khuyến mãi</th>*@
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                        <tr>
+                            <td>
+                                <a href="/SysAdmin/Cart_Item/detailCart/@x.CART_ID">@x.CART_ID</a>
+                            </td>
+                            <td>@x.USER.FULLNAME</td>
+                            <td>@String.Format("{0:dd-MM-yyyy}", x.DATE_ORDER)</td>
+                            <td>@x.SHIP_NAME</td>
+                            <td>@x.SHIP_MOBILE</td>
+                            <td>@x.SHIP_ADDRESS</td>
+                            <td>@String.Format("{0:0,0}", @x.TOTAL_MONEY) VND</td>
+                            @{
+                                if (x.STATUS == 1)
+                                {
+                                    <td><a id="btnChangeStatus_@x.CART_ID" href=""  onclick="changeStatusCart(@x.CART_ID)">Giao dịch thành công</a></td>
+                                }
+                                else if (x.STATUS == -1)
+                                {
+                                    <td><a id="btnChangeStatus_@x.CART_ID" href=""  onclick="changeStatusCart(@x.CART_ID)">Giao dịch huỷ bỏ</a></td>
+                                }
+                                else
+                                {
+                                    <td><a id="btnChangeStatus_@x.CART_ID" href="" onclick="changeStatusCart(@x.CART_ID)">Giao dịch đang thực hiện</a></td>
+
+                                }
+                            }
+                            <td style="text-align:center">
+                                <a href="@Url.Action("detail","Cart",new {id = x.CART_ID })" class="showEdit button">
+                                    <i class="fa fa-info-circle fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<BDApaint.Model.PRODUCT>
+@{
+    ViewBag.Title = "Kết quả kiểm tra";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+@if (@ViewBag.count == 0)
+{
+    <h2 class="text-center alert alert-info" style="font-family: 'Merriweather', serif;">Sản phẩm bạn tìm không có trong hệ thống của chúng tôi</h2>
+     <a class="row myButton" style="margin-bottom: 10px; margin-left: 30px;" href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-arrow-left"></span> Quay về trang chủ</a><br />
+}
+else
+{
+    <h2 class="text-center alert alert-info">Kết quả</h2>
+     <blockquote>
+        <p class="text-left">Sản phẩm này đang được cung cấp ở hệ thống của chúng tôi . Bạn có thể xem chi tiết sản phẩm bên dưới</p>
+        <footer>From BDA's website</footer>
+    </blockquote>
+    foreach (var item in Model)
+    {
+        <div class="row text-center">
+
+            <div class="some-block" style="border:none;">
+                <a href="/Product/getDetailProduct/@Html.DisplayFor(modelItem => item.PRODUCT_ID)">
+                    <img class="img-product" src="/Content/img2/@Html.DisplayFor(modelItem => item.IMAGE)" width="120" height="150" alt="@Html.DisplayFor(modelItem => item.IMAGE)" />';
+                </a>
+                <div class="info-product">
+                    <div class="name-product" style="font-weight:700; font-size:small;">
+                        @Html.DisplayFor(modelItem => item.PRODUCT_NAME)
+                    </div>
+                    <div class="price-product">
+                        Giá:  @String.Format("{0:0,0}", @item.PRICE)   đ
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    }
+          <a class="row myButton" style="margin-bottom: 10px; margin-left: 30px;" href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-arrow-left"></span> Quay về trang chủ</a><br />
+}

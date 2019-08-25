@@ -1,0 +1,2085 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DATABASELVTN3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ADMIN">
+          <Key>
+            <PropertyRef Name="ADMIN_ID" />
+          </Key>
+          <Property Name="ADMIN_ID" Type="int" Nullable="false" />
+          <Property Name="USERNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="PHONE" Type="varchar" MaxLength="20" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="50" />
+          <Property Name="ADDRESS" Type="nvarchar" MaxLength="100" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="50" />
+          <Property Name="FULL_NAME" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CART">
+          <Key>
+            <PropertyRef Name="CART_ID" />
+          </Key>
+          <Property Name="CART_ID" Type="int" Nullable="false" />
+          <Property Name="USER_ID" Type="int" />
+          <Property Name="DATE_ORDER" Type="date" />
+          <Property Name="SHIP_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="SHIP_MOBILE" Type="nvarchar" MaxLength="50" />
+          <Property Name="SHIP_ADDRESS" Type="nvarchar" MaxLength="50" />
+          <Property Name="SHIP_EMAIL" Type="nvarchar" MaxLength="50" />
+          <Property Name="SHIP_MESSAGES" Type="nvarchar(max)" />
+          <Property Name="TOTAL_MONEY" Type="int" />
+          <Property Name="STATUS" Type="int" />
+          <Property Name="SALE_ID" Type="int" />
+          <Property Name="REASON_CANCEL" Type="nvarchar(max)" />
+          <Property Name="DELIVERY_ITEM_ID" Type="int" />
+          <Property Name="DELIVERY_COST" Type="int" />
+          <Property Name="ESTIMATED_DATE_DELIVERY" Type="date" />
+          <Property Name="DISCOUNT_VALUE" Type="int" />
+        </EntityType>
+        <EntityType Name="CART_ITEM">
+          <Key>
+            <PropertyRef Name="CART_ITEM_ID" />
+          </Key>
+          <Property Name="CART_ITEM_ID" Type="int" Nullable="false" />
+          <Property Name="PRODUCT_ID" Type="int" />
+          <Property Name="CART_ID" Type="int" />
+          <Property Name="PRODUCT_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="IMAGE" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PRICE" Type="int" />
+          <Property Name="UNIT_PRICE" Type="int" />
+          <Property Name="QUANTITY" Type="int" />
+          <Property Name="TOTAL_MONEY" Type="int" />
+          <Property Name="DISCOUNT_VALUE" Type="int" />
+        </EntityType>
+        <EntityType Name="COLOR">
+          <Key>
+            <PropertyRef Name="COLOR_ID" />
+          </Key>
+          <Property Name="COLOR_ID" Type="int" Nullable="false" />
+          <Property Name="COLOR_CODE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="COLOR_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="COLOR_RGB_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="SUB_COLOR_GROUP_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="COLOR_GROUP">
+          <Key>
+            <PropertyRef Name="COLOR_GROUP_ID" />
+          </Key>
+          <Property Name="COLOR_GROUP_ID" Type="int" Nullable="false" />
+          <Property Name="COLOR_GROUP_NAME" Type="nchar" MaxLength="50" />
+          <Property Name="COLOR_GROUP_CODE" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="COLOR_GROUP_NEWS">
+          <Key>
+            <PropertyRef Name="COLOR_GROUP_NEWS_ID" />
+          </Key>
+          <Property Name="COLOR_GROUP_NEWS_ID" Type="int" Nullable="false" />
+          <Property Name="COLOR_GROUP_ID" Type="int" />
+          <Property Name="NEWS_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="COMMENT">
+          <Key>
+            <PropertyRef Name="Comment_ID" />
+          </Key>
+          <Property Name="Comment_ID" Type="int" Nullable="false" />
+          <Property Name="Product_ID" Type="int" />
+          <Property Name="User_ID" Type="int" />
+          <Property Name="Comment_Content" Type="nvarchar" MaxLength="1000" />
+          <Property Name="date" Type="date" />
+        </EntityType>
+        <EntityType Name="COMMENT_NEWS">
+          <Key>
+            <PropertyRef Name="COMMENT_NEWS_ID" />
+          </Key>
+          <Property Name="COMMENT_NEWS_ID" Type="int" Nullable="false" />
+          <Property Name="COMMENT_NEWS_CONTENT" Type="nvarchar" MaxLength="300" />
+          <Property Name="DATE" Type="date" />
+          <Property Name="NEWS_ID" Type="int" />
+          <Property Name="USER_ID" Type="int" />
+          <Property Name="ADMIN_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="DELIVERY">
+          <Key>
+            <PropertyRef Name="DELIVERY_ID" />
+          </Key>
+          <Property Name="DELIVERY_ID" Type="int" Nullable="false" />
+          <Property Name="DELIVERY_COMPANY_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="DELIVERY_PHONE" Type="nchar" MaxLength="10" />
+          <Property Name="DELIVERY_ADDRESS" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DELIVERY_ITEM">
+          <Key>
+            <PropertyRef Name="DELIVERY_ITEM_ID" />
+          </Key>
+          <Property Name="DELIVERY_ITEM_ID" Type="int" Nullable="false" />
+          <Property Name="DELIVERY_ID" Type="int" />
+          <Property Name="DELIVERY_TYPE_ID" Type="int" />
+          <Property Name="DELIVERY_ITEM_COST" Type="int" />
+          <Property Name="ESTIMATED_DATE_DELIVERY" Type="int" />
+          <Property Name="BOTH_NAME" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DELIVERY_TYPE">
+          <Key>
+            <PropertyRef Name="DELIVERY_TYPE_ID" />
+          </Key>
+          <Property Name="DELIVERY_TYPE_ID" Type="int" Nullable="false" />
+          <Property Name="DELIVERY_TYPE_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="DISCOUNT_UNIT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="nvarchar(max)" />
+          <Property Name="CURRENCY" Type="bit" Nullable="false" />
+          <Property Name="PERCENTAGE" Type="bit" />
+        </EntityType>
+        <EntityType Name="FEEDBACK">
+          <Key>
+            <PropertyRef Name="FEEDBACK_ID" />
+          </Key>
+          <Property Name="FEEDBACK_ID" Type="int" Nullable="false" />
+          <Property Name="FEEDBACK_CONTENT" Type="nvarchar" MaxLength="300" />
+          <Property Name="FEEDBACK_DATE" Type="date" />
+          <Property Name="FEEDBACK_USER" Type="int" />
+        </EntityType>
+        <EntityType Name="IMPORT_ORDER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DATE_IMPORT" Type="date" />
+          <Property Name="TOTAL" Type="int" />
+          <Property Name="PERSON_IMPORT_ID" Type="int" />
+          <Property Name="SUPPLIER_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="IMPORT_ORDER_DETAIL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="IMPORT_ID" Type="int" />
+          <Property Name="PRODUCT_ID" Type="int" />
+          <Property Name="IMPORT_AMOUNT" Type="int" />
+          <Property Name="IMPORT_AMOUNT_REAL" Type="int" />
+          <Property Name="IMPORT_PRICE" Type="int" />
+          <Property Name="IMPORT_INTO_MONEY" Type="int" />
+          <Property Name="IMPORT_UNIT_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="MEMBERSHIP_TYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="MEMBERSHIP_TYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="DISCOUNT_VALUE" Type="int" />
+          <Property Name="DISCOUNT_UNIT_ID" Type="int" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="VALID_UNTIL" Type="datetime" />
+          <Property Name="FREE_SHIPPING_ACTIVE" Type="bit" />
+          <Property Name="MIN_POINT" Type="int" />
+          <Property Name="MAX_POINT" Type="int" />
+        </EntityType>
+        <EntityType Name="NEWS">
+          <Key>
+            <PropertyRef Name="NEWS_ID" />
+          </Key>
+          <Property Name="NEWS_ID" Type="int" Nullable="false" />
+          <Property Name="NEWS_DATE" Type="date" />
+          <Property Name="NEWS_TITLE" Type="nvarchar" MaxLength="100" />
+          <Property Name="NEWS_SUMMARY" Type="nvarchar" MaxLength="400" />
+          <Property Name="NEWS_CONTENT" Type="nvarchar(max)" />
+          <Property Name="NEWS_IMG" Type="varchar" MaxLength="100" />
+          <Property Name="ADMIN_ID" Type="int" />
+          <Property Name="NEWS_TYPE_ID" Type="int" />
+          <Property Name="STATUS" Type="bit" />
+        </EntityType>
+        <EntityType Name="NEWS_TYPE">
+          <Key>
+            <PropertyRef Name="TYPE_NEWS_ID" />
+          </Key>
+          <Property Name="TYPE_NEWS_ID" Type="int" Nullable="false" />
+          <Property Name="NEWS_NAME" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PERSON_IMPORT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="100" />
+          <Property Name="PHONE" Type="nvarchar" MaxLength="50" />
+          <Property Name="ADDRESS" Type="nvarchar" MaxLength="100" />
+          <Property Name="POSITION" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PRODUCER">
+          <Key>
+            <PropertyRef Name="PRODUCER_ID" />
+          </Key>
+          <Property Name="PRODUCER_ID" Type="int" Nullable="false" />
+          <Property Name="PRODUCER_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="URL" Type="varchar" MaxLength="50" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="100" />
+          <Property Name="PHONE" Type="varchar" MaxLength="20" />
+          <Property Name="ADDRESS" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IMG" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="PRODUCT_ID" />
+          </Key>
+          <Property Name="PRODUCT_ID" Type="int" Nullable="false" />
+          <Property Name="PRODUCT_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="PRICE" Type="int" />
+          <Property Name="AMOUNT" Type="int" />
+          <Property Name="DATE_OF_MANUFACTURE" Type="date" />
+          <Property Name="LIMITED_USE" Type="int" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="2000" />
+          <Property Name="IMAGE" Type="varchar" MaxLength="100" />
+          <Property Name="NET" Type="int" />
+          <Property Name="CODE_AUTH" Type="varchar" MaxLength="20" />
+          <Property Name="STATUS" Type="int" />
+          <Property Name="SPECIFICATION" Type="nvarchar(max)" />
+          <Property Name="PRODUCT_TYPE_ID" Type="int" />
+          <Property Name="PRODUCER_ID" Type="int" />
+          <Property Name="DISCOUNT" Type="int" />
+          <Property Name="BUYING" Type="int" />
+          <Property Name="SELL" Type="int" />
+          <Property Name="DISCOUNT_VALUE" Type="int" />
+        </EntityType>
+        <EntityType Name="PRODUCT_COLOR">
+          <Key>
+            <PropertyRef Name="PRODUCT_COLOR_ID" />
+          </Key>
+          <Property Name="PRODUCT_COLOR_ID" Type="int" Nullable="false" />
+          <Property Name="PRODUCT_ID" Type="int" />
+          <Property Name="COLOR_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="PRODUCT_DISCOUNT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DISCOUNT_VALUE" Type="int" />
+          <Property Name="DISCOUNT_UNIT_ID" Type="int" />
+          <Property Name="CREATE_DATE" Type="datetime" />
+          <Property Name="UNTIL_VALID" Type="datetime" />
+          <Property Name="MAXIMUM_DISCOUNT_VALUE" Type="int" />
+          <Property Name="MINIMUM_ORDER_VALUE" Type="int" />
+          <Property Name="DESCRIPTION" Type="nvarchar(max)" />
+          <Property Name="STATUS" Type="bit" />
+          <Property Name="COUPON_CODE" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PRODUCT_TYPE">
+          <Key>
+            <PropertyRef Name="TYPE_ID" />
+          </Key>
+          <Property Name="TYPE_ID" Type="int" Nullable="false" />
+          <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="USES" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="SUB_COLOR_GROUP">
+          <Key>
+            <PropertyRef Name="SUB_COLOR_GROUP_ID" />
+          </Key>
+          <Property Name="SUB_COLOR_GROUP_ID" Type="int" Nullable="false" />
+          <Property Name="SUB_COLOR_GROUP_CODE" Type="nchar" MaxLength="10" />
+          <Property Name="SUB_COLOR_GROUP_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="COLOR_GROUP_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="SUPPLIER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="ADDRESS" Type="nvarchar(max)" />
+          <Property Name="PHONE" Type="varchar" MaxLength="10" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="50" />
+          <Property Name="URL" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UNIT_PRODUCT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="NAME" Type="varchar" MaxLength="50" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="USERNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="PASSWORD" Type="nvarchar" MaxLength="50" />
+          <Property Name="PHONE" Type="nchar" MaxLength="10" />
+          <Property Name="ADDRESS" Type="nvarchar" MaxLength="100" />
+          <Property Name="EMAIL" Type="varchar" MaxLength="50" />
+          <Property Name="FULLNAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="GENDER" Type="tinyint" />
+          <Property Name="DATE_REGISTER" Type="datetime" />
+          <Property Name="RESET_PASSWORD_CODE" Type="nvarchar" MaxLength="100" />
+          <Property Name="MEMBERSHIP_TYPE_ID" Type="int" />
+          <Property Name="TOTAL_TRANSACTION" Type="int" />
+        </EntityType>
+        <Association Name="FK_CART_DELIVERY_ITEM">
+          <End Role="DELIVERY_ITEM" Type="Self.DELIVERY_ITEM" Multiplicity="0..1" />
+          <End Role="CART" Type="Self.CART" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DELIVERY_ITEM">
+              <PropertyRef Name="DELIVERY_ITEM_ID" />
+            </Principal>
+            <Dependent Role="CART">
+              <PropertyRef Name="DELIVERY_ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CART_ITEM_CART">
+          <End Role="CART" Type="Self.CART" Multiplicity="0..1" />
+          <End Role="CART_ITEM" Type="Self.CART_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CART">
+              <PropertyRef Name="CART_ID" />
+            </Principal>
+            <Dependent Role="CART_ITEM">
+              <PropertyRef Name="CART_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COLOR_GROUP_NEWS_COLOR_GROUP">
+          <End Role="COLOR_GROUP" Type="Self.COLOR_GROUP" Multiplicity="0..1" />
+          <End Role="COLOR_GROUP_NEWS" Type="Self.COLOR_GROUP_NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COLOR_GROUP">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Principal>
+            <Dependent Role="COLOR_GROUP_NEWS">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COLOR_GROUP_NEWS_NEWS">
+          <End Role="NEWS" Type="Self.NEWS" Multiplicity="0..1" />
+          <End Role="COLOR_GROUP_NEWS" Type="Self.COLOR_GROUP_NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NEWS">
+              <PropertyRef Name="NEWS_ID" />
+            </Principal>
+            <Dependent Role="COLOR_GROUP_NEWS">
+              <PropertyRef Name="NEWS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COLOR_SUB_COLOR_GROUP">
+          <End Role="SUB_COLOR_GROUP" Type="Self.SUB_COLOR_GROUP" Multiplicity="0..1" />
+          <End Role="COLOR" Type="Self.COLOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUB_COLOR_GROUP">
+              <PropertyRef Name="SUB_COLOR_GROUP_ID" />
+            </Principal>
+            <Dependent Role="COLOR">
+              <PropertyRef Name="SUB_COLOR_GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMMENT_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+          <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="COMMENT">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMMENT_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMMENT">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DELIVERY_ITEM_DELIVERY">
+          <End Role="DELIVERY" Type="Self.DELIVERY" Multiplicity="0..1" />
+          <End Role="DELIVERY_ITEM" Type="Self.DELIVERY_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DELIVERY">
+              <PropertyRef Name="DELIVERY_ID" />
+            </Principal>
+            <Dependent Role="DELIVERY_ITEM">
+              <PropertyRef Name="DELIVERY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DELIVERY_ITEM_DELIVERY_TYPE">
+          <End Role="DELIVERY_TYPE" Type="Self.DELIVERY_TYPE" Multiplicity="0..1" />
+          <End Role="DELIVERY_ITEM" Type="Self.DELIVERY_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DELIVERY_TYPE">
+              <PropertyRef Name="DELIVERY_TYPE_ID" />
+            </Principal>
+            <Dependent Role="DELIVERY_ITEM">
+              <PropertyRef Name="DELIVERY_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEEDBACK_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="FEEDBACK" Type="Self.FEEDBACK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FEEDBACK">
+              <PropertyRef Name="FEEDBACK_USER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER">
+          <End Role="UNIT_PRODUCT" Type="Self.UNIT_PRODUCT" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER_DETAIL" Type="Self.IMPORT_ORDER_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UNIT_PRODUCT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER_DETAIL">
+              <PropertyRef Name="IMPORT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL">
+          <End Role="IMPORT_ORDER" Type="Self.IMPORT_ORDER" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER_DETAIL" Type="Self.IMPORT_ORDER_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IMPORT_ORDER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER_DETAIL">
+              <PropertyRef Name="IMPORT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_DETAIL_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER_DETAIL" Type="Self.IMPORT_ORDER_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER_DETAIL">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_PERSON_IMPORT">
+          <End Role="PERSON_IMPORT" Type="Self.PERSON_IMPORT" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER" Type="Self.IMPORT_ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON_IMPORT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER">
+              <PropertyRef Name="PERSON_IMPORT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_SUPPLIER">
+          <End Role="SUPPLIER" Type="Self.SUPPLIER" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER" Type="Self.IMPORT_ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER">
+              <PropertyRef Name="SUPPLIER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1">
+          <End Role="DISCOUNT_UNIT" Type="Self.DISCOUNT_UNIT" Multiplicity="0..1" />
+          <End Role="MEMBERSHIP_TYPE" Type="Self.MEMBERSHIP_TYPE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISCOUNT_UNIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MEMBERSHIP_TYPE">
+              <PropertyRef Name="DISCOUNT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NEWS_ADMIN">
+          <End Role="ADMIN" Type="Self.ADMIN" Multiplicity="0..1" />
+          <End Role="NEWS" Type="Self.NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADMIN">
+              <PropertyRef Name="ADMIN_ID" />
+            </Principal>
+            <Dependent Role="NEWS">
+              <PropertyRef Name="ADMIN_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NEWS_NEWS_TYPE">
+          <End Role="NEWS_TYPE" Type="Self.NEWS_TYPE" Multiplicity="0..1" />
+          <End Role="NEWS" Type="Self.NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NEWS_TYPE">
+              <PropertyRef Name="TYPE_NEWS_ID" />
+            </Principal>
+            <Dependent Role="NEWS">
+              <PropertyRef Name="NEWS_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_DETAIL_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CART_ITEM" Type="Self.CART_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="CART_ITEM">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="CART" Type="Self.CART" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CART">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_COLOR_COLOR">
+          <End Role="COLOR" Type="Self.COLOR" Multiplicity="0..1" />
+          <End Role="PRODUCT_COLOR" Type="Self.PRODUCT_COLOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COLOR">
+              <PropertyRef Name="COLOR_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT_COLOR">
+              <PropertyRef Name="COLOR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_COLOR_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCT_COLOR" Type="Self.PRODUCT_COLOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT_COLOR">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT">
+          <End Role="DISCOUNT_UNIT" Type="Self.DISCOUNT_UNIT" Multiplicity="0..1" />
+          <End Role="PRODUCT_DISCOUNT" Type="Self.PRODUCT_DISCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISCOUNT_UNIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCT_DISCOUNT">
+              <PropertyRef Name="DISCOUNT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCER">
+          <End Role="PRODUCER" Type="Self.PRODUCER" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCER">
+              <PropertyRef Name="PRODUCER_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="PRODUCER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCT_DISCOUNT">
+          <End Role="PRODUCT_DISCOUNT" Type="Self.PRODUCT_DISCOUNT" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT_DISCOUNT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="DISCOUNT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCT_TYPE">
+          <End Role="PRODUCT_TYPE" Type="Self.PRODUCT_TYPE" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT_TYPE">
+              <PropertyRef Name="TYPE_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUB_COLOR_GROUP_COLOR_GROUP">
+          <End Role="COLOR_GROUP" Type="Self.COLOR_GROUP" Multiplicity="0..1" />
+          <End Role="SUB_COLOR_GROUP" Type="Self.SUB_COLOR_GROUP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COLOR_GROUP">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Principal>
+            <Dependent Role="SUB_COLOR_GROUP">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_MEMBERSHIP_TYPE">
+          <End Role="MEMBERSHIP_TYPE" Type="Self.MEMBERSHIP_TYPE" Multiplicity="0..1" />
+          <End Role="USER" Type="Self.USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBERSHIP_TYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER">
+              <PropertyRef Name="MEMBERSHIP_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DATABASELVTN3ModelStoreContainer">
+          <EntitySet Name="ADMIN" EntityType="Self.ADMIN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CART" EntityType="Self.CART" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CART_ITEM" EntityType="Self.CART_ITEM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COLOR" EntityType="Self.COLOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COLOR_GROUP" EntityType="Self.COLOR_GROUP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COLOR_GROUP_NEWS" EntityType="Self.COLOR_GROUP_NEWS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMMENT" EntityType="Self.COMMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMMENT_NEWS" EntityType="Self.COMMENT_NEWS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DELIVERY" EntityType="Self.DELIVERY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DELIVERY_ITEM" EntityType="Self.DELIVERY_ITEM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DELIVERY_TYPE" EntityType="Self.DELIVERY_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DISCOUNT_UNIT" EntityType="Self.DISCOUNT_UNIT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FEEDBACK" EntityType="Self.FEEDBACK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IMPORT_ORDER" EntityType="Self.IMPORT_ORDER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IMPORT_ORDER_DETAIL" EntityType="Self.IMPORT_ORDER_DETAIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEMBERSHIP_TYPE" EntityType="Self.MEMBERSHIP_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NEWS" EntityType="Self.NEWS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NEWS_TYPE" EntityType="Self.NEWS_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSON_IMPORT" EntityType="Self.PERSON_IMPORT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCER" EntityType="Self.PRODUCER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCT_COLOR" EntityType="Self.PRODUCT_COLOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCT_DISCOUNT" EntityType="Self.PRODUCT_DISCOUNT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCT_TYPE" EntityType="Self.PRODUCT_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUB_COLOR_GROUP" EntityType="Self.SUB_COLOR_GROUP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUPPLIER" EntityType="Self.SUPPLIER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UNIT_PRODUCT" EntityType="Self.UNIT_PRODUCT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CART_DELIVERY_ITEM" Association="Self.FK_CART_DELIVERY_ITEM">
+            <End Role="DELIVERY_ITEM" EntitySet="DELIVERY_ITEM" />
+            <End Role="CART" EntitySet="CART" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CART_ITEM_CART" Association="Self.FK_CART_ITEM_CART">
+            <End Role="CART" EntitySet="CART" />
+            <End Role="CART_ITEM" EntitySet="CART_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COLOR_GROUP_NEWS_COLOR_GROUP" Association="Self.FK_COLOR_GROUP_NEWS_COLOR_GROUP">
+            <End Role="COLOR_GROUP" EntitySet="COLOR_GROUP" />
+            <End Role="COLOR_GROUP_NEWS" EntitySet="COLOR_GROUP_NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COLOR_GROUP_NEWS_NEWS" Association="Self.FK_COLOR_GROUP_NEWS_NEWS">
+            <End Role="NEWS" EntitySet="NEWS" />
+            <End Role="COLOR_GROUP_NEWS" EntitySet="COLOR_GROUP_NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COLOR_SUB_COLOR_GROUP" Association="Self.FK_COLOR_SUB_COLOR_GROUP">
+            <End Role="SUB_COLOR_GROUP" EntitySet="SUB_COLOR_GROUP" />
+            <End Role="COLOR" EntitySet="COLOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMMENT_PRODUCT" Association="Self.FK_COMMENT_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="COMMENT" EntitySet="COMMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMMENT_USER" Association="Self.FK_COMMENT_USER">
+            <End Role="USER" EntitySet="USER" />
+            <End Role="COMMENT" EntitySet="COMMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DELIVERY_ITEM_DELIVERY" Association="Self.FK_DELIVERY_ITEM_DELIVERY">
+            <End Role="DELIVERY" EntitySet="DELIVERY" />
+            <End Role="DELIVERY_ITEM" EntitySet="DELIVERY_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DELIVERY_ITEM_DELIVERY_TYPE" Association="Self.FK_DELIVERY_ITEM_DELIVERY_TYPE">
+            <End Role="DELIVERY_TYPE" EntitySet="DELIVERY_TYPE" />
+            <End Role="DELIVERY_ITEM" EntitySet="DELIVERY_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEEDBACK_USER" Association="Self.FK_FEEDBACK_USER">
+            <End Role="USER" EntitySet="USER" />
+            <End Role="FEEDBACK" EntitySet="FEEDBACK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER" Association="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER">
+            <End Role="UNIT_PRODUCT" EntitySet="UNIT_PRODUCT" />
+            <End Role="IMPORT_ORDER_DETAIL" EntitySet="IMPORT_ORDER_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL" Association="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL">
+            <End Role="IMPORT_ORDER" EntitySet="IMPORT_ORDER" />
+            <End Role="IMPORT_ORDER_DETAIL" EntitySet="IMPORT_ORDER_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_DETAIL_PRODUCT" Association="Self.FK_IMPORT_ORDER_DETAIL_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="IMPORT_ORDER_DETAIL" EntitySet="IMPORT_ORDER_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_PERSON_IMPORT" Association="Self.FK_IMPORT_ORDER_PERSON_IMPORT">
+            <End Role="PERSON_IMPORT" EntitySet="PERSON_IMPORT" />
+            <End Role="IMPORT_ORDER" EntitySet="IMPORT_ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_SUPPLIER" Association="Self.FK_IMPORT_ORDER_SUPPLIER">
+            <End Role="SUPPLIER" EntitySet="SUPPLIER" />
+            <End Role="IMPORT_ORDER" EntitySet="IMPORT_ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1" Association="Self.FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1">
+            <End Role="DISCOUNT_UNIT" EntitySet="DISCOUNT_UNIT" />
+            <End Role="MEMBERSHIP_TYPE" EntitySet="MEMBERSHIP_TYPE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NEWS_ADMIN" Association="Self.FK_NEWS_ADMIN">
+            <End Role="ADMIN" EntitySet="ADMIN" />
+            <End Role="NEWS" EntitySet="NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NEWS_NEWS_TYPE" Association="Self.FK_NEWS_NEWS_TYPE">
+            <End Role="NEWS_TYPE" EntitySet="NEWS_TYPE" />
+            <End Role="NEWS" EntitySet="NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_DETAIL_PRODUCT" Association="Self.FK_ORDER_DETAIL_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="CART_ITEM" EntitySet="CART_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_USER" Association="Self.FK_ORDER_USER">
+            <End Role="USER" EntitySet="USER" />
+            <End Role="CART" EntitySet="CART" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_COLOR_COLOR" Association="Self.FK_PRODUCT_COLOR_COLOR">
+            <End Role="COLOR" EntitySet="COLOR" />
+            <End Role="PRODUCT_COLOR" EntitySet="PRODUCT_COLOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_COLOR_PRODUCT" Association="Self.FK_PRODUCT_COLOR_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="PRODUCT_COLOR" EntitySet="PRODUCT_COLOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT" Association="Self.FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT">
+            <End Role="DISCOUNT_UNIT" EntitySet="DISCOUNT_UNIT" />
+            <End Role="PRODUCT_DISCOUNT" EntitySet="PRODUCT_DISCOUNT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCER" Association="Self.FK_PRODUCT_PRODUCER">
+            <End Role="PRODUCER" EntitySet="PRODUCER" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCT_DISCOUNT" Association="Self.FK_PRODUCT_PRODUCT_DISCOUNT">
+            <End Role="PRODUCT_DISCOUNT" EntitySet="PRODUCT_DISCOUNT" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCT_TYPE" Association="Self.FK_PRODUCT_PRODUCT_TYPE">
+            <End Role="PRODUCT_TYPE" EntitySet="PRODUCT_TYPE" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUB_COLOR_GROUP_COLOR_GROUP" Association="Self.FK_SUB_COLOR_GROUP_COLOR_GROUP">
+            <End Role="COLOR_GROUP" EntitySet="COLOR_GROUP" />
+            <End Role="SUB_COLOR_GROUP" EntitySet="SUB_COLOR_GROUP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_MEMBERSHIP_TYPE" Association="Self.FK_USER_MEMBERSHIP_TYPE">
+            <End Role="MEMBERSHIP_TYPE" EntitySet="MEMBERSHIP_TYPE" />
+            <End Role="USER" EntitySet="USER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DATABASELVTN3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ADMIN">
+          <Key>
+            <PropertyRef Name="ADMIN_ID" />
+          </Key>
+          <Property Name="ADMIN_ID" Type="Int32" Nullable="false" />
+          <Property Name="USERNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="NEWS" Relationship="Self.FK_NEWS_ADMIN" FromRole="ADMIN" ToRole="NEWS" />
+          <Property Name="FULL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CART">
+          <Key>
+            <PropertyRef Name="CART_ID" />
+          </Key>
+          <Property Name="CART_ID" Type="Int32" Nullable="false" />
+          <Property Name="USER_ID" Type="Int32" />
+          <Property Name="DATE_ORDER" Type="DateTime" Precision="0" />
+          <Property Name="SHIP_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SHIP_MOBILE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SHIP_ADDRESS" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SHIP_EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SHIP_MESSAGES" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TOTAL_MONEY" Type="Int32" />
+          <Property Name="STATUS" Type="Int32" />
+          <Property Name="SALE_ID" Type="Int32" />
+          <Property Name="REASON_CANCEL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DELIVERY_ITEM_ID" Type="Int32" />
+          <Property Name="DELIVERY_COST" Type="Int32" />
+          <Property Name="ESTIMATED_DATE_DELIVERY" Type="DateTime" Precision="0" />
+          <Property Name="DISCOUNT_VALUE" Type="Int32" />
+          <NavigationProperty Name="DELIVERY_ITEM" Relationship="Self.FK_CART_DELIVERY_ITEM" FromRole="CART" ToRole="DELIVERY_ITEM" />
+          <NavigationProperty Name="CART_ITEM" Relationship="Self.FK_CART_ITEM_CART" FromRole="CART" ToRole="CART_ITEM" />
+          <NavigationProperty Name="USER" Relationship="Self.FK_ORDER_USER" FromRole="CART" ToRole="USER" />
+        </EntityType>
+        <EntityType Name="CART_ITEM">
+          <Key>
+            <PropertyRef Name="CART_ITEM_ID" />
+          </Key>
+          <Property Name="CART_ITEM_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCT_ID" Type="Int32" />
+          <Property Name="CART_ID" Type="Int32" />
+          <Property Name="PRODUCT_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRICE" Type="Int32" />
+          <Property Name="UNIT_PRICE" Type="Int32" />
+          <Property Name="QUANTITY" Type="Int32" />
+          <Property Name="TOTAL_MONEY" Type="Int32" />
+          <Property Name="DISCOUNT_VALUE" Type="Int32" />
+          <NavigationProperty Name="CART" Relationship="Self.FK_CART_ITEM_CART" FromRole="CART_ITEM" ToRole="CART" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_ORDER_DETAIL_PRODUCT" FromRole="CART_ITEM" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="COLOR">
+          <Key>
+            <PropertyRef Name="COLOR_ID" />
+          </Key>
+          <Property Name="COLOR_ID" Type="Int32" Nullable="false" />
+          <Property Name="COLOR_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="COLOR_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COLOR_RGB_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SUB_COLOR_GROUP_ID" Type="Int32" />
+          <NavigationProperty Name="SUB_COLOR_GROUP" Relationship="Self.FK_COLOR_SUB_COLOR_GROUP" FromRole="COLOR" ToRole="SUB_COLOR_GROUP" />
+          <NavigationProperty Name="PRODUCT_COLOR" Relationship="Self.FK_PRODUCT_COLOR_COLOR" FromRole="COLOR" ToRole="PRODUCT_COLOR" />
+        </EntityType>
+        <EntityType Name="COLOR_GROUP">
+          <Key>
+            <PropertyRef Name="COLOR_GROUP_ID" />
+          </Key>
+          <Property Name="COLOR_GROUP_ID" Type="Int32" Nullable="false" />
+          <Property Name="COLOR_GROUP_NAME" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="COLOR_GROUP_CODE" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="COLOR_GROUP_NEWS" Relationship="Self.FK_COLOR_GROUP_NEWS_COLOR_GROUP" FromRole="COLOR_GROUP" ToRole="COLOR_GROUP_NEWS" />
+          <NavigationProperty Name="SUB_COLOR_GROUP" Relationship="Self.FK_SUB_COLOR_GROUP_COLOR_GROUP" FromRole="COLOR_GROUP" ToRole="SUB_COLOR_GROUP" />
+        </EntityType>
+        <EntityType Name="COLOR_GROUP_NEWS">
+          <Key>
+            <PropertyRef Name="COLOR_GROUP_NEWS_ID" />
+          </Key>
+          <Property Name="COLOR_GROUP_NEWS_ID" Type="Int32" Nullable="false" />
+          <Property Name="COLOR_GROUP_ID" Type="Int32" />
+          <Property Name="NEWS_ID" Type="Int32" />
+          <NavigationProperty Name="COLOR_GROUP" Relationship="Self.FK_COLOR_GROUP_NEWS_COLOR_GROUP" FromRole="COLOR_GROUP_NEWS" ToRole="COLOR_GROUP" />
+          <NavigationProperty Name="NEWS" Relationship="Self.FK_COLOR_GROUP_NEWS_NEWS" FromRole="COLOR_GROUP_NEWS" ToRole="NEWS" />
+        </EntityType>
+        <EntityType Name="COMMENT">
+          <Key>
+            <PropertyRef Name="Comment_ID" />
+          </Key>
+          <Property Name="Comment_ID" Type="Int32" Nullable="false" />
+          <Property Name="Product_ID" Type="Int32" />
+          <Property Name="User_ID" Type="Int32" />
+          <Property Name="Comment_Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_COMMENT_PRODUCT" FromRole="COMMENT" ToRole="PRODUCT" />
+          <NavigationProperty Name="USER" Relationship="Self.FK_COMMENT_USER" FromRole="COMMENT" ToRole="USER" />
+        </EntityType>
+        <EntityType Name="COMMENT_NEWS">
+          <Key>
+            <PropertyRef Name="COMMENT_NEWS_ID" />
+          </Key>
+          <Property Name="COMMENT_NEWS_ID" Type="Int32" Nullable="false" />
+          <Property Name="COMMENT_NEWS_CONTENT" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="DATE" Type="DateTime" Precision="0" />
+          <Property Name="NEWS_ID" Type="Int32" />
+          <Property Name="USER_ID" Type="Int32" />
+          <Property Name="ADMIN_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DELIVERY">
+          <Key>
+            <PropertyRef Name="DELIVERY_ID" />
+          </Key>
+          <Property Name="DELIVERY_ID" Type="Int32" Nullable="false" />
+          <Property Name="DELIVERY_COMPANY_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DELIVERY_PHONE" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DELIVERY_ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DELIVERY_ITEM" Relationship="Self.FK_DELIVERY_ITEM_DELIVERY" FromRole="DELIVERY" ToRole="DELIVERY_ITEM" />
+        </EntityType>
+        <EntityType Name="DELIVERY_ITEM">
+          <Key>
+            <PropertyRef Name="DELIVERY_ITEM_ID" />
+          </Key>
+          <Property Name="DELIVERY_ITEM_ID" Type="Int32" Nullable="false" />
+          <Property Name="DELIVERY_ID" Type="Int32" />
+          <Property Name="DELIVERY_TYPE_ID" Type="Int32" />
+          <Property Name="DELIVERY_ITEM_COST" Type="Int32" />
+          <Property Name="ESTIMATED_DATE_DELIVERY" Type="Int32" />
+          <Property Name="BOTH_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CARTs" Relationship="Self.FK_CART_DELIVERY_ITEM" FromRole="DELIVERY_ITEM" ToRole="CART" />
+          <NavigationProperty Name="DELIVERY" Relationship="Self.FK_DELIVERY_ITEM_DELIVERY" FromRole="DELIVERY_ITEM" ToRole="DELIVERY" />
+          <NavigationProperty Name="DELIVERY_TYPE" Relationship="Self.FK_DELIVERY_ITEM_DELIVERY_TYPE" FromRole="DELIVERY_ITEM" ToRole="DELIVERY_TYPE" />
+        </EntityType>
+        <EntityType Name="DELIVERY_TYPE">
+          <Key>
+            <PropertyRef Name="DELIVERY_TYPE_ID" />
+          </Key>
+          <Property Name="DELIVERY_TYPE_ID" Type="Int32" Nullable="false" />
+          <Property Name="DELIVERY_TYPE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DELIVERY_ITEM" Relationship="Self.FK_DELIVERY_ITEM_DELIVERY_TYPE" FromRole="DELIVERY_TYPE" ToRole="DELIVERY_ITEM" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DISCOUNT_UNIT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CURRENCY" Type="Boolean" Nullable="false" />
+          <Property Name="PERCENTAGE" Type="Boolean" />
+          <NavigationProperty Name="MEMBERSHIP_TYPE" Relationship="Self.FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1" FromRole="DISCOUNT_UNIT" ToRole="MEMBERSHIP_TYPE" />
+          <NavigationProperty Name="PRODUCT_DISCOUNT" Relationship="Self.FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT" FromRole="DISCOUNT_UNIT" ToRole="PRODUCT_DISCOUNT" />
+        </EntityType>
+        <EntityType Name="FEEDBACK">
+          <Key>
+            <PropertyRef Name="FEEDBACK_ID" />
+          </Key>
+          <Property Name="FEEDBACK_ID" Type="Int32" Nullable="false" />
+          <Property Name="FEEDBACK_CONTENT" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="FEEDBACK_DATE" Type="DateTime" Precision="0" />
+          <Property Name="FEEDBACK_USER" Type="Int32" />
+          <NavigationProperty Name="USER" Relationship="Self.FK_FEEDBACK_USER" FromRole="FEEDBACK" ToRole="USER" />
+        </EntityType>
+        <EntityType Name="IMPORT_ORDER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DATE_IMPORT" Type="DateTime" Precision="0" />
+          <Property Name="TOTAL" Type="Int32" />
+          <Property Name="PERSON_IMPORT_ID" Type="Int32" />
+          <Property Name="SUPPLIER_ID" Type="Int32" />
+          <NavigationProperty Name="IMPORT_ORDER_DETAIL" Relationship="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL" FromRole="IMPORT_ORDER" ToRole="IMPORT_ORDER_DETAIL" />
+          <NavigationProperty Name="PERSON_IMPORT" Relationship="Self.FK_IMPORT_ORDER_PERSON_IMPORT" FromRole="IMPORT_ORDER" ToRole="PERSON_IMPORT" />
+          <NavigationProperty Name="SUPPLIER" Relationship="Self.FK_IMPORT_ORDER_SUPPLIER" FromRole="IMPORT_ORDER" ToRole="SUPPLIER" />
+        </EntityType>
+        <EntityType Name="IMPORT_ORDER_DETAIL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="IMPORT_ID" Type="Int32" />
+          <Property Name="PRODUCT_ID" Type="Int32" />
+          <Property Name="IMPORT_AMOUNT" Type="Int32" />
+          <Property Name="IMPORT_AMOUNT_REAL" Type="Int32" />
+          <Property Name="IMPORT_PRICE" Type="Int32" />
+          <Property Name="IMPORT_INTO_MONEY" Type="Int32" />
+          <Property Name="IMPORT_UNIT_ID" Type="Int32" />
+          <NavigationProperty Name="IMPORT_ORDER" Relationship="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL" FromRole="IMPORT_ORDER_DETAIL" ToRole="IMPORT_ORDER" />
+          <NavigationProperty Name="UNIT_PRODUCT" Relationship="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER" FromRole="IMPORT_ORDER_DETAIL" ToRole="UNIT_PRODUCT" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_IMPORT_ORDER_DETAIL_PRODUCT" FromRole="IMPORT_ORDER_DETAIL" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="MEMBERSHIP_TYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="MEMBERSHIP_TYPE1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DISCOUNT_VALUE" Type="Int32" />
+          <Property Name="DISCOUNT_UNIT_ID" Type="Int32" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="VALID_UNTIL" Type="DateTime" Precision="3" />
+          <Property Name="FREE_SHIPPING_ACTIVE" Type="Boolean" />
+          <NavigationProperty Name="DISCOUNT_UNIT" Relationship="Self.FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1" FromRole="MEMBERSHIP_TYPE" ToRole="DISCOUNT_UNIT" />
+          <NavigationProperty Name="USERs" Relationship="Self.FK_USER_MEMBERSHIP_TYPE" FromRole="MEMBERSHIP_TYPE" ToRole="USER" />
+          <Property Name="MIN_POINT" Type="Int32" />
+          <Property Name="MAX_POINT" Type="Int32" />
+        </EntityType>
+        <EntityType Name="NEWS">
+          <Key>
+            <PropertyRef Name="NEWS_ID" />
+          </Key>
+          <Property Name="NEWS_ID" Type="Int32" Nullable="false" />
+          <Property Name="NEWS_DATE" Type="DateTime" Precision="0" />
+          <Property Name="NEWS_TITLE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NEWS_SUMMARY" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="NEWS_CONTENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NEWS_IMG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ADMIN_ID" Type="Int32" />
+          <Property Name="NEWS_TYPE_ID" Type="Int32" />
+          <NavigationProperty Name="ADMIN" Relationship="Self.FK_NEWS_ADMIN" FromRole="NEWS" ToRole="ADMIN" />
+          <NavigationProperty Name="COLOR_GROUP_NEWS" Relationship="Self.FK_COLOR_GROUP_NEWS_NEWS" FromRole="NEWS" ToRole="COLOR_GROUP_NEWS" />
+          <NavigationProperty Name="NEWS_TYPE" Relationship="Self.FK_NEWS_NEWS_TYPE" FromRole="NEWS" ToRole="NEWS_TYPE" />
+          <Property Name="STATUS" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="NEWS_TYPE">
+          <Key>
+            <PropertyRef Name="TYPE_NEWS_ID" />
+          </Key>
+          <Property Name="TYPE_NEWS_ID" Type="Int32" Nullable="false" />
+          <Property Name="NEWS_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="NEWS" Relationship="Self.FK_NEWS_NEWS_TYPE" FromRole="NEWS_TYPE" ToRole="NEWS" />
+        </EntityType>
+        <EntityType Name="PERSON_IMPORT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="POSITION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IMPORT_ORDER" Relationship="Self.FK_IMPORT_ORDER_PERSON_IMPORT" FromRole="PERSON_IMPORT" ToRole="IMPORT_ORDER" />
+        </EntityType>
+        <EntityType Name="PRODUCER">
+          <Key>
+            <PropertyRef Name="PRODUCER_ID" />
+          </Key>
+          <Property Name="PRODUCER_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCER_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PHONE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IMG" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PRODUCTs" Relationship="Self.FK_PRODUCT_PRODUCER" FromRole="PRODUCER" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="PRODUCT_ID" />
+          </Key>
+          <Property Name="PRODUCT_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCT_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PRICE" Type="Int32" />
+          <Property Name="AMOUNT" Type="Int32" />
+          <Property Name="DATE_OF_MANUFACTURE" Type="DateTime" Precision="0" />
+          <Property Name="LIMITED_USE" Type="Int32" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NET" Type="Int32" />
+          <Property Name="CODE_AUTH" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="Int32" />
+          <Property Name="SPECIFICATION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PRODUCT_TYPE_ID" Type="Int32" />
+          <Property Name="PRODUCER_ID" Type="Int32" />
+          <Property Name="DISCOUNT" Type="Int32" />
+          <Property Name="BUYING" Type="Int32" />
+          <Property Name="SELL" Type="Int32" />
+          <Property Name="DISCOUNT_VALUE" Type="Int32" />
+          <NavigationProperty Name="CART_ITEM" Relationship="Self.FK_ORDER_DETAIL_PRODUCT" FromRole="PRODUCT" ToRole="CART_ITEM" />
+          <NavigationProperty Name="COMMENTs" Relationship="Self.FK_COMMENT_PRODUCT" FromRole="PRODUCT" ToRole="COMMENT" />
+          <NavigationProperty Name="IMPORT_ORDER_DETAIL" Relationship="Self.FK_IMPORT_ORDER_DETAIL_PRODUCT" FromRole="PRODUCT" ToRole="IMPORT_ORDER_DETAIL" />
+          <NavigationProperty Name="PRODUCER" Relationship="Self.FK_PRODUCT_PRODUCER" FromRole="PRODUCT" ToRole="PRODUCER" />
+          <NavigationProperty Name="PRODUCT_COLOR" Relationship="Self.FK_PRODUCT_COLOR_PRODUCT" FromRole="PRODUCT" ToRole="PRODUCT_COLOR" />
+          <NavigationProperty Name="PRODUCT_DISCOUNT" Relationship="Self.FK_PRODUCT_PRODUCT_DISCOUNT" FromRole="PRODUCT" ToRole="PRODUCT_DISCOUNT" />
+          <NavigationProperty Name="PRODUCT_TYPE" Relationship="Self.FK_PRODUCT_PRODUCT_TYPE" FromRole="PRODUCT" ToRole="PRODUCT_TYPE" />
+        </EntityType>
+        <EntityType Name="PRODUCT_COLOR">
+          <Key>
+            <PropertyRef Name="PRODUCT_COLOR_ID" />
+          </Key>
+          <Property Name="PRODUCT_COLOR_ID" Type="Int32" Nullable="false" />
+          <Property Name="PRODUCT_ID" Type="Int32" />
+          <Property Name="COLOR_ID" Type="Int32" />
+          <NavigationProperty Name="COLOR" Relationship="Self.FK_PRODUCT_COLOR_COLOR" FromRole="PRODUCT_COLOR" ToRole="COLOR" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_PRODUCT_COLOR_PRODUCT" FromRole="PRODUCT_COLOR" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="PRODUCT_DISCOUNT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DISCOUNT_VALUE" Type="Int32" />
+          <Property Name="DISCOUNT_UNIT_ID" Type="Int32" />
+          <Property Name="CREATE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="UNTIL_VALID" Type="DateTime" Precision="3" />
+          <Property Name="MAXIMUM_DISCOUNT_VALUE" Type="Int32" />
+          <Property Name="MINIMUM_ORDER_VALUE" Type="Int32" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="STATUS" Type="Boolean" />
+          <Property Name="COUPON_CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DISCOUNT_UNIT" Relationship="Self.FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT" FromRole="PRODUCT_DISCOUNT" ToRole="DISCOUNT_UNIT" />
+          <NavigationProperty Name="PRODUCTs" Relationship="Self.FK_PRODUCT_PRODUCT_DISCOUNT" FromRole="PRODUCT_DISCOUNT" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="PRODUCT_TYPE">
+          <Key>
+            <PropertyRef Name="TYPE_ID" />
+          </Key>
+          <Property Name="TYPE_ID" Type="Int32" Nullable="false" />
+          <Property Name="TYPE_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="USES" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PRODUCTs" Relationship="Self.FK_PRODUCT_PRODUCT_TYPE" FromRole="PRODUCT_TYPE" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="SUB_COLOR_GROUP">
+          <Key>
+            <PropertyRef Name="SUB_COLOR_GROUP_ID" />
+          </Key>
+          <Property Name="SUB_COLOR_GROUP_ID" Type="Int32" Nullable="false" />
+          <Property Name="SUB_COLOR_GROUP_CODE" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SUB_COLOR_GROUP_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="COLOR_GROUP_ID" Type="Int32" />
+          <NavigationProperty Name="COLORs" Relationship="Self.FK_COLOR_SUB_COLOR_GROUP" FromRole="SUB_COLOR_GROUP" ToRole="COLOR" />
+          <NavigationProperty Name="COLOR_GROUP" Relationship="Self.FK_SUB_COLOR_GROUP_COLOR_GROUP" FromRole="SUB_COLOR_GROUP" ToRole="COLOR_GROUP" />
+        </EntityType>
+        <EntityType Name="SUPPLIER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ADDRESS" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="IMPORT_ORDER" Relationship="Self.FK_IMPORT_ORDER_SUPPLIER" FromRole="SUPPLIER" ToRole="IMPORT_ORDER" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UNIT_PRODUCT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="IMPORT_ORDER_DETAIL" Relationship="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER" FromRole="UNIT_PRODUCT" ToRole="IMPORT_ORDER_DETAIL" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="USERNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FULLNAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GENDER" Type="Byte" />
+          <Property Name="DATE_REGISTER" Type="DateTime" Precision="3" />
+          <Property Name="RESET_PASSWORD_CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MEMBERSHIP_TYPE_ID" Type="Int32" />
+          <NavigationProperty Name="CARTs" Relationship="Self.FK_ORDER_USER" FromRole="USER" ToRole="CART" />
+          <NavigationProperty Name="COMMENTs" Relationship="Self.FK_COMMENT_USER" FromRole="USER" ToRole="COMMENT" />
+          <NavigationProperty Name="FEEDBACKs" Relationship="Self.FK_FEEDBACK_USER" FromRole="USER" ToRole="FEEDBACK" />
+          <NavigationProperty Name="MEMBERSHIP_TYPE" Relationship="Self.FK_USER_MEMBERSHIP_TYPE" FromRole="USER" ToRole="MEMBERSHIP_TYPE" />
+          <Property Name="TOTAL_TRANSACTION" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_NEWS_ADMIN">
+          <End Role="ADMIN" Type="Self.ADMIN" Multiplicity="0..1" />
+          <End Role="NEWS" Type="Self.NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ADMIN">
+              <PropertyRef Name="ADMIN_ID" />
+            </Principal>
+            <Dependent Role="NEWS">
+              <PropertyRef Name="ADMIN_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CART_DELIVERY_ITEM">
+          <End Role="DELIVERY_ITEM" Type="Self.DELIVERY_ITEM" Multiplicity="0..1" />
+          <End Role="CART" Type="Self.CART" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DELIVERY_ITEM">
+              <PropertyRef Name="DELIVERY_ITEM_ID" />
+            </Principal>
+            <Dependent Role="CART">
+              <PropertyRef Name="DELIVERY_ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CART_ITEM_CART">
+          <End Role="CART" Type="Self.CART" Multiplicity="0..1" />
+          <End Role="CART_ITEM" Type="Self.CART_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CART">
+              <PropertyRef Name="CART_ID" />
+            </Principal>
+            <Dependent Role="CART_ITEM">
+              <PropertyRef Name="CART_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="CART" Type="Self.CART" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CART">
+              <PropertyRef Name="USER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_DETAIL_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CART_ITEM" Type="Self.CART_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="CART_ITEM">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COLOR_SUB_COLOR_GROUP">
+          <End Role="SUB_COLOR_GROUP" Type="Self.SUB_COLOR_GROUP" Multiplicity="0..1" />
+          <End Role="COLOR" Type="Self.COLOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUB_COLOR_GROUP">
+              <PropertyRef Name="SUB_COLOR_GROUP_ID" />
+            </Principal>
+            <Dependent Role="COLOR">
+              <PropertyRef Name="SUB_COLOR_GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_COLOR_COLOR">
+          <End Role="COLOR" Type="Self.COLOR" Multiplicity="0..1" />
+          <End Role="PRODUCT_COLOR" Type="Self.PRODUCT_COLOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COLOR">
+              <PropertyRef Name="COLOR_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT_COLOR">
+              <PropertyRef Name="COLOR_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COLOR_GROUP_NEWS_COLOR_GROUP">
+          <End Role="COLOR_GROUP" Type="Self.COLOR_GROUP" Multiplicity="0..1" />
+          <End Role="COLOR_GROUP_NEWS" Type="Self.COLOR_GROUP_NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COLOR_GROUP">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Principal>
+            <Dependent Role="COLOR_GROUP_NEWS">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUB_COLOR_GROUP_COLOR_GROUP">
+          <End Role="COLOR_GROUP" Type="Self.COLOR_GROUP" Multiplicity="0..1" />
+          <End Role="SUB_COLOR_GROUP" Type="Self.SUB_COLOR_GROUP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COLOR_GROUP">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Principal>
+            <Dependent Role="SUB_COLOR_GROUP">
+              <PropertyRef Name="COLOR_GROUP_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COLOR_GROUP_NEWS_NEWS">
+          <End Role="NEWS" Type="Self.NEWS" Multiplicity="0..1" />
+          <End Role="COLOR_GROUP_NEWS" Type="Self.COLOR_GROUP_NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NEWS">
+              <PropertyRef Name="NEWS_ID" />
+            </Principal>
+            <Dependent Role="COLOR_GROUP_NEWS">
+              <PropertyRef Name="NEWS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMMENT_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+          <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="COMMENT">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMMENT_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="COMMENT">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DELIVERY_ITEM_DELIVERY">
+          <End Role="DELIVERY" Type="Self.DELIVERY" Multiplicity="0..1" />
+          <End Role="DELIVERY_ITEM" Type="Self.DELIVERY_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DELIVERY">
+              <PropertyRef Name="DELIVERY_ID" />
+            </Principal>
+            <Dependent Role="DELIVERY_ITEM">
+              <PropertyRef Name="DELIVERY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DELIVERY_ITEM_DELIVERY_TYPE">
+          <End Role="DELIVERY_TYPE" Type="Self.DELIVERY_TYPE" Multiplicity="0..1" />
+          <End Role="DELIVERY_ITEM" Type="Self.DELIVERY_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DELIVERY_TYPE">
+              <PropertyRef Name="DELIVERY_TYPE_ID" />
+            </Principal>
+            <Dependent Role="DELIVERY_ITEM">
+              <PropertyRef Name="DELIVERY_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1">
+          <End Role="DISCOUNT_UNIT" Type="Self.DISCOUNT_UNIT" Multiplicity="0..1" />
+          <End Role="MEMBERSHIP_TYPE" Type="Self.MEMBERSHIP_TYPE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISCOUNT_UNIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MEMBERSHIP_TYPE">
+              <PropertyRef Name="DISCOUNT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT">
+          <End Role="DISCOUNT_UNIT" Type="Self.DISCOUNT_UNIT" Multiplicity="0..1" />
+          <End Role="PRODUCT_DISCOUNT" Type="Self.PRODUCT_DISCOUNT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DISCOUNT_UNIT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCT_DISCOUNT">
+              <PropertyRef Name="DISCOUNT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FEEDBACK_USER">
+          <End Role="USER" Type="Self.USER" Multiplicity="0..1" />
+          <End Role="FEEDBACK" Type="Self.FEEDBACK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FEEDBACK">
+              <PropertyRef Name="FEEDBACK_USER" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL">
+          <End Role="IMPORT_ORDER" Type="Self.IMPORT_ORDER" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER_DETAIL" Type="Self.IMPORT_ORDER_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IMPORT_ORDER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER_DETAIL">
+              <PropertyRef Name="IMPORT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_PERSON_IMPORT">
+          <End Role="PERSON_IMPORT" Type="Self.PERSON_IMPORT" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER" Type="Self.IMPORT_ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSON_IMPORT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER">
+              <PropertyRef Name="PERSON_IMPORT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_SUPPLIER">
+          <End Role="SUPPLIER" Type="Self.SUPPLIER" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER" Type="Self.IMPORT_ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER">
+              <PropertyRef Name="SUPPLIER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER">
+          <End Role="UNIT_PRODUCT" Type="Self.UNIT_PRODUCT" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER_DETAIL" Type="Self.IMPORT_ORDER_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UNIT_PRODUCT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER_DETAIL">
+              <PropertyRef Name="IMPORT_UNIT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMPORT_ORDER_DETAIL_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+          <End Role="IMPORT_ORDER_DETAIL" Type="Self.IMPORT_ORDER_DETAIL" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="IMPORT_ORDER_DETAIL">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_USER_MEMBERSHIP_TYPE">
+          <End Role="MEMBERSHIP_TYPE" Type="Self.MEMBERSHIP_TYPE" Multiplicity="0..1" />
+          <End Role="USER" Type="Self.USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEMBERSHIP_TYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USER">
+              <PropertyRef Name="MEMBERSHIP_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NEWS_NEWS_TYPE">
+          <End Role="NEWS_TYPE" Type="Self.NEWS_TYPE" Multiplicity="0..1" />
+          <End Role="NEWS" Type="Self.NEWS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NEWS_TYPE">
+              <PropertyRef Name="TYPE_NEWS_ID" />
+            </Principal>
+            <Dependent Role="NEWS">
+              <PropertyRef Name="NEWS_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCER">
+          <End Role="PRODUCER" Type="Self.PRODUCER" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCER">
+              <PropertyRef Name="PRODUCER_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="PRODUCER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_COLOR_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCT_COLOR" Type="Self.PRODUCT_COLOR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT_COLOR">
+              <PropertyRef Name="PRODUCT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCT_DISCOUNT">
+          <End Role="PRODUCT_DISCOUNT" Type="Self.PRODUCT_DISCOUNT" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT_DISCOUNT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="DISCOUNT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCT_TYPE">
+          <End Role="PRODUCT_TYPE" Type="Self.PRODUCT_TYPE" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT_TYPE">
+              <PropertyRef Name="TYPE_ID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="PRODUCT_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DATABASELVTN1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ADMINs" EntityType="Self.ADMIN" />
+          <EntitySet Name="CARTs" EntityType="Self.CART" />
+          <EntitySet Name="CART_ITEM" EntityType="Self.CART_ITEM" />
+          <EntitySet Name="COLORs" EntityType="Self.COLOR" />
+          <EntitySet Name="COLOR_GROUP" EntityType="Self.COLOR_GROUP" />
+          <EntitySet Name="COLOR_GROUP_NEWS" EntityType="Self.COLOR_GROUP_NEWS" />
+          <EntitySet Name="COMMENTs" EntityType="Self.COMMENT" />
+          <EntitySet Name="COMMENT_NEWS" EntityType="Self.COMMENT_NEWS" />
+          <EntitySet Name="DELIVERies" EntityType="Self.DELIVERY" />
+          <EntitySet Name="DELIVERY_ITEM" EntityType="Self.DELIVERY_ITEM" />
+          <EntitySet Name="DELIVERY_TYPE" EntityType="Self.DELIVERY_TYPE" />
+          <EntitySet Name="DISCOUNT_UNIT" EntityType="Self.DISCOUNT_UNIT" />
+          <EntitySet Name="FEEDBACKs" EntityType="Self.FEEDBACK" />
+          <EntitySet Name="IMPORT_ORDER" EntityType="Self.IMPORT_ORDER" />
+          <EntitySet Name="IMPORT_ORDER_DETAIL" EntityType="Self.IMPORT_ORDER_DETAIL" />
+          <EntitySet Name="MEMBERSHIP_TYPE" EntityType="Self.MEMBERSHIP_TYPE" />
+          <EntitySet Name="NEWS" EntityType="Self.NEWS" />
+          <EntitySet Name="NEWS_TYPE" EntityType="Self.NEWS_TYPE" />
+          <EntitySet Name="PERSON_IMPORT" EntityType="Self.PERSON_IMPORT" />
+          <EntitySet Name="PRODUCERs" EntityType="Self.PRODUCER" />
+          <EntitySet Name="PRODUCTs" EntityType="Self.PRODUCT" />
+          <EntitySet Name="PRODUCT_COLOR" EntityType="Self.PRODUCT_COLOR" />
+          <EntitySet Name="PRODUCT_DISCOUNT" EntityType="Self.PRODUCT_DISCOUNT" />
+          <EntitySet Name="PRODUCT_TYPE" EntityType="Self.PRODUCT_TYPE" />
+          <EntitySet Name="SUB_COLOR_GROUP" EntityType="Self.SUB_COLOR_GROUP" />
+          <EntitySet Name="SUPPLIERs" EntityType="Self.SUPPLIER" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="UNIT_PRODUCT" EntityType="Self.UNIT_PRODUCT" />
+          <EntitySet Name="USERs" EntityType="Self.USER" />
+          <AssociationSet Name="FK_NEWS_ADMIN" Association="Self.FK_NEWS_ADMIN">
+            <End Role="ADMIN" EntitySet="ADMINs" />
+            <End Role="NEWS" EntitySet="NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CART_DELIVERY_ITEM" Association="Self.FK_CART_DELIVERY_ITEM">
+            <End Role="DELIVERY_ITEM" EntitySet="DELIVERY_ITEM" />
+            <End Role="CART" EntitySet="CARTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CART_ITEM_CART" Association="Self.FK_CART_ITEM_CART">
+            <End Role="CART" EntitySet="CARTs" />
+            <End Role="CART_ITEM" EntitySet="CART_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_USER" Association="Self.FK_ORDER_USER">
+            <End Role="USER" EntitySet="USERs" />
+            <End Role="CART" EntitySet="CARTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_DETAIL_PRODUCT" Association="Self.FK_ORDER_DETAIL_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="CART_ITEM" EntitySet="CART_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COLOR_SUB_COLOR_GROUP" Association="Self.FK_COLOR_SUB_COLOR_GROUP">
+            <End Role="SUB_COLOR_GROUP" EntitySet="SUB_COLOR_GROUP" />
+            <End Role="COLOR" EntitySet="COLORs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_COLOR_COLOR" Association="Self.FK_PRODUCT_COLOR_COLOR">
+            <End Role="COLOR" EntitySet="COLORs" />
+            <End Role="PRODUCT_COLOR" EntitySet="PRODUCT_COLOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COLOR_GROUP_NEWS_COLOR_GROUP" Association="Self.FK_COLOR_GROUP_NEWS_COLOR_GROUP">
+            <End Role="COLOR_GROUP" EntitySet="COLOR_GROUP" />
+            <End Role="COLOR_GROUP_NEWS" EntitySet="COLOR_GROUP_NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUB_COLOR_GROUP_COLOR_GROUP" Association="Self.FK_SUB_COLOR_GROUP_COLOR_GROUP">
+            <End Role="COLOR_GROUP" EntitySet="COLOR_GROUP" />
+            <End Role="SUB_COLOR_GROUP" EntitySet="SUB_COLOR_GROUP" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COLOR_GROUP_NEWS_NEWS" Association="Self.FK_COLOR_GROUP_NEWS_NEWS">
+            <End Role="NEWS" EntitySet="NEWS" />
+            <End Role="COLOR_GROUP_NEWS" EntitySet="COLOR_GROUP_NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMMENT_PRODUCT" Association="Self.FK_COMMENT_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="COMMENT" EntitySet="COMMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMMENT_USER" Association="Self.FK_COMMENT_USER">
+            <End Role="USER" EntitySet="USERs" />
+            <End Role="COMMENT" EntitySet="COMMENTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DELIVERY_ITEM_DELIVERY" Association="Self.FK_DELIVERY_ITEM_DELIVERY">
+            <End Role="DELIVERY" EntitySet="DELIVERies" />
+            <End Role="DELIVERY_ITEM" EntitySet="DELIVERY_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DELIVERY_ITEM_DELIVERY_TYPE" Association="Self.FK_DELIVERY_ITEM_DELIVERY_TYPE">
+            <End Role="DELIVERY_TYPE" EntitySet="DELIVERY_TYPE" />
+            <End Role="DELIVERY_ITEM" EntitySet="DELIVERY_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1" Association="Self.FK_MEMBERSHIP_TYPE_DISCOUNT_UNIT1">
+            <End Role="DISCOUNT_UNIT" EntitySet="DISCOUNT_UNIT" />
+            <End Role="MEMBERSHIP_TYPE" EntitySet="MEMBERSHIP_TYPE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT" Association="Self.FK_PRODUCT_DISCOUNT_DISCOUNT_UNIT">
+            <End Role="DISCOUNT_UNIT" EntitySet="DISCOUNT_UNIT" />
+            <End Role="PRODUCT_DISCOUNT" EntitySet="PRODUCT_DISCOUNT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FEEDBACK_USER" Association="Self.FK_FEEDBACK_USER">
+            <End Role="USER" EntitySet="USERs" />
+            <End Role="FEEDBACK" EntitySet="FEEDBACKs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL" Association="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER_DETAIL">
+            <End Role="IMPORT_ORDER" EntitySet="IMPORT_ORDER" />
+            <End Role="IMPORT_ORDER_DETAIL" EntitySet="IMPORT_ORDER_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_PERSON_IMPORT" Association="Self.FK_IMPORT_ORDER_PERSON_IMPORT">
+            <End Role="PERSON_IMPORT" EntitySet="PERSON_IMPORT" />
+            <End Role="IMPORT_ORDER" EntitySet="IMPORT_ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_SUPPLIER" Association="Self.FK_IMPORT_ORDER_SUPPLIER">
+            <End Role="SUPPLIER" EntitySet="SUPPLIERs" />
+            <End Role="IMPORT_ORDER" EntitySet="IMPORT_ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER" Association="Self.FK_IMPORT_ORDER_DETAIL_IMPORT_ORDER">
+            <End Role="UNIT_PRODUCT" EntitySet="UNIT_PRODUCT" />
+            <End Role="IMPORT_ORDER_DETAIL" EntitySet="IMPORT_ORDER_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMPORT_ORDER_DETAIL_PRODUCT" Association="Self.FK_IMPORT_ORDER_DETAIL_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="IMPORT_ORDER_DETAIL" EntitySet="IMPORT_ORDER_DETAIL" />
+          </AssociationSet>
+          <AssociationSet Name="FK_USER_MEMBERSHIP_TYPE" Association="Self.FK_USER_MEMBERSHIP_TYPE">
+            <End Role="MEMBERSHIP_TYPE" EntitySet="MEMBERSHIP_TYPE" />
+            <End Role="USER" EntitySet="USERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NEWS_NEWS_TYPE" Association="Self.FK_NEWS_NEWS_TYPE">
+            <End Role="NEWS_TYPE" EntitySet="NEWS_TYPE" />
+            <End Role="NEWS" EntitySet="NEWS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCER" Association="Self.FK_PRODUCT_PRODUCER">
+            <End Role="PRODUCER" EntitySet="PRODUCERs" />
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_COLOR_PRODUCT" Association="Self.FK_PRODUCT_COLOR_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="PRODUCT_COLOR" EntitySet="PRODUCT_COLOR" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCT_DISCOUNT" Association="Self.FK_PRODUCT_PRODUCT_DISCOUNT">
+            <End Role="PRODUCT_DISCOUNT" EntitySet="PRODUCT_DISCOUNT" />
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCT_TYPE" Association="Self.FK_PRODUCT_PRODUCT_TYPE">
+            <End Role="PRODUCT_TYPE" EntitySet="PRODUCT_TYPE" />
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DATABASELVTN3ModelStoreContainer" CdmEntityContainer="DATABASELVTN1Entities">
+          <EntitySetMapping Name="ADMINs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.ADMIN">
+              <MappingFragment StoreEntitySet="ADMIN">
+                <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
+                <ScalarProperty Name="ADMIN_ID" ColumnName="ADMIN_ID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARTs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.CART">
+              <MappingFragment StoreEntitySet="CART">
+                <ScalarProperty Name="CART_ID" ColumnName="CART_ID" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="DATE_ORDER" ColumnName="DATE_ORDER" />
+                <ScalarProperty Name="SHIP_NAME" ColumnName="SHIP_NAME" />
+                <ScalarProperty Name="SHIP_MOBILE" ColumnName="SHIP_MOBILE" />
+                <ScalarProperty Name="SHIP_ADDRESS" ColumnName="SHIP_ADDRESS" />
+                <ScalarProperty Name="SHIP_EMAIL" ColumnName="SHIP_EMAIL" />
+                <ScalarProperty Name="SHIP_MESSAGES" ColumnName="SHIP_MESSAGES" />
+                <ScalarProperty Name="TOTAL_MONEY" ColumnName="TOTAL_MONEY" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="SALE_ID" ColumnName="SALE_ID" />
+                <ScalarProperty Name="REASON_CANCEL" ColumnName="REASON_CANCEL" />
+                <ScalarProperty Name="DELIVERY_ITEM_ID" ColumnName="DELIVERY_ITEM_ID" />
+                <ScalarProperty Name="DELIVERY_COST" ColumnName="DELIVERY_COST" />
+                <ScalarProperty Name="ESTIMATED_DATE_DELIVERY" ColumnName="ESTIMATED_DATE_DELIVERY" />
+                <ScalarProperty Name="DISCOUNT_VALUE" ColumnName="DISCOUNT_VALUE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CART_ITEM">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.CART_ITEM">
+              <MappingFragment StoreEntitySet="CART_ITEM">
+                <ScalarProperty Name="CART_ITEM_ID" ColumnName="CART_ITEM_ID" />
+                <ScalarProperty Name="PRODUCT_ID" ColumnName="PRODUCT_ID" />
+                <ScalarProperty Name="CART_ID" ColumnName="CART_ID" />
+                <ScalarProperty Name="PRODUCT_NAME" ColumnName="PRODUCT_NAME" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+                <ScalarProperty Name="UNIT_PRICE" ColumnName="UNIT_PRICE" />
+                <ScalarProperty Name="QUANTITY" ColumnName="QUANTITY" />
+                <ScalarProperty Name="TOTAL_MONEY" ColumnName="TOTAL_MONEY" />
+                <ScalarProperty Name="DISCOUNT_VALUE" ColumnName="DISCOUNT_VALUE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COLORs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.COLOR">
+              <MappingFragment StoreEntitySet="COLOR">
+                <ScalarProperty Name="COLOR_ID" ColumnName="COLOR_ID" />
+                <ScalarProperty Name="COLOR_CODE" ColumnName="COLOR_CODE" />
+                <ScalarProperty Name="COLOR_NAME" ColumnName="COLOR_NAME" />
+                <ScalarProperty Name="COLOR_RGB_NAME" ColumnName="COLOR_RGB_NAME" />
+                <ScalarProperty Name="SUB_COLOR_GROUP_ID" ColumnName="SUB_COLOR_GROUP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COLOR_GROUP">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.COLOR_GROUP">
+              <MappingFragment StoreEntitySet="COLOR_GROUP">
+                <ScalarProperty Name="COLOR_GROUP_ID" ColumnName="COLOR_GROUP_ID" />
+                <ScalarProperty Name="COLOR_GROUP_NAME" ColumnName="COLOR_GROUP_NAME" />
+                <ScalarProperty Name="COLOR_GROUP_CODE" ColumnName="COLOR_GROUP_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COLOR_GROUP_NEWS">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.COLOR_GROUP_NEWS">
+              <MappingFragment StoreEntitySet="COLOR_GROUP_NEWS">
+                <ScalarProperty Name="COLOR_GROUP_NEWS_ID" ColumnName="COLOR_GROUP_NEWS_ID" />
+                <ScalarProperty Name="COLOR_GROUP_ID" ColumnName="COLOR_GROUP_ID" />
+                <ScalarProperty Name="NEWS_ID" ColumnName="NEWS_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMMENTs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.COMMENT">
+              <MappingFragment StoreEntitySet="COMMENT">
+                <ScalarProperty Name="Comment_ID" ColumnName="Comment_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Comment_Content" ColumnName="Comment_Content" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMMENT_NEWS">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.COMMENT_NEWS">
+              <MappingFragment StoreEntitySet="COMMENT_NEWS">
+                <ScalarProperty Name="COMMENT_NEWS_ID" ColumnName="COMMENT_NEWS_ID" />
+                <ScalarProperty Name="COMMENT_NEWS_CONTENT" ColumnName="COMMENT_NEWS_CONTENT" />
+                <ScalarProperty Name="DATE" ColumnName="DATE" />
+                <ScalarProperty Name="NEWS_ID" ColumnName="NEWS_ID" />
+                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+                <ScalarProperty Name="ADMIN_ID" ColumnName="ADMIN_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DELIVERies">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.DELIVERY">
+              <MappingFragment StoreEntitySet="DELIVERY">
+                <ScalarProperty Name="DELIVERY_ID" ColumnName="DELIVERY_ID" />
+                <ScalarProperty Name="DELIVERY_COMPANY_NAME" ColumnName="DELIVERY_COMPANY_NAME" />
+                <ScalarProperty Name="DELIVERY_PHONE" ColumnName="DELIVERY_PHONE" />
+                <ScalarProperty Name="DELIVERY_ADDRESS" ColumnName="DELIVERY_ADDRESS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DELIVERY_ITEM">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.DELIVERY_ITEM">
+              <MappingFragment StoreEntitySet="DELIVERY_ITEM">
+                <ScalarProperty Name="DELIVERY_ITEM_ID" ColumnName="DELIVERY_ITEM_ID" />
+                <ScalarProperty Name="DELIVERY_ID" ColumnName="DELIVERY_ID" />
+                <ScalarProperty Name="DELIVERY_TYPE_ID" ColumnName="DELIVERY_TYPE_ID" />
+                <ScalarProperty Name="DELIVERY_ITEM_COST" ColumnName="DELIVERY_ITEM_COST" />
+                <ScalarProperty Name="ESTIMATED_DATE_DELIVERY" ColumnName="ESTIMATED_DATE_DELIVERY" />
+                <ScalarProperty Name="BOTH_NAME" ColumnName="BOTH_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DELIVERY_TYPE">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.DELIVERY_TYPE">
+              <MappingFragment StoreEntitySet="DELIVERY_TYPE">
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="DELIVERY_TYPE_ID" ColumnName="DELIVERY_TYPE_ID" />
+                <ScalarProperty Name="DELIVERY_TYPE_NAME" ColumnName="DELIVERY_TYPE_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DISCOUNT_UNIT">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.DISCOUNT_UNIT">
+              <MappingFragment StoreEntitySet="DISCOUNT_UNIT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="CURRENCY" ColumnName="CURRENCY" />
+                <ScalarProperty Name="PERCENTAGE" ColumnName="PERCENTAGE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FEEDBACKs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.FEEDBACK">
+              <MappingFragment StoreEntitySet="FEEDBACK">
+                <ScalarProperty Name="FEEDBACK_ID" ColumnName="FEEDBACK_ID" />
+                <ScalarProperty Name="FEEDBACK_CONTENT" ColumnName="FEEDBACK_CONTENT" />
+                <ScalarProperty Name="FEEDBACK_DATE" ColumnName="FEEDBACK_DATE" />
+                <ScalarProperty Name="FEEDBACK_USER" ColumnName="FEEDBACK_USER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IMPORT_ORDER">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.IMPORT_ORDER">
+              <MappingFragment StoreEntitySet="IMPORT_ORDER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DATE_IMPORT" ColumnName="DATE_IMPORT" />
+                <ScalarProperty Name="TOTAL" ColumnName="TOTAL" />
+                <ScalarProperty Name="PERSON_IMPORT_ID" ColumnName="PERSON_IMPORT_ID" />
+                <ScalarProperty Name="SUPPLIER_ID" ColumnName="SUPPLIER_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IMPORT_ORDER_DETAIL">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.IMPORT_ORDER_DETAIL">
+              <MappingFragment StoreEntitySet="IMPORT_ORDER_DETAIL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IMPORT_ID" ColumnName="IMPORT_ID" />
+                <ScalarProperty Name="PRODUCT_ID" ColumnName="PRODUCT_ID" />
+                <ScalarProperty Name="IMPORT_AMOUNT" ColumnName="IMPORT_AMOUNT" />
+                <ScalarProperty Name="IMPORT_AMOUNT_REAL" ColumnName="IMPORT_AMOUNT_REAL" />
+                <ScalarProperty Name="IMPORT_PRICE" ColumnName="IMPORT_PRICE" />
+                <ScalarProperty Name="IMPORT_INTO_MONEY" ColumnName="IMPORT_INTO_MONEY" />
+                <ScalarProperty Name="IMPORT_UNIT_ID" ColumnName="IMPORT_UNIT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEMBERSHIP_TYPE">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.MEMBERSHIP_TYPE">
+              <MappingFragment StoreEntitySet="MEMBERSHIP_TYPE">
+                <ScalarProperty Name="MAX_POINT" ColumnName="MAX_POINT" />
+                <ScalarProperty Name="MIN_POINT" ColumnName="MIN_POINT" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MEMBERSHIP_TYPE1" ColumnName="MEMBERSHIP_TYPE" />
+                <ScalarProperty Name="DISCOUNT_VALUE" ColumnName="DISCOUNT_VALUE" />
+                <ScalarProperty Name="DISCOUNT_UNIT_ID" ColumnName="DISCOUNT_UNIT_ID" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="VALID_UNTIL" ColumnName="VALID_UNTIL" />
+                <ScalarProperty Name="FREE_SHIPPING_ACTIVE" ColumnName="FREE_SHIPPING_ACTIVE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NEWS">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.NEWS">
+              <MappingFragment StoreEntitySet="NEWS">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="NEWS_ID" ColumnName="NEWS_ID" />
+                <ScalarProperty Name="NEWS_DATE" ColumnName="NEWS_DATE" />
+                <ScalarProperty Name="NEWS_TITLE" ColumnName="NEWS_TITLE" />
+                <ScalarProperty Name="NEWS_SUMMARY" ColumnName="NEWS_SUMMARY" />
+                <ScalarProperty Name="NEWS_CONTENT" ColumnName="NEWS_CONTENT" />
+                <ScalarProperty Name="NEWS_IMG" ColumnName="NEWS_IMG" />
+                <ScalarProperty Name="ADMIN_ID" ColumnName="ADMIN_ID" />
+                <ScalarProperty Name="NEWS_TYPE_ID" ColumnName="NEWS_TYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NEWS_TYPE">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.NEWS_TYPE">
+              <MappingFragment StoreEntitySet="NEWS_TYPE">
+                <ScalarProperty Name="TYPE_NEWS_ID" ColumnName="TYPE_NEWS_ID" />
+                <ScalarProperty Name="NEWS_NAME" ColumnName="NEWS_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSON_IMPORT">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.PERSON_IMPORT">
+              <MappingFragment StoreEntitySet="PERSON_IMPORT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="POSITION" ColumnName="POSITION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCERs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.PRODUCER">
+              <MappingFragment StoreEntitySet="PRODUCER">
+                <ScalarProperty Name="PRODUCER_ID" ColumnName="PRODUCER_ID" />
+                <ScalarProperty Name="PRODUCER_NAME" ColumnName="PRODUCER_NAME" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="IMG" ColumnName="IMG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.PRODUCT">
+              <MappingFragment StoreEntitySet="PRODUCT">
+                <ScalarProperty Name="PRODUCT_ID" ColumnName="PRODUCT_ID" />
+                <ScalarProperty Name="PRODUCT_NAME" ColumnName="PRODUCT_NAME" />
+                <ScalarProperty Name="PRICE" ColumnName="PRICE" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="DATE_OF_MANUFACTURE" ColumnName="DATE_OF_MANUFACTURE" />
+                <ScalarProperty Name="LIMITED_USE" ColumnName="LIMITED_USE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="NET" ColumnName="NET" />
+                <ScalarProperty Name="CODE_AUTH" ColumnName="CODE_AUTH" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="SPECIFICATION" ColumnName="SPECIFICATION" />
+                <ScalarProperty Name="PRODUCT_TYPE_ID" ColumnName="PRODUCT_TYPE_ID" />
+                <ScalarProperty Name="PRODUCER_ID" ColumnName="PRODUCER_ID" />
+                <ScalarProperty Name="DISCOUNT" ColumnName="DISCOUNT" />
+                <ScalarProperty Name="BUYING" ColumnName="BUYING" />
+                <ScalarProperty Name="SELL" ColumnName="SELL" />
+                <ScalarProperty Name="DISCOUNT_VALUE" ColumnName="DISCOUNT_VALUE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCT_COLOR">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.PRODUCT_COLOR">
+              <MappingFragment StoreEntitySet="PRODUCT_COLOR">
+                <ScalarProperty Name="PRODUCT_COLOR_ID" ColumnName="PRODUCT_COLOR_ID" />
+                <ScalarProperty Name="PRODUCT_ID" ColumnName="PRODUCT_ID" />
+                <ScalarProperty Name="COLOR_ID" ColumnName="COLOR_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCT_DISCOUNT">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.PRODUCT_DISCOUNT">
+              <MappingFragment StoreEntitySet="PRODUCT_DISCOUNT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DISCOUNT_VALUE" ColumnName="DISCOUNT_VALUE" />
+                <ScalarProperty Name="DISCOUNT_UNIT_ID" ColumnName="DISCOUNT_UNIT_ID" />
+                <ScalarProperty Name="CREATE_DATE" ColumnName="CREATE_DATE" />
+                <ScalarProperty Name="UNTIL_VALID" ColumnName="UNTIL_VALID" />
+                <ScalarProperty Name="MAXIMUM_DISCOUNT_VALUE" ColumnName="MAXIMUM_DISCOUNT_VALUE" />
+                <ScalarProperty Name="MINIMUM_ORDER_VALUE" ColumnName="MINIMUM_ORDER_VALUE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="COUPON_CODE" ColumnName="COUPON_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCT_TYPE">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.PRODUCT_TYPE">
+              <MappingFragment StoreEntitySet="PRODUCT_TYPE">
+                <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
+                <ScalarProperty Name="TYPE_NAME" ColumnName="TYPE_NAME" />
+                <ScalarProperty Name="USES" ColumnName="USES" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUB_COLOR_GROUP">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.SUB_COLOR_GROUP">
+              <MappingFragment StoreEntitySet="SUB_COLOR_GROUP">
+                <ScalarProperty Name="SUB_COLOR_GROUP_ID" ColumnName="SUB_COLOR_GROUP_ID" />
+                <ScalarProperty Name="SUB_COLOR_GROUP_CODE" ColumnName="SUB_COLOR_GROUP_CODE" />
+                <ScalarProperty Name="SUB_COLOR_GROUP_NAME" ColumnName="SUB_COLOR_GROUP_NAME" />
+                <ScalarProperty Name="COLOR_GROUP_ID" ColumnName="COLOR_GROUP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUPPLIERs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.SUPPLIER">
+              <MappingFragment StoreEntitySet="SUPPLIER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UNIT_PRODUCT">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.UNIT_PRODUCT">
+              <MappingFragment StoreEntitySet="UNIT_PRODUCT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERs">
+            <EntityTypeMapping TypeName="DATABASELVTN3Model.USER">
+              <MappingFragment StoreEntitySet="USER">
+                <ScalarProperty Name="TOTAL_TRANSACTION" ColumnName="TOTAL_TRANSACTION" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="FULLNAME" ColumnName="FULLNAME" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="DATE_REGISTER" ColumnName="DATE_REGISTER" />
+                <ScalarProperty Name="RESET_PASSWORD_CODE" ColumnName="RESET_PASSWORD_CODE" />
+                <ScalarProperty Name="MEMBERSHIP_TYPE_ID" ColumnName="MEMBERSHIP_TYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

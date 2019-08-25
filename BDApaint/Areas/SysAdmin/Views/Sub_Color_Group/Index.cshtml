@@ -1,0 +1,96 @@
+﻿@{
+
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script type="text/javascript">
+        $(document).ready(function () {
+            //$("#sampleTable tfoot tr th").each(function () {
+            //    var title = $(this).text();
+            //    $(this).html('<input  type = "text" placeholder="' + title + '" />')
+            //});
+            var tables = $("#sampleTable");
+            if (tables != null) {
+                var table = $('#sampleTable').DataTable({
+                    "oLanguage": {
+                        "sEmptyTable": "Không tìm thấy dữ liệu",
+                        "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                        "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                        "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                    }
+                });
+                //table.columns().every(function () {
+                //    var that = this;
+                //    $("input", this.footer()).on('keyup change clear', function () {
+                //        if (that.search() !== this.value) {
+                //            that
+                //                .search(this.value)
+                //                .draw();
+                //        }
+                //    })
+                //})
+            }
+        })
+
+
+</script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Danh sách loại sơn</h1>
+        <p>Bảng thông tin danh sách loại sơn</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Mã màu</th>
+
+                            <th>Tên nhóm màu</th>
+                            @*<th>Hành động</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                            <tr>
+                                <td>
+                                   @x.SUB_COLOR_GROUP_ID
+                                </td>
+
+                                <td>@x.SUB_COLOR_GROUP_NAME</td>
+
+                                <td>@x.SUB_COLOR_GROUP_CODE</td>
+
+
+
+                                <td>
+                                    @x.COLOR_GROUP.COLOR_GROUP_NAME
+                                </td>
+
+                                @*<td>
+                                    <a href="@Url.Action("edit",new {id = x.SUB_COLOR_GROUP_ID })" style="float:left;margin-left:20px" class="showEdit button">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="@Url.Action("Delete",new { id = x.SUB_COLOR_GROUP_ID})" style="float:left;margin-left:10px;" class="show-Edit button">
+                                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                    </a>
+
+                                </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,622 @@
+﻿@model List<BDApaint.Model.NEWS>
+
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .text-title {
+        margin: 1rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+        .text-title::after, .text-title::before {
+            content: "";
+            background: #000;
+            flex: 1;
+            margin: .25em;
+            border: solid #6cf;
+            border-width: .06em 0;
+        }
+</style>
+
+
+<div class="container-body" style="padding:0px;">
+
+    <div>
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            SẢN PHẨM MỚI
+        </h2>
+    </div>
+    <div class="row right-bar" style="margin-left: 30px;
+ margin-right: 30px;">
+
+        @foreach (var item in ViewBag.newProduct)
+        {
+            <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="some-block" style="position:relative;">
+                    <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                        <img class="img-product-aff-@item.PRODUCT_ID" src="~/Content/img2/@item.IMAGE" width="150" height="180" alt="@item.IMAGE" />
+                    </a>
+                    <div class="info-product relative-product" style="position:relative;">
+                        <div class="name-product" style="font-weight: 700; font-size: small;">
+                            <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                @item.PRODUCT_NAME
+                            </a>
+                        </div>
+                        @if (item.STATUS == 1)
+                        {
+                            <div class="new-product" style="position: absolute; bottom: 0px; right: 0px; font-size: xx-small; bottom: 170px; right: 170px; ">
+                                <div class="ribbon ribbon--blue">Mới</div>
+                            </div>
+                        }
+                        @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE != 0)
+                        {
+                            <div class="discount-product" style="position: absolute; bottom: 170px; right: -14px; font-size: .5vw;">
+                                @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE <= 100)
+                                {
+                                    <div class="ribbon ribbon--red">- @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE %</div>
+                                }
+                                else
+                                {
+                                    <div class="ribbon ribbon--red">- @String.Format("{0:0,0}", @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE)<span style="text-transform:lowercase;"><sup>đ</sup></span></div>
+                                }
+
+                            </div>
+                        }
+                        <div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 50px;">
+                            @String.Format("{0:0,0}", @item.PRICE) đ
+                        </div>
+
+                    </div>
+                    <div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">
+                        @*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@
+                        <div class="row" style="margin-right:10%; display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCompare(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="@item.PRODUCT_ID" name="">
+                                <span><img src="~/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>
+
+                            </a>
+                        </div>
+                        <div class="row" style="display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCart(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart" name="">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="line-product" />
+
+            </div>
+        }
+    </div>
+
+    <div>
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            SẢN PHẨM KHUYẾN MÃI
+        </h2>
+    </div>
+    <div class="row right-bar" style="margin-left: 30px;
+ margin-right: 30px;">
+
+        @foreach (var item in ViewBag.discountProduct)
+        {
+            <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="some-block" style="position:relative;">
+                    <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                        <img class="img-product-aff-@item.PRODUCT_ID" src="~/Content/img2/@item.IMAGE" width="150" height="180" alt="@item.IMAGE" />
+                    </a>
+                    <div class="info-product relative-product" style="position:relative;">
+                        <div class="name-product" style="font-weight: 700; font-size: small;">
+                            <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                @item.PRODUCT_NAME
+                            </a>
+                        </div>
+                        <div class="new-product" style="position: absolute; bottom: 0px; right: 0px; font-size: xx-small; bottom: 170px; right: 190px; ">
+                            @if (item.STATUS == 1)
+                            {
+                                <div class="ribbon ribbon--blue">Mới</div>
+                            }
+
+                        </div>
+                        @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE != 0)
+                        {
+                            <div class="discount-product" style="position: absolute; bottom: 170px; right: -14px; font-size: .5vw;">
+                                @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE <= 100)
+                                {
+                                    <div class="ribbon ribbon--red">- @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE %</div>
+                                }
+                                else
+                                {
+                                    <div class="ribbon ribbon--red">- @String.Format("{0:0,0}", @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE)<span style="text-transform:lowercase;"><sup>đ</sup></span></div>
+                                }
+
+                            </div>
+                        }
+                        <div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 50px;">
+                            @String.Format("{0:0,0}", @item.PRICE) đ
+                        </div>
+
+                    </div>
+                    <div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">
+                        @*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@
+                        <div class="row" style="margin-right:10%; display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCompare(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="@item.PRODUCT_ID" name="">
+                                <span><img src="~/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>
+
+                            </a>
+                        </div>
+                        <div class="row" style="display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCart(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart" name="">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="line-product" />
+
+            </div>
+        }
+    </div>
+
+
+
+
+
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            CẢM NHẬN CỦA KHÁCH HÀNG
+        </h2>
+        <div class="slideshow-container">
+            @foreach (var item in ViewBag.feedback)
+            {
+                <div class="mySlides">
+                    <blockquote class="quote-content" style="border:none; margin-top:5%; margin-left:1%;">
+                        <h3 style=" letter-spacing: 1px; line-height: 1.5; font-style: italic; text-align: center; justify-content: center; vertical-align: middle;">@item.FEEDBACK_CONTENT</h3>
+                        <footer>
+                            <p style="text-transform:uppercase;"> @item.USER.FULLNAME</p>
+                        </footer>
+                    </blockquote>
+                </div>
+            }
+            <!-- Next/prev buttons -->
+            <a class="prev" style="margin-left:3%;" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" style="margin-right:3%;" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+
+        <!-- Dots/bullets/indicators -->
+        <div class="dot-container" style="background-color:rgba(0,0,0,0.005); margin-top:-5%;">
+            @{int y = 0;}
+            @foreach (var i in ViewBag.feedback)
+            {
+                y++;
+                <span class="dot" onclick="currentSlide(@y)"></span>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            LỊCH SỬ PHÁT TRIỂN BDA
+        </h2>
+        <div class="col-md-12">
+            <div class="main-timeline" style=" padding:3%;">
+                <div class="timeline">
+                    <a class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fa fa-handshake-o fa-timeline"></i>
+                        </div>
+                        <div class="timeline-year">
+                            <span>2010</span>
+                        </div>
+                        <div class="inner-content">
+                            <h3 class="title">Thành lập</h3>
+                            <p class="description">
+                                Được góp vốn bởi 2 cổ đông sáng lập gồm ông Nguyễn Văn Ninh và ông Bùi Tấn Vương với số vốn góp ban đầu là chỉ 30 triệu đồng. Ngành nghề, hoạt động sản xuất kinh doanh chính là kinh doanh sơn nước trong xây dựng.Khi đó 2 ông chỉ mới có là sinh viên nhưng có ý chí và niềm tin về ngành sơn nước này nhưng kinh tế không nhiều vì thế trụ sở chính được đặt tại Gara nhỏ ở Cao Lỗ được 2 ông thuê lại.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="timeline">
+                    <a class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fa fa-level-up fa-timeline"></i>
+                        </div>
+                        <div class="timeline-year">
+                            <span>2014</span>
+                        </div>
+                        <div class="inner-content">
+                            <h3 class="title">Mở rộng quy mô</h3>
+                            <p class="description">
+                                Công ty thay đổi trụ sở chính đến Landmark 81 với diện tích 500m2 và kho hàng diện tích<br /> 1.000 m<sup>2</sup> tại Bitexco, Thành phố Hồ Chí Minh. Với trụ sở mới và kho hàng khang trang tạo điều kiện thuận lợi cho hoạt động thương mại của Công ty.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="timeline">
+                    <a class="timeline-content">
+                        <div class="timeline-icon" style="color: #16A5E1; background: #16A5E1; ">
+                            <i class="fa fa-money fa-timeline"></i>
+                        </div>
+                        <div class="timeline-year">
+                            <span>2016</span>
+                        </div>
+                        <div class="inner-content">
+                            <h3 class="title">TĂNG VỐN ĐIỀU LỆ</h3>
+                            <p class="description">
+                                Công ty thực hiện 2 đợt tăng vốn điều lệ từ 30 triệu đồng lên 30 tỷ và tăng vốn điều lệ từ 30 tỷ đồng lên 160,8 tỷ đồng để mở rộng hoạt động kinh doanh. Kể từ khi thành lập cho đến thời điểm hiện tại, Công ty đã đi vào hoạt động được hơn sáu năm, bước đầu cũng đã khẳng định được năng lực của mình trên thị trường, bằng chứng là Công ty đã và đang cung cấp sơn nước với số lượng lớn cho một số dự án như: dự án xây dựng Bệnh viện y học cổ truyền Bộ Công An, Dự án Khu đô thị Vân Canh – Hoài Đức – Hà Nội, dự án xây dựng Nhà công vụ Bộ Công an, Dự án xây dựng cầu Thái Hà, Dự án xây dựng nhà ở cho CBCNV Bệnh viện 103… Bên cạnh đó, Công ty vẫn đang nỗ lực tìm kiếm đối tác, mở rộng thị trường trong và ngoài nước để bảo đảm hoạt động sản xuất kinh doanh của Công ty đạt được thành tựu tốt nhất.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="timeline">
+                    <a class="timeline-content">
+                        <div class="timeline-icon">
+                            <i class="fa fa-rocket fa-timeline"></i>
+                        </div>
+                        <div class="timeline-year">
+                            <span>2019</span>
+                        </div>
+                        <div class="inner-content">
+                            <h3 class="title">CỦNG CỐ VÀ PHÁT TRIỂN</h3>
+                            <p class="description">
+                                Là một trong những nhà phân phối sơn nước lớn của Việt Nam. Hiện tại, công ty đang là nhà phân phối của công ty cổ phần Dulux , Maxlite , Nippon , Seamaster , Jotun , ....
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            ĐỐI TÁC CỦA CHÚNG TÔI
+        </h2>
+        <div class="row">
+            <div class="container" style="text-align:center; padding:5%;">
+                @foreach (var item in ViewBag.producer)
+                {
+                    <img class="img-product" src="~/Content/imgProducer/@item.IMG" width="200" height="200" />
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            TIN TỨC
+        </h2>
+        <div class="container">
+            <div id="myCarouseNews" class="carousel slide" data-ride="carouseNew" style="padding: 20px;">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner " style="width: 60%; display: inline-block;">
+                    <div class="item active" style="height:300px;">
+                        <blockquote>
+                            <h3 style="font-family: 'Merriweather', serif;">Chúng tôi luôn muốn chia sẻ những điều tốt đẹp nhất cho cộng đồng , đặc biệt là quý khách hàng của BDA . Kính chúc quý khách có 1 ngày vui vẻ !</h3>
+                        </blockquote>
+                    </div>
+                    @foreach (var item in ViewBag.newest)
+                    {
+                        @*<div class="item active">
+                                <img src="~/Content/imgNews/@item.NEWS_IMG" width="760" height="200">
+                                <div class="carousel-caption">
+                                    <h4><a href="">@item.NEWS_TITLE</a></h4>
+                                    <p>@item.NEWS_SUMMARY</p>
+                                </div>
+                            </div>*@
+
+                        <div class="item">
+                            <img src="~/Content/imgNews/@item.NEWS_IMG" width="760" style="height:300px;">
+                            <div class="carousel-caption" style="top:0;">
+                                <h2 class="alert alert-success text-warning"><a href="@Url.Action("getDetails", "News", new {id = @item.NEWS_ID })">@item.NEWS_TITLE</a></h2>
+                                <p>@item.NEWS_SUMMARY</p>
+                            </div>
+                        </div>
+
+
+                    }
+                </div><!-- End Carousel Inner -->
+
+                <ul class="list-group col-sm-4">
+                    @foreach (var item in ViewBag.newest)
+                    {
+
+                        <li data-target="#myCarouseNews" data-slide-to="@item.NEWS_ID" class="list-group-item active"><h4>@item.NEWS_TITLE</h4></li>
+
+                    }
+                </ul>
+
+                <!-- Controls -->
+                <div class="carousel-controls">
+                    <a class="left carousel-control" href="#myCarouseNews" data-slide="prev" style="top: 100%; color:#6cf;">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarouseNews" data-slide="next" style="top: 100%; color:#6cf;">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+            </div><!-- End Carousel -->
+        </div>
+    </div>
+
+
+
+
+
+    <hr id="line" />
+
+    <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+        LIÊN HỆ VỚI CHÚNG TÔI
+    </h2>
+    <p class="text-center" style="font-size:larger;">Chúng tôi sẽ liên lạc với quý khách hàng sớm nhất có thể </p>
+
+    <div class="row" style="margin-top:20px; margin-bottom:20px;">
+
+
+        <div class="col-md-4 ">
+            <div class="row" style="padding-left:150px;">
+
+                @using (@Html.BeginForm("Send", "Contact", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <label for="usr">Tên:</label>
+                        <input type="text" pattern="^\p{L}+[\p{L}\p{Pd}\p{Zs}']*\p{L}+$|^\p{L}+$" title="Vui lòng nhập tên có viết hoa và khoảng cách" required name="usernameContact" class="form-control" id="usr">
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">Địa chỉ email:</label>
+                        <input type="email" required name="emailContact" class="form-control" id="usr">
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">Chủ đề:</label>
+                        <input type="text" required pattern="^\p{L}+[\p{L}\p{Pd}\p{Zs}']*\p{L}+$|^\p{L}+$" title="Vui lòng nhập chủ đề có viết hoa và khoảng cách" name="subjectContact" class="form-control" id="usr">
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">Nội dung:</label>
+                        <textarea class="form-control" required name="contentContact" rows="5" id="usr"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button class="myButton" type="submit"> Gửi</button>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <div class="col-md-8 text-center">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1960.5320783150805!2d107.039959!3d10.652124!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x323129e759b95af0!2zQ-G7rWEgSMOgbmcgVmx4ZCBUcnVuZyBOYW0!5e0!3m2!1svi!2sus!4v1560848507427!5m2!1svi!2sus" width="600" height="450" frameborder="0" style="border:0"></iframe>
+        </div>
+        @*Loading*@
+
+
+    </div>
+
+    <a id="btnBackToTop"></a>
+
+
+
+
+
+    @***************************************************modal compare*********************@
+    <div class="modal fade" id="modalCompare" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="left:0;">
+            <div class="modal-content" style=" width: 60%; margin-left: 20%;">
+                <div class="modal-header">
+                    <h5 class="text-center" style="float:left;"><span class="glyphicon glyphicon-ok-sign" style="color: #1cbe55; font-size: x-large; "></span> Sản phẩm <span id="name-compare" style="text-transform:lowercase; font-weight:bold;"></span> đã được thêm thành công vào danh sách so sánh </h5>
+                    <button style="float:right; position:fixed;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove" style="right: 80%;"></span>
+                    </button>
+                </div>
+
+                <div class="modal-body text-center" id="result-compare" style="border: 1px solid #1cbe55; margin: 3%; max-height: 350px; overflow-x: hidden; ">
+                    <div class="row" id="product-compare">
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="/CompareProduct/Index" class="btn btn-default btn-xem-sosanh" style="background-color: #1cbe55; color:white;">Xem so sánh</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @***************************************************end-modal compare*********************@
+
+</div>
+
+<script type="text/javascript">
+
+
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+    }
+
+    var btn = $('#btnBackToTop');
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+        } else {
+            btn.removeClass('show');
+        }
+    });
+
+    btn.on('click', function (e) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, '300');
+    });
+
+
+
+
+
+
+    function flyToElement(flyer, flyingTo) {
+        var $func = $(this);
+        var divider = 3;
+        var flyerClone = $(flyer).clone();
+        $(flyerClone).css({ position: 'absolute', top: $(flyer).offset().top + "px", left: $(flyer).offset().left + "px", opacity: 1, 'z-index': 1000 });
+        $('body').append($(flyerClone));
+        var gotoX = $(flyingTo).offset().left + ($(flyingTo).width() / 2) - ($(flyer).width() / divider) / 2;
+        var gotoY = $(flyingTo).offset().top + ($(flyingTo).height() / 2) - ($(flyer).height() / divider) / 2;
+
+        $(flyerClone).animate({
+            opacity: 0.4,
+            left: gotoX,
+            top: gotoY,
+            width: $(flyer).width() / divider,
+            height: $(flyer).height() / divider
+        }, 700,
+        function () {
+            $(flyingTo).fadeOut('fast', function () {
+                $(flyingTo).fadeIn('fast', function () {
+                    $(flyerClone).fadeOut('fast', function () {
+                        $(flyerClone).remove();
+                    });
+                });
+            });
+        });
+    }
+    function NumberFormat(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+    function AddCompare(val) {
+        $('#modalCompare').modal('show');
+        $('#product-compare').html('');
+        $('#name-compare').html('');
+        var id = val;
+        var urlgx = '@Url.Action("ThemVaoSoSanh", "CompareProduct")';
+        $.ajax({
+            type: "GET",
+            url: urlgx,
+            data: { id: id },
+            success: function (data) {
+
+                var html = '';
+                var countProduct = data.length;
+                //lấy tên sản phẩm mới đc thêm sẽ ở vị trí length - 1
+                var x = countProduct - 1;
+                html += '<p >Đã có ' + countProduct + ' sản phẩm trong danh sách so sánh</p>';
+                $('#name-compare').append(data[x].PRODUCT_NAME);
+                $.each(data, function (key, item) {
+                    html += '<div class="row" style="padding:2%; border-bottom:1px solid; border-width:thin;">';
+                    html += '<div class="col-md-4">';
+                    html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '"><img src="/Content/img2/' + item.IMAGE + '" width="100" height="100" /></a>';
+                    html += '</div>';
+                    html += '<div class="col-md-8" style="text-align:left;">';
+                    html += '<div class="row" style="font-size: medium; font-weight: bold;"><a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">' + item.PRODUCT_NAME + '</a></div>';
+                    html += '<div class="row">';
+                    //html += '' + NumberFormat(item.PRICE) + ' đ';
+                    if (item.DISCOUNT_VALUE != 0) {
+                        if (item.DISCOUNT_VALUE < 100) {
+                            var pricePercent = 0;
+                            pricePercent = item.PRICE + ((item.PRICE * item.DISCOUNT_VALUE) / 100)
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="" style="font-weight:bold; ">Chỉ còn <span style="color:red; font-weight:bold; font-size: x-large;"> ' + NumberFormat(item.PRICE) + 'đ</span></div>';
+                            html += '<div style="text-decoration:line-through; float:left; opacity:.7; margin:0px; border-right:1px solid; padding:1%;">' + NumberFormat(pricePercent) + ' đ</div>';
+                            html += '<div style="float:left; padding:1%;"> - ' + item.DISCOUNT_VALUE + ' % </div>';
+                            html += '</div>';
+                            html += '</div>';
+
+                        }
+                        else {
+                            var priceMoney = 0;
+                            priceMoney = item.PRICE - item.DISCOUNT_VALUE;
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="" style="font-weight:bold;">Chỉ còn <span style="color:red; font-weight:bold; font-size: x-large;"> ' + NumberFormat(priceMoney) + 'đ</span></div>';
+                            html += '<div style="text-decoration:line-through; float:left; opacity:.7; border-right:1px solid; padding:1%;">' + NumberFormat(item.PRICE) + ' đ</div>';
+                            html += '<div style="padding:1%; float:left;">- ' + NumberFormat(item.DISCOUNT_VALUE) + ' đ </div>';
+                            html += '</div>';
+                        }
+                    } else {
+                        html += '<div style="font-size:x-large" >' + NumberFormat(item.PRICE) + 'đ</div>';
+                    }
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                });
+                $('#product-compare').append(html);
+            },
+        });
+    }
+
+
+   
+
+    $(document).ready(function () {
+        var clickEvent = false;
+        $('#myCarouseNews').carousel({
+            interval: 4000
+        }).on('click', '.list-group li', function () {
+            clickEvent = true;
+            $('.list-group li').removeClass('active');
+            $(this).addClass('active');
+        }).on('slid.bs.carousel', function (e) {
+            if (!clickEvent) {
+                var count = $('.list-group').children().length - 1;
+                var current = $('.list-group li.active');
+                current.removeClass('active').next().addClass('active');
+                var id = parseInt(current.data('slide-to'));
+                if (count == id) {
+                    $('.list-group li').first().addClass('active');
+                }
+            }
+            clickEvent = false;
+        });
+    })
+
+    $('.product-row').mouseover(function (event) {
+        $(this).find('.links').show();
+
+
+    })
+    $('.product-row').mouseout(function (event) {
+        $(this).find('.links').hide();
+    })
+    //$(window).load(function () {
+    //    var boxheight = $('#myCarouseNews .carousel-inner').innerHeight();
+    //    var itemlength = $('#myCarouseNews .item').length;
+    //    var triggerheight = Math.round(boxheight / itemlength + 1);
+    //    $('#myCarouseNews .list-group-item').outerHeight(triggerheight);
+    //});
+
+
+
+</script>

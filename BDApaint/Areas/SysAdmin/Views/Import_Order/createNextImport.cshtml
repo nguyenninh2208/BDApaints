@@ -1,0 +1,198 @@
+﻿
+@model IEnumerable<BDApaint.Model.IMPORT_ORDER_DETAIL>
+
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<style>
+ 
+</style>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Form cập nhập</h1>
+        <p>Cập nhật sản phẩm</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Form Components</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    <div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>
+    <div class="btn-above"><a href="@Url.Action("Index","Home")" class="btn btn-link">Trang chủ</a></div>
+    <div class="btn-above"><a href="@Url.Action("Index","Import_Order")" class="btn btn-link">Danh sách đơn nhập</a></div>
+    <div class="btn-above"><a href="@Url.Action("create","Supplier")" class="btn btn-primary">Thêm nhà cung cấp mới</a></div>
+    <div class="btn-above"><a href="@Url.Action("create","Product")" class="btn btn-primary">Thêm sản phẩm mới</a></div>
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @if (TempData["alertMessage"] != null)
+        {
+            <div id="alertBox" class="alert @TempData["alertType"]">
+                @TempData["alertMessage"]
+            </div>
+            <script>
+                var box = $('#alertBox');
+                box.delay(4000).slideUp(500);
+            </script>
+        }
+        <div class="tile">
+            @using (Html.BeginForm("createNextImport", "Import_Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <input id="ipID" name="IPID" value="@ViewBag.ID" hidden />
+                        <div class="form-group">
+                            <label for="person_import">
+                                Người nhập hàng:
+                            </label>
+                            <input id="person_import" readonly value="@ViewBag.personName" name="PERSON_IMPORT_ID" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier">
+                                Nhà cung cấp:
+                            </label>
+                            <input id="supplier" readonly class="form-control" name="SUPPLIER_ID" value="@ViewBag.supName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="product">
+                                Sản phẩm:
+                            </label>
+                            <select id="product" required name="PRODUCT_ID" class="form-control">
+                                @foreach (var item in ViewBag.product)
+                                {
+                                    <option value="@item.PRODUCT_ID">@item.PRODUCT_NAME</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="amountreal">
+                                Số lượng nhập:
+                            </label>
+                            <input id="amountreal" placeholder="1-999" max="999" min="1" type="number" required value="" name="IMPORT_AMOUNT_REAL" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="price">
+                                Giá nhập:
+                            </label>
+                            <input id="price" placeholder="1000-99999999" min="1000" max="99999999" type="number" required name="IMPORT_PRICE" class="form-control" />
+
+                        </div>
+                        <div class="form-group">
+                            <label for="IMPORT_UNIT_ID">
+                                Đơn vị sản phẩm:
+                            </label>
+                            <select id="IMPORT_UNIT_ID" class="form-control" name="IMPORT_UNIT_ID">
+                                @foreach (var i in ViewBag.ListU)
+                                {
+                                    <option value="@i.ID">
+                                        @i.NAME
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                    <button class="btn btn-primary" type="submit">Thêm</button>
+                    <a class="btn btn-primary" href="@Url.Action("createImport","Import_Order")">Tạo đơn mới</a>
+                    <button id="show-order" type="button" class="btn btn-outline-success btn-under-detail" onclick="showImport()">Xem đơn nhập</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<hr style="width:50%" />
+<div id="div-under-form" style="width:100%;clear:both;margin:20px auto;background-color:#fff">
+    <h2 style="text-align:center">Chi tiết đơn nhập hàng</h2>
+    <div style="width:100%;height:160px;clear:both">
+        <div class="row row-title-import">
+            <p class="col-md-3"></p>
+            <p class="col-md-3 border-right-p-title">Mã đơn hàng</p>
+            <p class="col-md-5">@ViewBag.ID</p>
+        </div>
+        <div class="row row-title-import">
+            <p class="col-md-3"></p>
+            <p class="col-md-3 border-right-p-title">Người nhập</p>
+            <p class="col-md-5">@ViewBag.PersonName</p>
+        </div>
+        <div class="row row-title-import">
+            <p class="col-md-3"></p>
+            <p class="col-md-3 border-right-p-title">Tên nhà cung cấp</p>
+            <p class="col-md-5">@ViewBag.SupName</p>
+        </div>
+
+        <div class="row row-title-import">
+            <p class="col-md-3"></p>
+            <p class="col-md-3 border-right-p-title">Thành tiền:</p>
+            <p class="col-md-5">@ViewBag.TOTAL VND</p>
+        </div>
+    </div>
+    <hr style="width:50%" />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tile">
+                <div class="tile-body">
+                    <table class="table table-hover table-bordered" id="sampleTable">
+                        <thead>
+                            <tr>
+                                <th>Mã chi tiết</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng nhập thực tế</th>
+                                <th>Đơn vị tính số lượng</th>
+                                <th>Đơn giá </th>
+                                <th>Thành tiền </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var x in Model)
+                            {
+
+                                <tr>
+                                    <td>@x.ID</td>
+                                    <td>
+                                        <a href="@Url.Action("detailProduct","Product",new {id = x.PRODUCT_ID })"> @x.PRODUCT.PRODUCT_NAME</a>
+                                    </td>
+
+                                    <td>@x.IMPORT_AMOUNT_REAL</td>
+                                    <td>@x.UNIT_PRODUCT.NAME</td>
+                                    <td>@String.Format("{0:0,0}", x.IMPORT_PRICE) VND</td>
+                                    <td> @String.Format("{0:0,0}", x.IMPORT_INTO_MONEY) VND</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function showImport() {
+        var x = document.getElementById("#div-under-form");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            window.scroll(500);
+        }
+        else {
+            x.style.display="none"
+        }
+    }
+</script>

@@ -1,0 +1,89 @@
+﻿@{
+    Layout = null;
+}
+<div class="container">
+            <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #6cf; border: none; " role="navigation">
+                <div class="container">
+                    <div class="navbar-header" style="min-height:80px; ">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Đây là menu mobile</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/Home/Index" style="padding:0;">
+                            <img src="~/Content/Images/Logo-BDA-new1.png" width="85" height="55" />
+                        </a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px; margin-left: 10%; word-spacing: 2px;">
+                        <ul class="nav navbar-nav" style="margin-left:70px; margin-top:13px;">
+                            <li style=" padding-right:20px;"><a href="/Home/Index" style="color:black;">Trang chủ</a></li>
+                            <li style="padding-right:20px;"><a href="/ProductSearch/Index" style="color:black;">Sản phẩm</a></li>
+                            <li style="padding-right:20px;"><a href="/News/Index" style="color: black;">Tin tức</a></li>
+                            <li style="padding-right:20px;"><a href="/Tool/Index" style="color:black;">Công cụ</a></li>
+                            <li style="padding-right:20px;"><a href="/Contact/Index" style="color: black;">Liên hệ</a></li>
+                        </ul>
+
+                        <div class="header-right" style="margin-top: 20px;">
+                            <a class="btn btn-outline-warning btn-cart" href="@Url.Action("Index","CartItem")" style="float:right; color:white; font-size:20px;">
+                                <span class="glyphicon glyphicon-shopping-cart">
+                                    <span id="countCart" style="height: 20px; position: absolute; width: 20px; top: -10px; font-size: 14px; background: #ff0000; color: #fff;  border-radius: 25px; vertical-align: top; ">
+                                        @{int i = 0;}
+                                        @{
+                                            if (Session["giohang"] != null)
+                                            {
+                                                i = (Session["giohang"] as List<BDApaint.Model.CART_ITEM>).Count;
+                                            }
+                                        }
+                                        @i
+                                    </span>
+                                </span>
+                            </a>
+                            <a href="#" onclick="" class="btn btn-outline-warning" data-toggle="modal" data-target="#exampleModal-search" type="submit" style="float: right; color: white; font-size: 20px; ">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </a>
+                            <div class="navbar-nav float-right " style="min-height:50px">
+                                <div class="dropdown">
+                                    <button class="name-user-profile btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        @Session["UserName"].ToString()
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li style="border-bottom: 1px solid rgba(0,0,0,0.09);"><a href="/User/UserProfile"><span class="glyphicon glyphicon-user"></span> Thông tin</a></li>
+                                        <li><a href="/User/getSignOut"><span class="glyphicon glyphicon-log-out"></span> Đăng xuất</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </nav>
+        </div>
+
+
+<script>
+    function load_modal() {
+        $('#message1').hide();
+        $('#message2').hide();
+    }
+</script>
+<script type="text/javascript">
+    function AddCart(id) {
+        var urlg = '@Url.Action("AddCart","CartItem")';
+        $.ajax({
+            type: "GET",
+            url: urlg,
+            data: { id : id}, // cái hàm ađ trong controller hk có đảm nhiệm nh việc v đc.
+            success: function (data) {
+                $('span#countCart').html(data);
+                var itemImg = $('.img-product-aff-' + id).eq(0);
+                flyToElement($(itemImg), $('.btn-cart'));
+            },
+        });
+    }
+
+
+
+</script>

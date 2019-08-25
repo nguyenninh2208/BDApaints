@@ -1,0 +1,155 @@
+﻿@model BDApaint.Model.USER
+
+
+<div class="col-xs-12 col-sm-9">
+    <div class="profile-user-info">
+        <div class="profile-info-row">
+            <div class="profile-info-name">Họ tên đầy đủ:</div>
+
+            <div class="profile-info-value">
+                <span>@Html.DisplayFor(model => model.FULLNAME)</span>
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name">Giới tính:</div>
+
+            <div class="profile-info-value" style=" vertical-align: middle; ">
+                @{ string sex;
+                    if (Model.GENDER.Value == 1)
+                    {
+                        sex = "Nam";
+                    }
+                    else
+                    {
+                        sex = "Nữ";
+                    }
+                }
+                <span>@sex</span>
+            </div>
+        </div>
+
+        <div class="profile-info-row">
+            <div class="profile-info-name">Địa chỉ:</div>
+
+            <div class="profile-info-value">
+
+                <span>@Html.DisplayFor(model => model.ADDRESS)</span>
+
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name">Số điện thoại</div>
+
+
+            <div class="profile-info-value">
+
+                <span>@Html.DisplayFor(model => model.PHONE)</span>
+
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name"> Email</div>
+
+            <div class="profile-info-value">
+
+                <span>@Html.DisplayFor(model => model.EMAIL)</span>
+
+            </div>
+        </div>
+        <div class="profile-info-row">
+            <div class="profile-info-name"> Ngày đăng ký</div>
+
+            <div class="profile-info-value">
+
+                <span>@Html.DisplayFor(model => model.DATE_REGISTER)</span>
+
+            </div>
+        </div>
+        @if (@Model.MEMBERSHIP_TYPE_ID != null)
+        {
+        <div class="profile-info-row">
+            <div class="profile-info-name"> Loại thành viên</div>
+
+            <div class="profile-info-value">
+                @if (@Model.MEMBERSHIP_TYPE_ID == 0)
+                {
+                    <span class="box-member">
+                       
+                        Thành viên @Model.MEMBERSHIP_TYPE.MEMBERSHIP_TYPE1
+                    </span><br />
+                    
+                }
+                @if (@Model.MEMBERSHIP_TYPE_ID == 1)
+                {
+                    <span class="box-member" style="background-color: #d0d0d0; padding: 2%;">
+                        <img src="~/Content/icon/medal.png" style="border: 2px double; border-style: inset; background-color: #d0d0d0; padding: 4%; border-radius: 50%;" />
+                        Thành viên @Model.MEMBERSHIP_TYPE.MEMBERSHIP_TYPE1
+                    </span><br />
+                    <span><strong style="color:red;">Ưu đãi :</strong> bạn được khuyến mãi @String.Format("{0:0,0}", @Model.MEMBERSHIP_TYPE.DISCOUNT_VALUE) đ trên các đơn hàng lần sau</span>
+                }
+                @if (@Model.MEMBERSHIP_TYPE_ID == 2)
+                {
+                    <span class="box-member" style="background-color: yellow; padding: 2%;">
+                        <img src="~/Content/icon/medal.png" style="border: 2px double; border-style: inset; background-color: yellow; padding: 4%; border-radius: 50%;" />
+                        Thành viên @Model.MEMBERSHIP_TYPE.MEMBERSHIP_TYPE1
+                    </span><br />
+                    <span><strong style="color:red;">Ưu đãi :</strong> bạn được khuyến mãi @Model.MEMBERSHIP_TYPE.DISCOUNT_VALUE % trên các đơn hàng lần sau</span>
+                }
+                @if (@Model.MEMBERSHIP_TYPE_ID == 3)
+                {
+                    <span class="box-member" style="background-color: #e5e4e2; padding: 2%;">
+                        <img src="~/Content/icon/medal.png" style="border: 2px double; border-style: inset; background-color: #e5e4e2; padding: 4%; border-radius: 50%;" />
+                        Thành viên @Model.MEMBERSHIP_TYPE.MEMBERSHIP_TYPE1
+                    </span><br />
+                    <span><strong style="color:red;">Ưu đãi :</strong> bạn được khuyến mãi @Model.MEMBERSHIP_TYPE.DISCOUNT_VALUE % trên các đơn hàng lần sau</span>
+                }
+                @if (@Model.MEMBERSHIP_TYPE_ID == 4)
+                {
+                    <span class="box-member" style="background-color: lightblue; padding: 2%;">
+                        <img src="~/Content/icon/medal.png" style="border: 2px double; border-style: inset; background-color: lightblue; padding: 4%; border-radius: 50%;" />
+                        Thành viên @Model.MEMBERSHIP_TYPE.MEMBERSHIP_TYPE1
+                    </span><br />
+                    <span><strong style="color:red;">Ưu đãi :</strong> bạn được khuyến mãi @Model.MEMBERSHIP_TYPE.DISCOUNT_VALUE % trên các đơn hàng lần sau</span>
+                }
+                @if (@Model.MEMBERSHIP_TYPE_ID == 5)
+                {
+                    <span class="box-member" style="background-color: #e0115f; padding: 2%;">
+                        <img src="~/Content/icon/medal.png" style="border: 2px double; border-style: inset; background-color: #e0115f; padding: 4%; border-radius: 50%; " />
+                        Thành viên @Model.MEMBERSHIP_TYPE.MEMBERSHIP_TYPE1
+                    </span><br />
+                    <span><strong style="color:red;">Ưu đãi :</strong> bạn được khuyến mãi @Model.MEMBERSHIP_TYPE.DISCOUNT_VALUE % trên các đơn hàng lần sau</span>
+                }
+            </div>
+        </div>
+        }
+
+        <div class="row" style="margin-bottom: 20%;
+    margin-left: 80%;
+    text-align: center;">
+            <a class="btn myButton update-link" href="@Url.Action("EditUser", "User", new {id = @Model.ID })"><span class="glyphicon glyphicon-edit" style="font-size:large;"></span> Sửa thông tin</a>
+        </div>
+    </div>
+   
+    <div class="hr hr-8 dotted"></div>
+
+
+</div>
+
+<script type="text/javascript">
+    $('.update-link').click(function (e) {
+        var e_href = $(this).attr('href');
+        //k thuc hien action mac dinh
+        e.preventDefault();
+        $.ajax({
+            url: e_href,
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            success: function (res) {
+                //add modal vao layout chinh vào dưới cùng của class
+                $('.profile-user-info').prepend(res);
+                $('#updateModal').modal('show');
+            }
+        })
+    })
+
+</script>

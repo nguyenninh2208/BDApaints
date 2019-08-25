@@ -1,0 +1,135 @@
+﻿@model BDApaint.Model.PRODUCT_DISCOUNT
+
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Form Cập nhật</h1>
+        <p>Cập nhật khuyến mãi</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Form Components</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <form id="formData">
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                ID :
+                            </label>
+                            @Html.TextBoxFor(model => model.ID, new { @readonly = "", @value = "@x.ID", @class = "form-control", type = "number" })
+                        </div>
+                        <div class="form-group">
+                            <label for="DISCOUNT_VALUE">
+                                Giá trị khuyến mãi :
+                            </label>
+                            @Html.TextBoxFor(model => model.DISCOUNT_VALUE, new { @placeholder = "30", @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(model => model.DISCOUNT_VALUE, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="DISCOUNT_UNIT_ID">
+                                Loại :
+                            </label>
+                            @Html.DropDownListFor(model => model.DISCOUNT_UNIT_ID, (IEnumerable<SelectListItem>)ViewBag.lstUnit, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DISCOUNT_UNIT_ID, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="VALID_UNTIL">
+                                Ngày kết thúc:
+                            </label>
+                            @Html.TextBoxFor(model => model.UNTIL_VALID, new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(model => model.UNTIL_VALID, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                Giá trị đơn hàng tối thiểu:
+                            </label>
+                            @Html.TextBoxFor(x => x.MINIMUM_ORDER_VALUE, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(x => x.MINIMUM_ORDER_VALUE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Giá trị giảm giá tối đa:
+                            </label>
+                            @Html.TextBoxFor(x => x.MAXIMUM_DISCOUNT_VALUE, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(x => x.MAXIMUM_DISCOUNT_VALUE, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">
+                                Mã giảm giá:
+                            </label>
+                            @Html.TextBoxFor(x => x.COUPON_CODE, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.COUPON_CODE, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Mô tả:
+                            </label>
+                            @Html.TextAreaFor(x => x.DESCRIPTION, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(x => x.DESCRIPTION, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <fieldset>
+                                <legend style="font-size:0.875rem;margin-bottom:1rem">Trạng thái</legend>
+                                <div class="animated-radio-button">
+                                    <label>
+                                        @Html.TextBoxFor(x => x.STATUS, new { @class = "form-check-control", value = "true", type = "radio" })
+                                        <span class="label-text">Kích hoạt</span>
+                                    </label>
+                                    <label style="margin-left:10px;">
+                                        @Html.TextBoxFor(x => x.STATUS, new { @class = "form-check-control", value = "false", type = "radio" })
+                                        <span class="label-text">Không kích hoạt</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                
+                    <button type="submit" id="btnSubmit" class="btn btn-success">Cập nhật</button>
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Product_Discount")">Trang chủ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+     $("#btnSubmit").click(function () {
+        var data = $("#formData").serialize();
+        debugger
+        $.ajax({
+            type: "POST",
+            url: '/SysAdmin/Product_Discount/edit',
+            data: data,
+            success: function (rs) {
+                if (rs == "success") {
+                    window.location = "/sysadmin/product_discount";
+                    alert("Cập nhật thành công");
+                }
+                else if (rs == "dateIsvalid") {
+                    alert("Ngày không hợp lệ");
+                }
+                else {
+                    alert("Lỗi , vui lòng kiểm tra dữ liệu nhập");
+                }
+            }, error: function (rs) {
+                alert("lỗi");
+            }
+        })
+    })
+    </script>

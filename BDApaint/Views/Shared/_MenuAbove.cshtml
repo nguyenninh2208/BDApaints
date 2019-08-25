@@ -1,0 +1,13 @@
+﻿
+
+
+    <div class="row " id="MenuAbove">
+
+        @foreach (var item in ViewBag.List_Type)
+        {
+        <div class="col-md-2 sub-MenuAbove" id="@item.TYPE_ID">
+            <a href="/Product/getProductByType/@item.TYPE_ID" class="name-type">@item.TYPE_NAME</a>
+        </div>
+        }
+    </div>
+    

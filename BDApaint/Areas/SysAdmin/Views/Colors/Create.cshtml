@@ -1,0 +1,72 @@
+﻿@model BDApaint.Model.COLOR
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+
+}
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Form Thêm</h1>
+        <p>Thêm màu sơn</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Form Components</a></li>
+    </ul>
+</div>
+@if (TempData["alertMessage"] != null)
+{
+    <div id="alertBox" class="alert @TempData["alertType"]">
+        @TempData["alertMessage"]
+    </div>
+    <script>
+        var box = $('#alertBox');
+        box.delay(4000).slideUp(500);
+    </script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <form id="formData" role="form" method="post" action="@Url.Action("create","Colors")">
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">
+                                Mã Code:
+                            </label>
+                            @Html.TextBoxFor(model => model.COLOR_CODE, new { @placeholder = "BDA 09YR 05/305", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.COLOR_CODE, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Tên:
+                            </label>
+                            @Html.TextBoxFor(model => model.COLOR_NAME, new { @placeholder = "Classic Burgundy", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.COLOR_NAME, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Mã RGB:
+                            </label>
+                            @Html.TextBoxFor(model => model.COLOR_RGB_NAME, new { @placeholder = "84,3,7", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.COLOR_RGB_NAME, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Nhóm màu con:
+                            </label>
+                            @Html.DropDownListFor(model => model.SUB_COLOR_GROUP_ID, (IEnumerable<SelectListItem>)ViewBag.sl, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SUB_COLOR_GROUP_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="tile-footer">
+                    <input type="submit" value="Thêm" class="btn btn-success" id="btnSubmit" />
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Colors")">Trang chủ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

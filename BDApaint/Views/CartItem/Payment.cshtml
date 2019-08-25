@@ -1,0 +1,290 @@
+﻿@model List<BDApaint.Model.CART_ITEM>
+
+
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<div class="container" style="padding:20px;">
+    <div class="row" style="margin-top:10%; margin-bottom:10%;">
+        <div class="container-row">
+            <ul class="progressbar">
+                <li class="active">Chọn sản phẩm</li>
+                <li class="active">Đăng nhập</li>
+                <li>Nhập thông tin thanh toán</li>
+                <li>Đặt hàng thành công</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="spec ">
+        <h1 style="border-bottom: 1px solid black; margin-bottom:20px; padding:10px;">Thanh toán</h1>
+        <div class="ser-t">
+            <b></b>
+            <span><i></i></span>
+            <b class="line"></b>
+        </div>
+    </div>
+    <div class="row">
+        <div id="center_column" class="center_column">
+            <div class="row">
+                <div id="left_column" class="column col-sm-12 col-md-12">
+
+                    <div class="col-sm-6 col-md-6">
+                        @using (@Html.BeginForm("Order", "CartItem", FormMethod.Post))
+                        {
+                            <div class="input-group">
+                                <input value="@ViewBag.idUser" name="USER.ID" style="display:none;" />
+                                @*<span>Chào bạn @ViewBag.nameUser</span>*@
+                            </div>
+                            <legend class="tit-legend"><span class="glyphicon glyphicon-user"></span> Thông tin liên hệ</legend>
+
+                            <div class="form-group f1" style="padding-bottom:20px; padding-top:20px;">
+                                <label class="col-lg-4 control-label">Họ và tên</label>
+                                <div class="col-lg-8">
+                                    <input type="text" pattern="^\p{L}+[\p{L}\p{Pd}\p{Zs}']*\p{L}+$|^\p{L}+$" title="Vui lòng nhập tên có viết hoa và khoảng cách " required name="shipname" class="form-control input-sm field" style="width:300px;" value="">
+                                </div>
+                            </div>
+                            <div class="form-group f1" style="padding-bottom:20px; padding-top:20px;">
+                                <label class="col-lg-4 control-label">Email</label>
+                                <div class="col-lg-8">
+                                    <input type="email" required name="shipemail" class="form-control input-sm field" style="width:300px;" value="">
+                                </div>
+                            </div>
+                            <div class="form-group f1" style="padding-bottom:20px; padding-top:20px;">
+                                <label class="col-lg-4 control-label">Số điện thoại</label>
+                                <div class="col-lg-8">
+                                    <input type="text" pattern="(\+84|0)\d{9,10}" title="Định dạng số điện thoại bắt đầu bằng +84 hoặc 0 và ít nhất 9 kí tự" required class="form-control input-sm field" id="phone" name="shipphone" style="width:300px;" value="">
+                                </div>
+                            </div>
+                            <legend class="tit-legend" style="margin-top:10%;"><span class="glyphicon glyphicon-home"></span> Địa chỉ giao hàng</legend>
+                            <div class="form-group" style="padding-bottom:20px; padding-top:20px;">
+                                <label class="col-lg-4 control-label" style="margin:0px;">Địa chỉ</label>
+                                <div class="col-lg-8" style="padding-bottom: 15px;">
+                                    <textarea id="shipaddress" required class=" form-control input-sm field" placeholder="Vui lòng ghi địa chỉ chi tiết..." name="shipaddress" rows="5" style="height:50px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-4 control-label" style="margin:0px;">Ghi chú</label>
+                                <div class="col-lg-8">
+                                    <textarea id="shipmess" required spellcheck="true" class="form-control input-sm field" placeholder="Vui lòng điền ghi chú vào ô này..." name="shipmess" rows="5" style="height:50px;"></textarea>
+                                </div>
+                            </div>
+                            <legend class="tit-legend" style="margin-top:10%;">
+                                <span>
+                                    <img src="~/Content/icon/delivery-truck.png" style="width:16px; height:16px;" />
+                                </span> Đơn vị vận chuyển
+                            </legend>
+                            <div class="form-group">
+                                <select class="form-control" required id="DELIVERY" name="DELIVERY" onchange="DeliveryCostChange()" style="display: -webkit-inline-box; ">
+                                    <option data-id="0" value="0" id="0" selected>Chọn đơn vị vận chuyển</option>
+                                    @foreach (var item in ViewBag.deliveryName)
+                                    {
+                                        <option data-id="@item.DELIVERY_ITEM_ID" value="@item.DELIVERY_ITEM_ID" id="@item.DELIVERY_ITEM_ID" class="opstionDelivery">@item.BOTH_NAME (@item.DELIVERY_ITEM_COST đ)</option>
+
+                                    }
+                                </select>
+                                <span class="text-danger">@ViewBag.noteCost</span>
+                            </div>
+                            <div class="form-group" style="padding:20px; clear:both; margin-right:10%;">
+                                <div style="float:left; margin-left:-4%;"><a class="myButton" style="width: 100%; padding: 10px;" href="@Url.Action("Index", "CartItem")"><span class="	glyphicon glyphicon-arrow-left"></span> Quay về</a></div>
+                                <div style="float:right;"><button class="myButton " onclick="ClickOrder()" type="submit" style="width: 100%; float: right; padding: 10px;"><span class="glyphicon glyphicon-send"></span> Gửi đơn hàng</button></div>
+                            </div>
+                        }
+                    </div>
+
+
+                    <div class="col-sm-6 col-md-6">
+                        <div class="detail_ct" style="height:auto; min-height:inherit;">
+                            <h2>Giỏ hàng của bạn</h2>
+                            <table class="table" style="background-color:rgba(0,0,0,0.05); border-radius:20px; border:none;  font-size: smaller;">
+                                <thead>
+                                    <tr>
+                                        <th style="vertical-align:middle;  font-size: large; text-align: center; border-left: none;">Hình</th>
+                                        <th style="vertical-align: middle; font-size: large; text-align: center;">Sản phẩm</th>
+                                        <th style="vertical-align: middle; font-size: large; text-align: center;">Số lượng</th>
+                                        <th style="vertical-align: middle; font-size: large; text-align: center;">Đơn giá</th>
+                                        <th style="vertical-align: middle; font-size: large; text-align: center; border-right: none;">Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-payment">
+
+                                    @*<tr style="border-top:1px solid #999;" id="product-payment">
+                                            <td>
+                                                <img src="" width="48">
+                                            </td>
+                                            <td>
+                                                <strong>
+
+                                                </strong>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>*@
+
+                                    @{int? total = 0;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        item.TOTAL_MONEY = item.UNIT_PRICE * item.QUANTITY;
+                                        <tr id="@item.PRODUCT_ID" style="border-top:1px solid #999;" class="tr-item">
+                                            <td class="text-center" style="vertical-align:middle;"><a href="/product/getdetailproduct/@item.PRODUCT_ID"><img src="/Content/img2/@item.IMAGE" width="70" height="60" /></a> </td>
+                                            <td class="text-left" style="vertical-align:middle;"><a href="/Product/getDetailProduct/@item.PRODUCT_ID">@item.PRODUCT_NAME </a></td>
+                                            <td class="text-center" style="vertical-align:middle;">@item.QUANTITY</td>
+                                            <td class="text-center" style="vertical-align:middle;">@String.Format("{0:0,0}", @item.UNIT_PRICE) đ</td>
+                                            <td class="text-center" style="vertical-align:middle;">@String.Format("{0:0,0}", @item.TOTAL_MONEY) đ</td>
+                                        </tr>
+                                        total += item.TOTAL_MONEY;
+                                    }
+                                </tbody>
+
+                            </table>
+
+
+                            <fieldset>
+
+                                <table class="table" style="background: #edf9fc; font-size: 20px;">
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                            <td class="text-left" style="width:40%; font-weight:700;">Phí vận chuyển:</td>
+                                            <td id="areas-delivery-cost" colspan="2" style="color:red; font-weight:700; width:200px;" align="center"></td>
+                                        </tr>
+
+
+
+                                        <tr>
+
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                            <td class="text-left" style="width:120px; font-weight:700;">Tạm tính:</td>
+                                            <td id="tamTinh" colspan="2" style="color:red; font-weight:700; width:200px;" align="center">@*@String.Format("{0:0,0}", total)*@ @total đ</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                            <td class="text-left" style="width:120px; font-weight:700;">Tổng cộng:</td>
+                                            <td id="areas-final-money" colspan="2" style="color:red; font-weight:700; width:200px;" align="center"></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        @*<tr>
+                                                @using (@Html.BeginForm("Order", "CartItem", FormMethod.Post))
+                                                {
+                                                    <td><a class="btn btn-default hidden-xs" style="width: 100px; padding: 10px;" href="@Url.Action("Index", "CartItem")">Quay về</a></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><button class="btn btn-default hidden-xs" onclick="ClickOrder()" type="submit" style=" float:right; padding:10px;">Gửi đơn hàng</button></td>
+                                                }
+                                            </tr>*@
+                                        <tr>
+                                            <td colspan="3">
+                                                <p>Ngày đặt hàng : @String.Format("{0:dd/MM/yyyy}", @DateTime.Now)</p>
+                                                <p>Ngày giao hàng dự kiến :<span id="area-date-delivery"></span></p>
+
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                        </tr>
+
+
+
+
+                                    </tfoot>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </div> <div class="clr"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    function ClickOrder() {
+        var loi = 0;
+        var id = $('#DELIVERY option:selected').attr('id');
+        if (id == 0) {
+            alert("Vui lòng chọn đơn vị vận chuyển");
+        }
+        if ($('#shipaddress').val() == "") {
+            alert("Bạn phải nhập địa chỉ");
+            $('#shipaddress').focus();
+            loi++;
+        }
+        if ($('#shipmess').val() == "") {
+            alert("Bạn phải nhập ghi chú");
+            $('#shipmess').focus();
+            loi++;
+        }
+    }
+    function NumberFormat(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+
+
+
+
+    function DeliveryCostChange() {
+        debugger
+        var id = $('#DELIVERY option:selected').attr('id');
+        $('#areas-delivery-cost').html('');
+        $('#areas-final-money').html('');
+        $('#area-date-delivery').html('');
+        //var finalPrice = $('#areas-final-money').val();
+        var urlGetDeliveryCost = '@Url.Action("getDeliveryCost", "CartItem")';
+
+        $.ajax({
+            url: urlGetDeliveryCost,
+            type: "GET",
+            data: { id: id },
+            success: function (res) {
+
+                var d = new Date();
+                var day = d.getDate() + res[0].countDateDelivery;
+                var month = d.getMonth() + 1;
+                var finalDay = day + '/' + month + '/' + d.getFullYear();
+
+                $('#areas-delivery-cost').append('' + res[0].costDelivery + ' ' + 'đ');
+                //'' + res[0].costDelivery + ' '
+                $('#area-date-delivery').append(finalDay);
+                $('#areas-delivery-cost').trigger("change");
+
+            }
+        })
+    }
+
+    $('#areas-delivery-cost').change(function () {
+        debugger
+        $('#areas-final-money').html('');
+
+        var deliveryCost = parseFloat($('#areas-delivery-cost').text());
+        var totalMoney = parseFloat($('#tamTinh').text());
+        var finalPrice = deliveryCost + totalMoney;
+        $('#areas-final-money').append(NumberFormat(finalPrice) + ' ' + 'đ');
+    })
+
+</script>

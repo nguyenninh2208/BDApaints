@@ -1,0 +1,190 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="~/Content/Images/apple-icon.png">
+    <link rel="icon" type="image/png" href="~/Content/Images/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Trang quản trị
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/6daa3a5f72.js"></script>
+    <!-- CSS Files -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/adminStyle/paper-dashboard.css" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="~/Content/adminStyle/demo.css" rel="stylesheet" />
+    <link href="~/Content/adminStyle/reset.css" rel="stylesheet">
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <link href="~/Content/adminStyle/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/myJS/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <style type="text/css">
+
+        .dropdown-toggle::after {
+            display: none;
+        }
+    </style>
+
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $('#table_id').DataTable();
+        });
+        setInterval(function () {
+            $.getJSON('/Admin/checkAdminLogin', function (rs) {
+                if (rs.toString() == "") {
+                    window.location = '/Admin/Login';
+                }
+            })
+        }, 10000);
+        $().ready(function () {
+            $.getJSON('/Admin/getAdmin', "", function (rs) {
+                if (rs.toString() != "") {
+                    $("#adminName").html(rs.toString());
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper ">
+        <div class="sidebar" data-color="white" data-active-color="danger">
+            <!--
+                Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+            -->
+            <div class="logo">
+                <a href="#" class="simple-text logo-mini">
+                    <div class="logo-image-small">
+                        <img src="~/Content/Images/logo-small.png">
+                    </div>
+                </a>
+                <a href="#" class="simple-text logo-normal" id="adminName">
+
+
+                </a>
+            </div>
+            <div class="sidebar-wrapper" style="overflow:hidden">
+                <ul class="nav">
+                    <li class="active ">
+                        <a href="/Administrator/Admin/Index">
+                            <i class="fas fa-angle-double-right"></i>
+                            <p>Trang chủ</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fas fa-angle-double-right"></i>
+                            <p>Quản lí sản phẩm</p>
+                        </a>
+                        <ul class="collapse list-unstyled ml-5" id="pageSubmenu" style="margin-left:20px;">
+                            <li>
+                                <a href="/Administrator/Product/Index"><i class="fas fa-angle-right"></i>Sản phẩm</a>
+                            </li>
+                            <li>
+
+                                <a href="/Administrator/Product_Type/Index"><i class="fas fa-angle-right"></i>Loại sản phẩm</a>
+                            </li>
+                            <li>
+                                <a href="/Administrator/Producer/Index"><i class="fas fa-angle-right"></i>Hãng sản xuất</a>
+                            </li>
+
+                            <li>
+                                <a href="/Administrator/Supplier/Index"><i class="fas fa-angle-right"></i>Nhà cung cấp</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#pageSubmenuColor" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fas fa-angle-double-right"></i>
+                            <p>Quản lí màu sơn</p>
+                        </a>
+                        <ul class="collapse list-unstyled ml-5" id="pageSubmenuColor" style="margin-left:20px;">
+                            <li>
+                                <a href="/Administrator/Colors/Index"><i class="fas fa-angle-right"></i>Nhóm màu chính</a>
+                            </li>
+                            <li>
+
+                                <a href="/Administrator/Sub_Group_Color/Index"><i class="fas fa-angle-right"></i>Nhóm màu con</a>
+                            </li>
+                            <li>
+                                <a href="/Administrator/Group_Color/Index"><i class="fas fa-angle-right"></i>Màu sơn</a>
+                            </li>
+
+                            <li>
+                                <a href="/Administrator/Product_Color/Index"><i class="fas fa-angle-right"></i>Màu sơn - sản phẩm</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/Administrator/User/Index">
+                            <i class="fas fa-angle-double-right"></i>
+                            <p>Quản lí khách hàng</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Administrator/Import_Order/Index">
+                            <i class="fas fa-angle-double-right"></i>
+                            <p>Quản nhập hàng</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Administrator/Cart/Index">
+                            <i class="fas fa-angle-double-right"></i>
+                            <p>Quản lý giao dịch</p>
+                        </a>
+
+                    </li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fas fa-angle-double-right"></i>
+                            <p>Tin nhắn</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- Navbar -->
+        <div class="main-panel" style="background-color:#f4f3ef">
+
+            <!-- End Navbar -->
+            @RenderBody()
+        </div>
+    </div>
+    <!--   Core JS Files   -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/umd/popper.min.js"></script>
+    @*<!--  Google Maps Plugin    -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+        <!-- Chart JS -->
+        <script src="../assets/js/plugins/chartjs.min.js"></script>
+        <!--  Notifications Plugin    -->
+        <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+        <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
+        <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
+        <script src="../assets/demo/demo.js"></script>
+        <script>
+            $(document).ready(function () {
+                // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+                demo.initChartsPages();
+            });
+        </script>*@
+
+</body>
+
+</html>

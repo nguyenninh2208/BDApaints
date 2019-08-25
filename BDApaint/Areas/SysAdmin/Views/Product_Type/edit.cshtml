@@ -1,0 +1,56 @@
+﻿@model BDApaint.Model.PRODUCT_TYPE
+@{
+
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+
+}
+
+<div class="form-for-administrator">
+    <div class="form-group overwrite-formgroup">
+        <div class="div-above-form">
+            <h2 class="title-adiv-product">Cập nhập</h2>
+            <hr style="height:1px;margin:5px auto" />
+        </div>
+        @using (Html.BeginForm("Edit", "Product_Type", FormMethod.Post, new { id = "form", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true)
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+
+        <div class="sub-control">
+            <label class="label-form-admin">
+                Mã  :
+            </label>
+
+            @Html.TextBoxFor(model => model.TYPE_ID, new { @readonly = "", @class = "form-control overwrite-formcontrol" })
+
+        </div>
+
+            <div class="sub-control">
+                <label class="label-form-admin">
+                    Tên :
+                </label>
+
+                @Html.TextBoxFor(model => model.TYPE_NAME, new { @class = "form-control overwrite-formcontrol" })
+                @Html.ValidationMessageFor(model => model.TYPE_NAME, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="sub-control">
+                <label class="label-form-admin">
+                    Công dụng:
+                </label>
+
+                @Html.TextBoxFor(model => model.USES, new { @class = "form-control overwrite-formcontrol" })
+                @Html.ValidationMessageFor(model => model.USES, "", new { @class = "text-danger" })
+            </div>
+
+
+
+            <button class="btn btn-info" type="submit" name="submit" style="margin-left:20%">Cập nhật</button>
+            <a class="btn btn-info" href="@Url.Action("Index","Product_Type")" style="margin-left:1%">Thoát</a>
+        }
+    </div>
+</div>
+

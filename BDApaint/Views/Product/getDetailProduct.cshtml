@@ -1,0 +1,826 @@
+﻿@model BDApaint.Model.PRODUCT
+@{
+    ViewBag.Title = "Product Detail";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="row" style="padding-left:20px; padding-right:20px; margin-top:20px;">
+
+        <div class="col-md-12">
+            <div class="row" id="gradient">
+                <div class="col-md-4">
+                    <figure class="zoom" onmousemove="zoom(event)" style="background: url(/Content/img2/@Html.DisplayFor(model=>model.IMAGE))">
+                        <img class="img-detail-@Html.DisplayFor(model=>model.PRODUCT_ID)" src="/Content/img2/@Html.DisplayFor(model=>model.IMAGE)" width="200" height="200" class="img-responsive img-product">
+                    </figure>
+                    <div class="new-product" style="position: absolute; bottom: 0px; right: 0px; font-size: xx-small; bottom: 170px; right: 300px; ">
+                        @if (Model.STATUS == 1)
+                        {
+                            <div class="ribbon ribbon--blue">Mới</div>
+                        }
+
+                    </div>
+
+                    @if (Model.DISCOUNT != null)
+                    {
+                        <div class="discount-product" style="position: absolute; bottom: 170px; left: 270px; font-size: .5vw;">
+                            @if (Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE <= 100)
+                            {
+                                <div class="ribbon ribbon--red">- @Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE %</div>
+                            }
+                            else
+                            {
+                                <div class="ribbon ribbon--red">- @String.Format("{0:0,0}", @Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE)<span style="text-transform:lowercase;"><sup>đ</sup></span></div>
+                            }
+
+                        </div>
+                    }
+
+
+
+
+                </div>
+                <div class="col-md-8" id="overview">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <ul class="pb-product-details-ul">
+                                <li class="pb-product-details-ul-li" style="margin-bottom:5px; font-weight: bold; border-bottom: 0.5px solid #f2f2f2; ">@Html.DisplayFor(model => model.PRODUCT_NAME)</li>
+                                <li class="pb-product-details-ul-li" style="margin-bottom: 5px; border-bottom: 0.5px solid #f2f2f2;">@Html.DisplayFor(model => model.DESCRIPTION)</li>
+
+                                @if (Model.DISCOUNT != null)
+                                {
+                                    //xét theo %
+                                    if (Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE <= 100)
+                                    {
+                                        var pricePercent = 0;
+                                        pricePercent = (int)Model.PRICE + (((int)Model.PRICE * (int)Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE) / 100);
+                                        <li class="pb-product-details-ul-li" style="margin-bottom: 5px; border-bottom: 0.5px solid #f2f2f2; font-weight: bold; ">
+                                            <span style="font-weight:bold; font-size:large;">Chỉ còn <span style="color:red; font-weight:bold; font-size:x-large;"> @String.Format("{0:0,0}", @Model.PRICE) đ </span> </span>
+                                            ( <span style="text-decoration:line-through; opacity:.7; border-right:1px solid; padding:1%;"> @String.Format("{0:0,0}", @pricePercent) đ</span>
+                                            <span> - @Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE %</span>)
+                                        </li>
+                                    }
+
+                                    //xét theo giảm tiền cố định
+                                    else
+                                    {
+                                        var priceMoney = 0;
+                                        priceMoney = (int)Model.PRICE - (int)Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE;
+                                        <li class="pb-product-details-ul-li" style="margin-bottom: 5px; border-bottom: 0.5px solid #f2f2f2; font-weight: bold; ">
+                                            <span style="font-weight:bold; font-size:large;">Chỉ còn <span style="color:red; font-weight:bold; font-size:x-large;"> @String.Format("{0:0,0}", @priceMoney) đ </span> </span>
+                                            ( <span style="text-decoration:line-through; opacity:.7; border-right:1px solid; padding:1%;"> @String.Format("{0:0,0}", Model.PRICE) đ</span>
+                                            <span> - @String.Format("{0:0,0}", @Model.PRODUCT_DISCOUNT.DISCOUNT_VALUE) đ</span>)
+                                        </li>
+                                    }
+
+                                }
+                                else
+                                {
+                                    <li class="pb-product-details-ul-li" style="margin-bottom: 5px; border-bottom: 0.5px solid #f2f2f2; font-weight: bold; ">@String.Format("{0:0,0}", @Model.PRICE) đ</li>
+                                }
+                                <li class="pb-product-details-ul-li" style=" margin-bottom: 5px; border-bottom: 0.5px solid #f2f2f2;">
+                                    <p class="detail-p" style="min-width:inherit;">Tình trạng :</p>
+                                    <span class="detail-span">
+
+                                        @{
+
+                                            if (Model.AMOUNT != 0)
+                                            {
+
+                                                <span><span style="color: rgb(1, 156, 233); font-size: large;" class="glyphicon glyphicon-ok-sign"></span> Còn hàng </span>
+                                            }
+                                            else
+                                            {
+
+                                                <span> <span style="color:red; font-size:large;" class="glyphicon glyphicon-warning-sign"></span> Hết hàng</span>
+                                            }
+                                        }
+
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="row" id="show-color-detail-product" style=" margin-left: 4px; font-size: large;">
+                        <span> Màu sản phẩm</span>
+                        <button class="myButton" onclick="showColorProduct(@Html.DisplayFor(model => model.PRODUCT_ID))"><span class="glyphicon glyphicon-eye-open"></span> Hiển thị màu</button>
+
+                        <div class="modal fade" id="modalshowColor" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" style="left:0;">
+                                <div class="modal-content" style="padding-left:40px;">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title" style="float:left;">Màu của sản phẩm <span id="name-product-color" style="text-transform:lowercase; font-weight:bold;"></span></h3>
+                                        <button style="float:right;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body-color" id="result-detail-color">
+
+                                    </div>
+
+                                    <div class="modal-footer" style=" border:none;">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <a class="myButton" href="/Home/Index" class="btn" style="background-color:#6cf; color:white;"><span class="glyphicon glyphicon-arrow-left"></span> Tiếp tục chọn </a>
+                        <a id="@Model.PRODUCT_ID" onclick="AddCartDetail(@Model.PRODUCT_ID)" style="background-color:#6cf; color:white;" class="myButton" name="">
+                            <i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i>
+                            Thêm giỏ hàng
+                        </a>
+                        <a id="@Model.PRODUCT_ID" onclick="AddCompare(@Model.PRODUCT_ID)" style="background-color:#6cf; color:white;" class="myButton" name="">
+                            <img src="~/Content/icon/compare.png" style="width: 17px; height: 17px;" />
+                            Thêm so sánh
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="tabs_div">
+                    <ul>
+                        <li>Thông tin cơ bản sản phẩm</li>
+                        <li>Thông số kỹ thuật</li>
+                        <li>Bình luận</li>
+
+                    </ul>
+                    <div>
+                        <table class="table">
+                            <tbody>
+
+                                <tr>
+                                    <td class="title-info-td">Loại sơn</td>
+                                    <td>@Html.DisplayFor(model => model.PRODUCT_TYPE.TYPE_NAME)</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td">Hãng sản xuất</td>
+                                    <td>@Html.DisplayFor(model => model.PRODUCER.PRODUCER_NAME)</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td">Ngày sản xuất </td>
+                                    <td>@String.Format("{0:dd/MM/yyyy}", @Model.DATE_OF_MANUFACTURE) </td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td">Thể tích</td>
+                                    <td>@Html.DisplayFor(model => model.NET) lít</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td">Hạn sử dụng</td>
+                                    <td>@Html.DisplayFor(model => model.LIMITED_USE) Tháng</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td">Mô tả </td>
+                                    <td>@Html.DisplayFor(model => model.DESCRIPTION)</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="title-info-td" style="width: 176px;">Thành phần</td>
+                                    <td>@Model.SPECIFICATION.Split('@')[0]</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td" style="width: 176px;">Bề mặt mảng sơn</td>
+                                    <td>@Model.SPECIFICATION.Split('@')[1]</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td" style="width: 176px;">Tỷ trọng </td>
+                                    <td>@Model.SPECIFICATION.Split('@')[2] kg/lít</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td" style="width: 176px;">Hàm lượng rắn</td>
+                                    <td>@Model.SPECIFICATION.Split('@')[3] %</td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td" style="width: 176px;">Thời gian khô</td>
+                                    <td>@Model.SPECIFICATION.Split('@')[4] </td>
+                                </tr>
+                                <tr>
+                                    <td class="title-info-td" style="width: 176px;">Độ phủ lý thuyết </td>
+                                    <td>@Model.SPECIFICATION.Split('@')[5] m<sup>2</sup>/lít/lớp</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+
+                    <div>
+                        <div class="table">
+
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="review-class-sub">
+
+                                    @using (Html.BeginForm("AddComment", "Product", new { productID = Model.PRODUCT_ID }, FormMethod.Post))
+                                    {
+                                        <form id="form-review" name="form-review">
+
+                                            <div class="form-review-sub">
+                                                <input name="UserID" style="display:none;" />
+                                                <input type="text" style="height:100px;" required class="form-review-sub-input form-control" id="contentComment" name="contentComment" placeholder="Nhận xét..." />
+                                            </div>
+
+                                            <button id="@Model.PRODUCT_ID" onclick="AddComment(@Model.PRODUCT_ID)" style="background-color: #6cf; color: white; float: right; width: 35%; margin-top: 10px;" class="myButton btn-submit submit-comment" type="submit">Bình luận</button>
+                                           
+                                        </form>
+                                        
+                                    }
+                                    @if (Session["UserID"] == null)
+                                    {
+                                        <div class="row" style="float:left;">
+                                            <h4 class="alert text-center" style="color: black; font-size: 1.7vw; font-weight: bold; opacity: .6; ">Hãy đăng nhập để bình luận cho sản phẩm này</h4>
+                                        </div>
+
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="row">
+                                    <span id="review-title" style="border-bottom:2px solid rgba(0,0,0,0.07); float:left; font-weight:bold; color:black; ">Tất cả nhận xét (có <span class="countComment"></span> bình luận)</span>
+
+                                    <select class="form-control" id="optionsComment" style="float:right; width:30%;">
+                                        <option value="tatca">Tất cả</option>
+                                        <option value="moinhat">Mới nhất</option>
+                                        <option value="cunhat">Cũ nhất</option>
+                                    </select>
+                                </div>
+                                <div class="row" id="review-id" style="max-height:268px; width:100%; overflow-y: scroll;">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @***************************************************modal compare*********************@
+            <div class="modal fade" id="modalCompare" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="left:0;">
+                    <div class="modal-content" style=" width: 60%; margin-left: 20%;">
+                        <div class="modal-header">
+                            <h5 class="text-center" style="float:left;"><span class="glyphicon glyphicon-ok-sign" style="color: #1cbe55; font-size: x-large; "></span> Sản phẩm <span id="name-compare" style="text-transform:lowercase; font-weight:bold;"></span> đã được thêm thành công vào danh sách so sánh </h5>
+                            <button style="float:right; position:fixed;" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span class="glyphicon glyphicon-remove" style="right: 80%;"></span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body text-center" id="result-compare" style="border: 1px solid #1cbe55; margin: 3%; max-height: 350px; overflow-x: hidden; ">
+                            <div class="row" id="product-compare">
+
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a href="/CompareProduct/Index" class="btn btn-default btn-xem-sosanh" style="background-color: #1cbe55; color:white;">Xem so sánh</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @***************************************************end-modal compare*********************@
+        </div>
+    </div>
+    <div>
+
+    </div>
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">SẢN PHẨM ĐÃ XEM</h2>
+        @{
+            var spDaXem = ViewData["SanPhamDaXem"] as List<BDApaint.Model.RECENT_PRODUCT>;
+        }
+        @foreach (var item in spDaXem)
+        {
+            @*<p>@item.PRODUCT_NAME (id: @item.PRODUCT_ID)</p>
+                <p>Thoi gian xem : @item.LAST_VISITED</p>*@
+
+            <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="some-block" style="position:relative;">
+                    <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                        <img class="img-product-aff-@item.PRODUCT_ID" src="~/Content/img2/@item.IMAGE" width="150" height="180" alt="@item.IMAGE" />
+                    </a>
+                    <div class="info-product relative-product" style="position:relative;">
+                        <div class="name-product" style="font-weight: 700; font-size: small;">
+                            <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                @item.PRODUCT_NAME
+                            </a>
+                        </div>
+                        <div class="new-product" style="position: absolute; bottom: 0px; font-size: xx-small; bottom: 170px; right: 180px; ">
+                            @if (item.STATUS == 1)
+                            {
+                                <div class="ribbon ribbon--blue">Mới</div>
+                            }
+
+                        </div>
+                        @if (item.DISCOUNT_VALUE != 0)
+                        {
+                            <div class="discount-product" style="position: absolute; bottom: 170px; right: -14px; font-size: .5vw;">
+                                @if (item.DISCOUNT_VALUE <= 100)
+                                {
+                                    <div class="ribbon ribbon--red">- @item.DISCOUNT_VALUE %</div>
+                                }
+                                else
+                                {
+                                    <div class="ribbon ribbon--red">- @String.Format("{0:0,0}", @item.DISCOUNT_VALUE)<span style="text-transform:lowercase;"><sup>đ</sup></span></div>
+                                }
+
+                            </div>
+                        }
+                        <div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 50px;">
+                            @String.Format("{0:0,0}", @item.PRICE) đ
+                        </div>
+                        <div class="absolute-product" style="position:absolute; top:80px; font-weight:bold;">
+                            Đã xem lúc @String.Format("{0:dd/MM/yyyy HH:mm:ssss}", @item.LAST_VISITED)
+                        </div>
+
+                    </div>
+                    <div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">
+                        @*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@
+                        <div class="row" style="margin-right:10%; display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCompare(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="@item.PRODUCT_ID" name="">
+                                <span><img src="~/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>
+
+                            </a>
+                        </div>
+                        <div class="row" style="display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCart(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart" name="">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="line-product" />
+
+            </div>
+        }
+
+    </div>
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            SẢN PHẨM CÙNG LOẠI
+        </h2>
+        @foreach (var item in ViewBag.productProducer)
+        {
+            <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="some-block" style="position:relative;">
+                    <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                        <img class="img-product-aff-@item.PRODUCT_ID" src="~/Content/img2/@item.IMAGE" width="150" height="180" alt="@item.IMAGE" />
+                    </a>
+                    <div class="info-product relative-product" style="position:relative;">
+                        <div class="name-product" style="font-weight: 700; font-size: small;">
+                            <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                @item.PRODUCT_NAME
+                            </a>
+                        </div>
+                        <div class="new-product" style="position: absolute; bottom: 0px; right: 0px; font-size: xx-small; bottom: 170px; right: 190px; ">
+                            @if (item.STATUS == 1)
+                            {
+                                <div class="ribbon ribbon--blue">Mới</div>
+                            }
+
+                        </div>
+                        <div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 50px;">
+                            @String.Format("{0:0,0}", @item.PRICE) đ
+                        </div>
+
+                    </div>
+                    <div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">
+                        @*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@
+                        <div class="row" style="margin-right:10%; display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCompare(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="@item.PRODUCT_ID" name="">
+                                <span><img src="~/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>
+
+                            </a>
+                        </div>
+                        <div class="row" style="display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCart(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart" name="">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="line-product" />
+
+            </div>
+        }
+    </div>
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            SẢN PHẨM MỚI
+        </h2>
+        @foreach (var item in ViewBag.newProduct)
+        {
+            <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="some-block" style="position:relative;">
+                    <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                        <img class="img-product-aff-@item.PRODUCT_ID" src="~/Content/img2/@item.IMAGE" width="150" height="180" alt="@item.IMAGE" />
+                    </a>
+                    <div class="info-product relative-product" style="position:relative;">
+                        <div class="name-product" style="font-weight: 700; font-size: small;">
+                            <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                @item.PRODUCT_NAME
+                            </a>
+                        </div>
+                        <div class="new-product" style="position: absolute; bottom: 0px; right: 0px; font-size: xx-small; bottom: 170px; right: 190px; ">
+                            @if (item.STATUS == 1)
+                            {
+                                <div class="ribbon ribbon--blue">Mới</div>
+                            }
+                        </div>
+                        @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE != null)
+                        {
+                            <div class="discount-product" style="position: absolute; bottom: 170px; right: -14px; font-size: .5vw;">
+                                @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE <= 100)
+                                {
+                                    <div class="ribbon ribbon--red">- @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE %</div>
+                                }
+                                else
+                                {
+                                    <div class="ribbon ribbon--red">- @String.Format("{0:0,0}", @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE)<span style="text-transform:lowercase;"><sup>đ</sup></span></div>
+                                }
+
+                            </div>
+                        }
+                        <div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 50px;">
+                            @String.Format("{0:0,0}", @item.PRICE) đ
+                        </div>
+
+                    </div>
+                    <div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">
+                        @*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@
+                        <div class="row" style="margin-right:10%; display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCompare(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="@item.PRODUCT_ID" name="">
+                                <span><img src="~/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>
+
+                            </a>
+                        </div>
+                        <div class="row" style="display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCart(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart" name="">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="line-product" />
+
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <h2 class="text-center text-title" style="font-weight:700; padding:10px;">
+            SẢN PHẨM KHUYẾN MÃI
+        </h2>
+        @foreach (var item in ViewBag.discountProduct)
+        {
+            <div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="some-block" style="position:relative;">
+                    <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                        <img class="img-product-aff-@item.PRODUCT_ID" src="~/Content/img2/@item.IMAGE" width="150" height="180" alt="@item.IMAGE" />
+                    </a>
+                    <div class="info-product relative-product" style="position:relative;">
+                        <div class="name-product" style="font-weight: 700; font-size: small;">
+                            <a href="/Product/getDetailProduct/@item.PRODUCT_ID">
+                                @item.PRODUCT_NAME
+                            </a>
+                        </div>
+                        <div class="new-product" style="position: absolute; bottom: 0px; right: 0px; font-size: xx-small; bottom: 170px; right: 190px; ">
+                            @if (item.STATUS == 1)
+                            {
+                                <div class="ribbon ribbon--blue">Mới</div>
+                            }
+                        </div>
+                        @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE != null)
+                        {
+                            <div class="discount-product" style="position: absolute; bottom: 170px; right: -14px; font-size: .5vw;">
+                                @if (item.PRODUCT_DISCOUNT.DISCOUNT_VALUE <= 100)
+                                {
+                                    <div class="ribbon ribbon--red">- @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE %</div>
+                                }
+                                else
+                                {
+                                    <div class="ribbon ribbon--red">- @String.Format("{0:0,0}", @item.PRODUCT_DISCOUNT.DISCOUNT_VALUE)<span style="text-transform:lowercase;"><sup>đ</sup></span></div>
+                                }
+
+                            </div>
+                        }
+                        <div class="price-product absolute-product" style="position: absolute; bottom: 0px; left: 0px; top: 50px;">
+                            @String.Format("{0:0,0}", @item.PRICE) đ
+                        </div>
+
+                    </div>
+                    <div class="links" style="z-index:9999; display: inline-flex; position: absolute; top: 50%; right:5%; display:none; ">
+                        @*<a href="/Product/getDetailProduct/@item.PRODUCT_ID" class="detail-product btn btn-info btn-lg">Xem chi tiết</a>*@
+                        <div class="row" style="margin-right:10%; display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCompare(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart add-compare" data-id="@item.PRODUCT_ID" name="">
+                                <span><img src="~/Content/icon/compare.png" style="width: 17px; height: 17px;" /></span>
+
+                            </a>
+                        </div>
+                        <div class="row" style="display:inline-block;">
+                            <a class="myButton" id="@item.PRODUCT_ID" onclick="AddCart(@item.PRODUCT_ID)" class="detail-product btn btn-info btn-lg add-cart" name="">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="line-product" />
+
+            </div>
+        }
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $(".tabs_div").shieldTabs();
+    });
+
+    function zoom(e) {
+        var zoomer = e.currentTarget;
+        e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+        e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+        x = (offsetX / zoomer.offsetWidth) * 100
+        y = (offsetY / zoomer.offsetHeight) * 100
+        zoomer.style.backgroundPosition = x + "% " + y + "%";
+    }
+
+
+
+    function AddComment(id) {
+        var id = id;
+        debugger
+        var urlgxx = '@Url.Action("AddComment", "Product")';
+        $.ajax({
+            type: "POST",
+            url: urlgxx,
+            data: { productID: id },
+            success: function (data) {
+                //if (data.toString() == "success") {
+                //    alert("thành công");
+                //} else if (data.toString() == "fail") {
+                //    $('#message1').append('<p>Thất bại</p>');
+                //}
+            },
+        });
+    }
+    function NumberFormat(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+    }
+    function AddCompare(val) {
+        $('#modalCompare').modal('show');
+        $('#product-compare').html('');
+        $('#name-compare').html('');
+        var id = val;
+        var urlgx = '@Url.Action("ThemVaoSoSanh", "CompareProduct")';
+        $.ajax({
+            type: "GET",
+            url: urlgx,
+            data: { id: id },
+            success: function (data) {
+
+                var html = '';
+                var countProduct = data.length;
+                //lấy tên sản phẩm mới đc thêm sẽ ở vị trí length - 1
+                var x = countProduct - 1;
+                html += '<p >Đã có ' + countProduct + ' sản phẩm trong danh sách so sánh</p>';
+                $('#name-compare').append(data[x].PRODUCT_NAME);
+                $.each(data, function (key, item) {
+                    html += '<div class="row" style="padding:2%; border-bottom:1px solid; border-width:thin;">';
+                    html += '<div class="col-md-4">';
+                    html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '"><img src="/Content/img2/' + item.IMAGE + '" width="100" height="100" /></a>';
+                    html += '</div>';
+                    html += '<div class="col-md-8" style="text-align:left;">';
+                    html += '<div class="row" style="font-size: medium; font-weight: bold;"><a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">' + item.PRODUCT_NAME + '</a></div>';
+                    html += '<div class="row">';
+                    //html += '' + NumberFormat(item.PRICE) + ' đ';
+                    if (item.DISCOUNT_VALUE != 0) {
+                        if (item.DISCOUNT_VALUE < 100) {
+                            var pricePercent = 0;
+                            pricePercent = item.PRICE + ((item.PRICE * item.DISCOUNT_VALUE) / 100)
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="" style="font-weight:bold; ">Chỉ còn <span style="color:red; font-weight:bold; font-size: x-large;"> ' + NumberFormat(item.PRICE) + 'đ</span></div>';
+                            html += '<div style="text-decoration:line-through; float:left; opacity:.7; margin:0px; border-right:1px solid; padding:1%;">' + NumberFormat(pricePercent) + ' đ</div>';
+                            html += '<div style="float:left; padding:1%;"> - ' + item.DISCOUNT_VALUE + ' % </div>';
+                            html += '</div>';
+                            html += '</div>';
+
+                        }
+                        else {
+                            var priceMoney = 0;
+                            priceMoney = item.PRICE - item.DISCOUNT_VALUE;
+                            html += '<div class="row" style="margin:0px;">';
+                            html += '<div class="" style="font-weight:bold;">Chỉ còn <span style="color:red; font-weight:bold; font-size: x-large;"> ' + NumberFormat(priceMoney) + 'đ</span></div>';
+                            html += '<div style="text-decoration:line-through; float:left; opacity:.7; border-right:1px solid; padding:1%;">' + NumberFormat(item.PRICE) + ' đ</div>';
+                            html += '<div style="padding:1%; float:left;">- ' + NumberFormat(item.DISCOUNT_VALUE) + ' đ </div>';
+                            html += '</div>';
+                        }
+                    } else {
+                        html += '<div style="font-size:x-large" >' + NumberFormat(item.PRICE) + 'đ</div>';
+                    }
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                });
+                $('#product-compare').append(html);
+            },
+        });
+    }
+    function showColorProduct(id) {
+        $('#modalshowColor').modal('show');
+        $('#result-detail-color').html('');
+        $('#name-product-color').html('');
+        var id = id;
+        $.ajax({
+            url: '/Color/showColor',
+            type: "GET",
+            data: {
+                id: id
+            },
+            success: function (res) {
+
+                var html = '';
+                var countColors = res.length;
+                if (countColors == 0) {
+                    var html = '';
+                    html += '<div class="alert alert-danger" role="alert" style="font-size:2vw; ">';
+                    html += 'Sản phẩm này hiện chưa có màu nào !';
+                    html += '</div>';
+                    $('#result-detail-color').append(html);
+                }
+                //đếm số màu đã tìm thấy dc
+                html += '<h3 class="text-center bg-default text-danger font-text-color" style="font-weight:600; padding:2%;">Đã tìm thấy <span class="count-color text-danger"> ' + countColors + '</span> màu</h3>';
+                $('#name-product-color').append(res[0].tensp);
+                $.each(res, function (key, item) {
+                    html += '<ul class="list-unstyled list-group ul-color-group colors" data-toggle="tooltip" title="Mã RGB : ' + item.codeRgb + '  Mã màu :' + item.mamau + '"   data-placement="top">';
+                    html += '  <li class="li-color-group" style="background-color:rgb(' + item.codeRgb + ');"></li>';
+                    html += '<p class="text-center text-color" style="font-weight: 800; font-size:.7vw;">' + item.tenmau + '</p>';
+                    html += '</ul>';
+
+                });
+
+                //chỉ appen vào class có id nào đc chọn
+
+                $('#result-detail-color').append(html);
+                //đếm màu
+                $('[data-toggle="tooltip"]').tooltip();
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+
+
+
+    function AddCartDetail(id) {
+        var id = id;
+        var urlg = '@Url.Action("AddCart","CartItem")';
+        $.ajax({
+            type: "GET",
+            url: urlg,
+            data: { id: id },
+            success: function (data) {
+                $('span#countCart').html(data);
+                var itemImg = $('.img-detail-' + id).eq(0);
+                flyToElement($(itemImg), $('.btn-cart'));
+            },
+        });
+
+    }
+
+
+
+
+
+    $(document).ready(function () {
+        var id = $('.submit-comment').attr("id");
+        var urlgxxz = '@Url.Action("CommentReady", "Product")';
+        $.ajax({
+            url: urlgxxz,
+            type: "GET",
+            data: {
+                productID: id
+            },
+            success: function (res) {
+                var html = '';
+                var countLength = res.length;
+                if (countLength == 0) {
+                    $('#review-id').append('<h3 class="alert text-center">Chưa có bình luận nào cho sản phẩm này</h3>');
+                    $('.countComment').html('');
+                }
+                $('.countComment').append(countLength);
+                $.each(res, function (key, item) {
+                    var day = item.date;
+                    var content = item.Comment_Content;
+                    html += '<ul style="margin-top:10px; margin-bottom:10px;">';
+                    html += '<li>';
+                    html += '<span class="reviewer" style="font-weight:bold; font-size:medium;"><span class="glyphicon glyphicon-user"></span> ' + item.User_Name + '</span>';
+                    html += '<blockquote>';
+                    html += '<p class="content-reviewer" style="color:black;">' + item.Comment_Content + '</p>';
+                    html += '<footer style="font-size: x-small; font-style: italic;"><span class="glyphicon glyphicon-time"></span> Bình luận lúc  ' + item.date + ' </footer>';
+                    html += '</blockquote>';
+                    html += '</li>';
+                    html += '</ul>';
+                });
+                $('#review-id').append(html);
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+)
+    $('.product-row').mouseover(function (event) {
+        $(this).find('.links').show();
+
+
+    })
+    $('.product-row').mouseout(function (event) {
+        $(this).find('.links').hide();
+    })
+
+
+
+    $('#optionsComment').change(function () {
+        var id = $('.submit-comment').attr("id");
+        $('.countComment').html('');
+        $('#review-id').html('');
+        var optionsComment = $('#optionsComment').val();
+        var urlgxxz = '@Url.Action("DisplayComment", "Product")';
+        $.ajax({
+            url: urlgxxz,
+            type: "GET",
+            data: {
+                productID: id,
+                optionsComment: optionsComment
+            },
+            success: function (res) {
+                var html = '';
+                var countLength = res.length;
+                if (countLength == 0) {
+                    $('#review-id').append('<h3 class="alert text-center">Chưa có bình luận nào cho sản phẩm này</h3>');
+                    $('.countComment').html('');
+                }
+                $('.countComment').append(countLength);
+                $.each(res, function (key, item) {
+                    var day = item.date;
+                    var content = item.Comment_Content;
+                    html += '<ul style="margin-top:10px; margin-bottom:10px;">';
+                    html += '<li>';
+                    html += '<span class="reviewer" style="font-weight:bold; font-size:medium;">' + item.User_Name + '</span>';
+                    html += '<blockquote>';
+                    html += '<p class="content-reviewer" style="color:black;">' + item.Comment_Content + '</p>';
+                    html += '<footer style="font-size: x-small; font-style: italic;">Bình luận lúc  ' + item.date + ' </footer>';
+                    html += '</blockquote>';
+                    html += '</li>';
+                    html += '</ul>';
+                });
+                $('#review-id').append(html);
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        })
+    }
+)
+
+</script>

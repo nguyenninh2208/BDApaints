@@ -1,0 +1,89 @@
+﻿@model IEnumerable<BDApaint.Model.DELIVERY_ITEM>
+
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script src="~/AdminContent/js/Delivery_Item/delete.js"></script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Danh sách vận chuyển </h1>
+        <p>Bảng thông tin  vận chuyển</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    <div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>
+    <div class="btn-above">
+        <a href="@Url.Action("create","Delivery_Item")" class="btn btn-primary">
+            Thêm loại vận chuyển mới
+        </a>
+        @*<a href="@Url.Action("UpdateAmount","Product")" class="btn btn-primary">Cập nhật sản phẩm</a>*@
+    </div>
+</div>
+@if (TempData["alertMessage"] != null)
+{
+    <div id="alertBox" class="alert @TempData["alertType"]">
+        @TempData["alertMessage"]
+    </div>
+    <script>
+        var box = $('#alertBox');
+        box.delay(4000).slideUp(500);
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Loại vận chuyển</th>
+                            <th>Đơn vị vận chuyển</th>
+                            <th>Giá tiền</th>
+                            <th>Số ngày vận chuyển</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                            <tr id="row_@x.DELIVERY_ITEM_ID">
+                                <td>
+                                    <a href="/SysAdmin/Delivery_Item/detail/@x.DELIVERY_ITEM_ID">@x.DELIVERY_ITEM_ID</a>
+                                </td>
+                                <td>@x.BOTH_NAME</td>
+                                <td>@x.DELIVERY_TYPE_ID</td>
+                                <td>@x.DELIVERY_ID</td>
+                                <td>@String.Format("{0:0,0}",x.DELIVERY_ITEM_COST)</td>
+                                <td>@x.ESTIMATED_DATE_DELIVERY</td>
+                                <td>
+                                    <a href="@Url.Action("edit","Delivery_Item",new {id = x.DELIVERY_ITEM_ID})" class="showEdit">
+                                        <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                    <a id="deletePro" style="cursor:pointer" onclick="ConfirmDelete(@x.DELIVERY_ITEM_ID)" class="show-Edit">
+                                        <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

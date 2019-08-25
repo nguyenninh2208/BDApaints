@@ -1,0 +1,40 @@
+﻿@model BDApaint.Model.CART
+
+@{
+    Layout = null;
+}
+<div class="modal fade" id="deleteCartModal" style="margin-left:20%;" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="left:0;">
+        <div class="modal-content" style="width:70%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Cập nhật thông tin</h4>
+            </div>
+            @using (Html.BeginForm("DeleteCart", "User", FormMethod.Post))
+            {
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Lí do hủy
+                        </dt>
+                        <dd>
+                            <input type="text" required name="ReasonCancel" class="form-control input-sm field" style="width:300px; margin-bottom:15px;" value="@Model.REASON_CANCEL">
+                            <input type="hidden" name="CART_ID" class="form-control input-sm field" style="width: 300px; margin-bottom: 15px; " value="@Model.CART_ID">
+                        </dd>
+                       
+                    </dl>
+
+                </div><!-- /.modal-body -->
+                <div class="modal-footer">
+                    <button class="btn" type="submit" style="background-color:#6cf; color:white;" name="submit" style="margin-left:18%">Gửi</button>
+                    <button type="button" class="btn" style="background-color:#6cf; color:white;" data-dismiss="modal">Đóng</button>
+                </div><!-- /.modal-footer -->
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

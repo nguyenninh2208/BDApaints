@@ -1,0 +1,54 @@
+﻿@model BDApaint.Model.PRODUCT_COLOR
+
+@{
+
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+
+}
+
+<div style="width: 90%;
+        max-height: 1200px;
+        margin: 5%  5%;
+        -webkit-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        box-shadow: 1px -1px 5px 0px rgba(0,0,0,0.75);
+        border-radius: 5px;
+        position:absolute;">
+
+    <hr />
+    <dl class="dl-horizontal">
+            Chi tiết 
+        <dt class="even">
+            Mã :
+        </dt>
+
+        <dd class="even">
+            @Html.DisplayFor(model => model.PRODUCT_COLOR_ID)
+        </dd>
+
+        <dt class="odd">
+            Sản phẩm:
+        </dt>
+
+        <dd class="odd">
+            @Html.DisplayFor(model=>model.PRODUCT.PRODUCT_NAME)
+        </dd>
+
+        <dt class="even">
+            Màu :
+        </dt>
+
+        <dd class="even">
+            @Html.DisplayFor(model => model.COLOR.COLOR_NAME) 
+        </dd>
+
+        
+
+    </dl>
+    <p class="button-detail">
+        <a class="btn btn-default" href="@Url.Action("Index","Product_Color")">Trang chủ</a>
+        <a class="btn btn-default" href="@Url.Action("Index","Product")">Danh sách sản phẩm</a>
+        <a class="btn btn-default" href="@Url.Action("Index","Colors")">Danh sách màu</a>
+    </p>
+</div>
+

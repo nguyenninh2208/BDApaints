@@ -1,0 +1,123 @@
+﻿
+@model BDApaint.Model.MEMBERSHIP_TYPE
+
+@{
+                Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+@*<script src="~/AdminContent/js/memberShipJS/edit.js"></script>*@
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-edit"></i> Form Cập nhật</h1>
+        <p>Cập nhật thông tin khuyến mãi</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Forms</li>
+        <li class="breadcrumb-item"><a href="#">Form Components</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <form id="formData">
+                @Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label class="control-label">ID</label>
+                            @Html.TextBoxFor(x => x.ID, new { @readonly = "", @class = "form-control", value = "@x.ID" })
+                        </div>
+                        <div class="form-group">
+                            <label for="MEMBERSHIP_TYPE1">Loại thành viên</label>
+                            @Html.TextBoxFor(model => model.MEMBERSHIP_TYPE1, new { @class = "form-control", @placeholder = "Vàng,Bạch kim" })
+                            @Html.ValidationMessageFor(model => model.MEMBERSHIP_TYPE1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="DISCOUNT_VALUE">
+                                Giá trị khuyến mãi :
+                            </label>
+                            @Html.TextBoxFor(model => model.DISCOUNT_VALUE, new { @placeholder = "30", @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.DISCOUNT_VALUE, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="DISCOUNT_UNIT_ID">
+                                Loại :
+                            </label>
+                            @Html.DropDownListFor(model => model.DISCOUNT_UNIT_ID, (IEnumerable<SelectListItem>)ViewBag.du, new { @class = "form-control " })
+                            @Html.ValidationMessageFor(model => model.DISCOUNT_UNIT_ID, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="VALID_UNTIL">
+                                Ngày kết thúc:
+                            </label>
+
+                            @Html.TextBoxFor(model => model.VALID_UNTIL, new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(model => model.VALID_UNTIL, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="MIN_POINT">
+                                Điểm tối thiểu:
+                            </label>
+                            @Html.TextBoxFor(model => model.MIN_POINT, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(model => model.MIN_POINT, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="MAX_POINT">
+                                Điểm tối đa:
+                            </label>
+                            @Html.TextBoxFor(model => model.MAX_POINT, new { @class = "form-control", type = "number" })
+                            @Html.ValidationMessageFor(model => model.MAX_POINT, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <fieldset>
+                                <legend>Free Ship</legend>
+                                <div class="animated-radio-button">
+                                    <label>
+                                        @Html.RadioButtonFor(x => x.FREE_SHIPPING_ACTIVE, "true", new { @class = "form-check-control" })
+                                        <span class="label-text">Có</span>
+                                    </label>
+                                    <label style="margin-left:10px;">
+                                        @Html.RadioButtonFor(x => x.FREE_SHIPPING_ACTIVE, "false", new { @class = "form-check-control" })
+                                        <span class="label-text">Không</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tile-footer">
+                    <input type="submit" value="Cập nhật" class="btn btn-success" id="btnSubmit" />
+                    <a class="btn btn-primary" href="@Url.Action("Index", "MemberShip_Promotion")">Trang chủ</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#btnSubmit").click(function () {
+        var data = $("#formData").serialize();
+        $.ajax({
+            type: "POST",
+            url: '/SysAdmin/MemberShip_Promotion/edit',
+            data: data,
+            success: function (rs) {
+                if (rs.toString() == "success") {
+                    window.location = "/SysAdmin/MemberShip_Promotion";
+                    alert("Cập nhật thành công")
+                }
+                else if (rs == "dateIsvalid") {
+                    alert("Ngày không hợp lệ");
+                }
+                else {
+                    alert("Lỗi");
+                }
+            }, error: function () {
+                alert("Lỗi");
+
+            }
+        })
+    })</script>

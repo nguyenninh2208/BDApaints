@@ -1,0 +1,139 @@
+﻿ @model List<BDApaint.Model.PRODUCT>
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+<div class="row" id="title-tool">
+    <h1 class="text-center text-primary" style="font-weight: 500; color: white; padding-top: 50px; font-family: 'Merriweather', serif;">Kiểm tra hàng chính hãng </h1>
+</div>
+
+
+<div class="row" style="margin-top:10px; margin-bottom:20px;">
+    <div class="col-sm-12 text-center" style="padding-left:300px; padding-right:300px;">
+        @using (Html.BeginForm("getSearch", "CheckChinhHang", FormMethod.Post))
+        { 
+        <form class="contact100-form validate-form">
+            <span class="contact100-form-title" style="font-family: 'Merriweather', serif;">
+                Nhập mã chống hàng giả để kiểm tra
+            </span>
+            <div class="wrap-contact100">
+                
+                    <div class="wrap-input100">
+                        <input class="form-control" id="txtSearch" required @*pattern="BDA\d{2,}"*@ title="Quý khách vui lòng nhập đúng định dạng" style="margin-left: 30%;" type="text" name="searchString" placeholder="Ví dụ : BDAxxxxx">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="container-contact100-form-btn">
+                        <button type="submit" class="myButton" value="submit">
+                            Kiểm tra
+                        </button>
+                    </div>
+                
+                <div id="loading" style="display: none; ">
+                    <img class="text-center img-loading" src="~/Content/icon/Spinner-1.5s-147px.gif" style="margin-right: 360px;" />
+                </div>
+                @*}*@
+                <div class="row product__show_check" id="product__show_check">
+
+                </div>
+            </div>
+        </form>
+        }    
+    </div>
+</div>
+
+<script type="text/javascript">
+    function searchFailed() {
+        $('#product__show_check').html("Xin lỗi quý khách , chức năng kiểm tra mã chống giả bị lỗi");
+    }
+    $(document).ready(function () {
+        //function empty() {
+        //    var x = $('#txtSearch').val();
+        //    if (x == "" || x == null) {
+        //        return false;
+        //    }
+        //}
+
+        //function btnSearch() {
+        //    debugger
+        //    var text = $('#txtSearch').val();
+        //    var setResult = $('#product__show_check');
+        //    $.ajax({
+        //        type: "GET",
+        //        dataType: "json",
+        //        url: '/CheckChinhHang/getSearchMain',
+        //        data: {
+        //            searchString: text
+        //        },
+        //        contentType: 'html',
+        //        success: function (res) {
+        //            var html = '';
+        //            if (res.length == 0) {
+        //                setResult.append('<tr style="color:red;"><td class="alert alert-danger text-center" style="font-size:-webkit-xxx-large;">Không tìm thấy sản phẩm tương ứng</td></tr>')
+        //            }
+        //            else {
+        //                html += '<p>Đã tìm thấy ' + res.length + ' kết quả</p>';
+        //                $.each(res, function (key, item) {
+
+        //                    html += '<div class="product-row col-12 col-sm-6 col-md-4 col-lg-3">';
+        //                    html += '<div class="some-block">';
+        //                    html += '<a href="/Product/getDetailProduct/' + item.PRODUCT_ID + '">';
+        //                    html += '<img class="img-product" src="/Content/img2/' + item.IMAGE + '" width="120" height="150" alt="' + item.IMAGE + '" />';
+        //                    html += '</a>';
+        //                    html += '<div class="info-product">';
+        //                    html += '<div class="name-product" style="font-weight:700; font-size:small;">';
+        //                    html += '' + item.PRODUCT_NAME + '';
+        //                    html += '</div>';
+        //                    html += '<div class="price-product">';
+        //                    html += '' + NumberFormat(item.PRICE) + 'đ';
+        //                    html += '</div>';
+        //                    html += '';
+        //                    html += '</div>';
+        //                    html += '</div>';
+        //                    html += '';
+        //                    html += '</div>';
+        //                })
+        //                setResult.append(html);
+
+        //            }
+        //        }
+        //        //success: function (res) {
+        //        //    var html = '';
+        //        //    $('#product__show_check').html('');
+        //        //    $.each(res, function (key, item) {
+        //        //        if (res.toString() == "") {
+        //        //            alert("Sản phẩm không tồn tại trong cơ sở dữ liệu sản phẩm của chúng tôi! Có thể sản phẩm này không chính hãng !")
+        //        //        }
+        //        //        html += '<div class="col-sm-4">';
+        //        //        html += '<img class="img-product" src="/Content/img2/' + item.IMAGE + '" width="150" height="180" />';
+        //        //        html += '</div>';
+        //        //        html += '<div class="col-sm-8">';
+        //        //        html += '<ul class="text-left" style="font-weight:bold; font-size:medium; padding:0px; font-size:medium; float:left;">';
+        //        //        html += '<li>Tên sản phẩm</li>';
+        //        //        html += '<li>Giá</li>';
+        //        //        html += '<li>Số lượng</li>';
+        //        //        html += '<li>Ngày sản xuất</li>';
+        //        //        html += '<li>Hạn sử dụng</li>';
+        //        //        html += '<li>Mô tả</li>';
+        //        //        html += '</ul>';
+        //        //        html += '<ul class="text-left" style="float:left;">';
+        //        //        html += '<li>' + item.PRODUCT_NAME + '</li>';
+        //        //        html += '<li>' + item.PRICE + '</li>';
+        //        //        html += '<li>' + item.AMOUNT + '</li>';
+        //        //        html += '<li>' + item.DATE_OF_MANUFACTURE + '</li>';
+        //        //        html += '<li>' + item.LIMITED_USE + '</li>';
+        //        //        html += '<li>' + item.DESCRIPTION + '</li>';
+        //        //        html += '</ul>';
+        //        //        html += '</div>';
+        //        //    });
+        //        //    $('#product__show_check').text("thành công");
+        //        //}
+        //    })
+        //}
+    
+    })
+</script>

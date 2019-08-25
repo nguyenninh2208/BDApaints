@@ -1,0 +1,122 @@
+﻿@model IEnumerable<BDApaint.Model.MEMBERSHIP_TYPE>
+@{
+    Layout = "~/Areas/SysAdmin/Views/Shared/_Administrator.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#sampleTable tfoot tr th").each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input  type = "text" placeholder="' + title + '" />')
+        //});
+        var tables = $("#sampleTable");
+        if (tables != null) {
+            var table = $('#sampleTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "Không tìm thấy dữ liệu",
+                    "sSearch": "<span>Tìm kiếm</span>_INPUT_",
+                    "sLengthMenu": "<span>Số dòng hiển thị</span>_MENU_",
+                    "oPaginate": { "sFirst": "Trang đầu", "sLats": "Trang cuối", "sNext": "Trang tiếp", "sPrevious": "Trang trước" }
+                }
+            });
+            //table.columns().every(function () {
+            //    var that = this;
+            //    $("input", this.footer()).on('keyup change clear', function () {
+            //        if (that.search() !== this.value) {
+            //            that
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    })
+            //})
+        }
+    })
+
+
+</script>
+<script src="~/AdminContent/js/memberShipJS/delete.js"></script>
+<script src="~/AdminContent/js/memberShipJS/changeStatus.js"></script>
+<div class="app-title">
+    <div>
+        <h1><i class="fa fa-th-list"></i>Khuyến mãi loại  thành viên</h1>
+        <p>Bảng thông tin danh sách khuyến mãi theo loại thành viên</p>
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active"><a href="#">Data Table</a></li>
+    </ul>
+</div>
+<div class="app-title1">
+    <div class="card-header" style="float:left">
+        Lọc theo
+        <select class="" onchange="getAllProduct(this.value)">
+            <option value="-1" selected>Tất cả</option>
+            <option value="0">Đang chờ duyệt</option>
+            <option value="1">Đang bán</option>
+            <option value="2">Đã bán</option>
+        </select>
+    </div>
+    <div class="btn-above"><a href="@Url.Action("create","MemberShip_Promotion")" class="btn btn-primary">Tạo mới khuyến mãi</a></div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tile">
+            <div class="tile-body">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Loại thành viên</th>
+                            <th>Giá trị giảm giá</th>
+                            <th>Loại giảm giá</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày hết hạn</th>
+                            <th>Free Ship</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var x in Model)
+                        {
+                        <tr id="row_@x.ID">
+
+                            <td>@x.ID</td>
+                            <td>@x.MEMBERSHIP_TYPE1</td>
+                            @if (x.DISCOUNT_UNIT_ID == 1)
+                            {
+                                <td>@String.Format("{0:0,0}", x.DISCOUNT_VALUE)</td>
+                            }
+                            else
+                            {
+                                <td>@x.DISCOUNT_VALUE %</td>
+                            }
+                            <td>@x.DISCOUNT_UNIT.DESCRIPTION</td>
+                            <td>@String.Format("{0:dd-MM-yyyy}", x.CREATE_DATE)</td>
+                            <td>@String.Format("{0:dd-MM-yyyy}", @x.VALID_UNTIL)</td>
+                            @if (x.FREE_SHIPPING_ACTIVE == true)
+                            {
+                                <td><a id="btnChangeStatus_@x.ID" href="" onclick="changeStatusFreeship(@x.ID)">Có</a></td>
+                            }
+                            else
+                            {
+                                <td><a id="btnChangeStatus_@x.ID" href="" onclick="changeStatusFreeship(@x.ID)">Không</a></td>
+                            }
+                            <td style="text-align:center">
+                                <a href="@Url.Action("edit","MemberShip_Promotion",new {id = x.ID })" class="showEdit">
+                                    <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+                                </a>
+                                <a id="deletePro" style="cursor:pointer" onclick="ConfirmDelete(@x.ID)" class="show-Edit">
+                                    <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+                                </a>
+                                <a href="@Url.Action("detail","MemberShip_Promotion",new {id = x.ID })" class="showEdit button">
+                                    <i class="fa fa-info-circle fa-lg"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
